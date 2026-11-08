@@ -1,70 +1,196 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-palette="indigo">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TimeFlow AI — Офлайн тайм-трекер</title>
+  <title>TimeFlow AI 2.0 — Офлайн ИИ тайм-трекер и Архитектура Времени</title>
+  <meta name="description" content="Умный офлайн тайм-трекер личного времени для Android. Потоковый голосовой ИИ Sherpa-ONNX, спринты и отдых Flowmodoro 5:1, биоритмы, экономика времени, гео-трекинг, умные часы и шифрование AES-256.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #090d16;
-      --card-bg: rgba(18, 24, 38, 0.85);
-      --card-border: rgba(99, 102, 241, 0.2);
+      --bg: #070a12;
+      --bg-elevated: #0d1220;
+      --card-bg: rgba(18, 24, 39, 0.78);
+      --card-bg-solid: #121827;
+      --card-border: rgba(129, 140, 248, 0.22);
       --primary: #6366f1;
+      --primary-bright: #818cf8;
       --primary-hover: #4f46e5;
       --primary-glow: rgba(99, 102, 241, 0.35);
+      --secondary: #38bdf8;
+      --secondary-glow: rgba(56, 189, 248, 0.25);
       --cyan: #06b6d4;
       --emerald: #10b981;
+      --emerald-bright: #34d399;
+      --amber: #f59e0b;
       --rose: #f43f5e;
+      --violet: #a78bfa;
       --text: #f8fafc;
+      --text-secondary: #cbd5e1;
       --text-muted: #94a3b8;
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+    }
+
+    /* 7 Фирменных палитр из приложения TimeFlow AI (ThemePalette) */
+    [data-palette="indigo"] {
+      --primary: #6366f1;
+      --primary-bright: #818cf8;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --secondary: #38bdf8;
+      --card-border: rgba(129, 140, 248, 0.24);
+    }
+    [data-palette="emerald"] {
+      --primary: #10b981;
+      --primary-bright: #34d399;
+      --primary-hover: #059669;
+      --primary-glow: rgba(16, 185, 129, 0.35);
+      --secondary: #2dd4bf;
+      --card-border: rgba(52, 211, 153, 0.26);
+    }
+    [data-palette="violet"] {
+      --primary: #8b5cf6;
+      --primary-bright: #a78bfa;
+      --primary-hover: #7c3aed;
+      --primary-glow: rgba(139, 92, 246, 0.38);
+      --secondary: #f472b6;
+      --card-border: rgba(167, 139, 250, 0.26);
+    }
+    [data-palette="sunset"] {
+      --primary: #f97316;
+      --primary-bright: #fb923c;
+      --primary-hover: #ea580c;
+      --primary-glow: rgba(249, 115, 22, 0.35);
+      --secondary: #fb7185;
+      --card-border: rgba(251, 146, 60, 0.26);
+    }
+    [data-palette="cyan"] {
+      --primary: #06b6d4;
+      --primary-bright: #22d3ee;
+      --primary-hover: #0891b2;
+      --primary-glow: rgba(6, 182, 212, 0.36);
+      --secondary: #6366f1;
+      --card-border: rgba(34, 211, 238, 0.26);
+    }
+    [data-palette="rose"] {
+      --primary: #f43f5e;
+      --primary-bright: #fb7185;
+      --primary-hover: #e11d48;
+      --primary-glow: rgba(244, 63, 94, 0.36);
+      --secondary: #e879f9;
+      --card-border: rgba(251, 113, 133, 0.26);
+    }
+    [data-palette="ocean"] {
+      --primary: #0284c7;
+      --primary-bright: #38bdf8;
+      --primary-hover: #0369a1;
+      --primary-glow: rgba(56, 189, 248, 0.36);
+      --secondary: #60a5fa;
+      --card-border: rgba(56, 189, 248, 0.26);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.5;
-      padding-bottom: 30px;
+      line-height: 1.55;
+      overflow-x: hidden;
+      position: relative;
+      padding-bottom: 50px;
     }
 
-    /* Фоновые неоновые пятна */
-    .glow-bg {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 1000px;
-      height: 450px;
-      background: radial-gradient(circle at 50% 15%, rgba(99, 102, 241, 0.25) 0%, rgba(6, 182, 212, 0.12) 40%, transparent 70%);
+    /* Архитектурный фон с сеткой и аврора-орбами (как в TimeFlowScaffold) */
+    .ambient-canvas {
+      position: fixed;
+      inset: 0;
       pointer-events: none;
       z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb-primary {
+      position: absolute;
+      top: -120px;
+      left: 15%;
+      width: 680px;
+      height: 520px;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+      filter: blur(45px);
+      opacity: 0.65;
+      transition: background 0.4s ease;
+    }
+
+    .orb-secondary {
+      position: absolute;
+      top: 18%;
+      right: -120px;
+      width: 560px;
+      height: 560px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.16) 0%, transparent 70%);
+      filter: blur(55px);
+    }
+
+    .grid-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 520px;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 10%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 10%, transparent 100%);
     }
 
     .wrapper {
       position: relative;
       z-index: 1;
-      max-width: 960px;
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 20px 16px;
+      padding: 0 20px;
     }
 
-    /* Хедер */
-    .top-bar {
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Навигация и панель палитр */
+    .sticky-nav {
+      position: sticky;
+      top: 14px;
+      z-index: 50;
+      margin-top: 16px;
+      background: rgba(13, 18, 32, 0.82);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 12px 18px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding-bottom: 24px;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.65);
     }
 
     .brand {
@@ -72,32 +198,106 @@
       align-items: center;
       gap: 12px;
       font-weight: 800;
-      font-size: 20px;
+      font-size: 19px;
       letter-spacing: -0.02em;
+      color: #fff;
+      text-decoration: none;
     }
 
     .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--primary), var(--cyan));
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 16px var(--primary-glow);
+      box-shadow: 0 0 18px var(--primary-glow);
+      transition: all 0.3s ease;
+    }
+
+    .version-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--primary-bright);
+      border: 1px solid var(--card-border);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .palette-switcher {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .palette-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .palette-dot:hover {
+      transform: scale(1.18);
+    }
+
+    .palette-dot.active {
+      border-color: #ffffff;
+      transform: scale(1.18);
+      box-shadow: 0 0 10px currentColor;
     }
 
     .status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       background: rgba(16, 185, 129, 0.12);
       border: 1px solid rgba(16, 185, 129, 0.35);
       color: #34d399;
-      padding: 5px 12px;
+      padding: 6px 12px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
+      white-space: nowrap;
     }
 
     .pulse-dot {
@@ -106,38 +306,98 @@
       border-radius: 50%;
       background: var(--emerald);
       box-shadow: 0 0 8px var(--emerald);
+      animation: pulseGlow 2s infinite;
     }
 
-    /* Hero */
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.25); }
+    }
+
+    /* Hero Секция */
     .hero {
-      text-align: center;
-      padding: 24px 0 36px;
+      padding: 44px 0 36px;
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    @media (max-width: 940px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 32px 0 24px;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    .hero-badges {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 940px) {
+      .hero-badges {
+        justify-content: center;
+      }
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--primary-bright);
     }
 
     h1 {
-      font-size: clamp(28px, 5vw, 48px);
+      font-size: clamp(30px, 4.4vw, 52px);
       font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 14px;
-      background: linear-gradient(180deg, #ffffff 30%, #cbd5e1 100%);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      background: linear-gradient(180deg, #ffffff 35%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero-sub {
-      font-size: clamp(15px, 2vw, 18px);
+      font-size: clamp(15px, 1.6vw, 17.5px);
       color: var(--text-muted);
-      max-width: 620px;
-      margin: 0 auto 28px;
+      margin-bottom: 26px;
+      max-width: 580px;
     }
 
-    /* Кнопка RuStore */
+    @media (max-width: 940px) {
+      .hero-sub {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
     .cta-row {
       display: flex;
-      justify-content: center;
-      gap: 14px;
+      align-items: center;
+      gap: 12px;
       flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    @media (max-width: 940px) {
+      .cta-row {
+        justify-content: center;
+      }
     }
 
     .btn-rustore {
@@ -146,94 +406,226 @@
       gap: 10px;
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: #ffffff;
-      padding: 14px 28px;
-      border-radius: 14px;
+      padding: 14px 26px;
+      border-radius: 15px;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 15.5px;
       text-decoration: none;
-      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+      box-shadow: 0 10px 26px rgba(37, 99, 235, 0.42);
       transition: all 0.2s ease;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.22);
     }
 
     .btn-rustore:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.55);
+      box-shadow: 0 14px 32px rgba(37, 99, 235, 0.58);
     }
 
-    .btn-policy-link {
+    .btn-secondary {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       background: rgba(255, 255, 255, 0.05);
       color: var(--text);
-      padding: 14px 22px;
-      border-radius: 14px;
+      padding: 14px 20px;
+      border-radius: 15px;
       font-weight: 600;
-      font-size: 15px;
+      font-size: 14.5px;
       text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       transition: all 0.2s ease;
       cursor: pointer;
     }
 
-    .btn-policy-link:hover {
+    .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.1);
+      border-color: var(--primary-bright);
     }
 
-    /* Интерактивный виджет в реальном времени */
-    .interactive-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 20px 24px;
-      max-width: 460px;
-      margin: 36px auto 0;
-      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 25px var(--primary-glow);
-      backdrop-filter: blur(16px);
-      text-align: left;
+    .hero-micro-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .widget-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
+    @media (max-width: 560px) {
+      .hero-micro-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
-    .widget-badge {
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .widget-title {
+    .micro-stat-val {
       font-size: 18px;
-      font-weight: 700;
-      color: #ffffff;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
     }
 
-    .widget-body {
+    .micro-stat-lbl {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* Интерактивный Симулятор Карточки Активности (CurrentActivityCard 2.0) */
+    .simulator-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+      box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.8), 0 0 32px var(--primary-glow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      text-align: left;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .sim-top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 6px;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .mode-segmented {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 3px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .seg-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 6px 11px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .seg-btn.active {
+      background: var(--card-bg-solid);
+      color: var(--primary-bright);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .sound-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 11px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .sound-pill.playing {
+      background: rgba(16, 185, 129, 0.16);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #34d399;
+    }
+
+    .sim-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .live-badge {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 7px;
+      background: rgba(99, 102, 241, 0.16);
+      color: var(--primary-bright);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .flowmodoro-chip {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 7px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .flowmodoro-chip:hover {
+      background: rgba(16, 185, 129, 0.25);
+    }
+
+    .sim-main-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .sim-task-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.25;
+    }
+
+    .sim-task-sub {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .sim-tags-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 7px;
+    }
+
+    .tag-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(99, 102, 241, 0.14);
+      color: var(--primary-bright);
+    }
+
+    .sim-timer-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .timer-display {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--cyan);
-      letter-spacing: -0.02em;
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--secondary);
+      letter-spacing: -0.03em;
     }
 
     .toggle-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
       background: var(--primary);
       border: none;
       color: #fff;
@@ -241,13 +633,13 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 14px var(--primary-glow);
-      transition: all 0.15s ease;
+      box-shadow: 0 6px 18px var(--primary-glow);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
     }
 
     .toggle-btn:hover {
-      background: var(--primary-hover);
-      transform: scale(1.05);
+      transform: scale(1.06);
     }
 
     .toggle-btn.paused {
@@ -255,39 +647,250 @@
       box-shadow: none;
     }
 
-    /* Сетка фич */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 16px;
-      margin: 50px 0 40px;
+    /* Чек-лист внутри симулятора */
+    .sim-workspace {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 15px;
+      padding: 11px 12px;
+      margin-bottom: 12px;
     }
 
-    .feature-item {
+    .sim-ws-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      font-size: 12.5px;
+      user-select: none;
+    }
+
+    .checklist-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .checklist-item.checked .chk-text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .chk-box {
+      width: 16px;
+      height: 16px;
+      border-radius: 5px;
+      border: 1.5px solid var(--primary-bright);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .checklist-item.checked .chk-box {
+      background: var(--emerald);
+      border-color: var(--emerald);
+    }
+
+    .chk-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      white-space: nowrap;
+    }
+
+    /* NLP Голосовой тренажёр в симуляторе */
+    .voice-nlp-box {
+      background: rgba(6, 182, 212, 0.07);
+      border: 1px dashed rgba(6, 182, 212, 0.35);
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+
+    .nlp-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nlp-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nlp-chip {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .nlp-chip:hover {
+      border-color: var(--secondary);
+      color: #fff;
+      background: rgba(6, 182, 212, 0.15);
+    }
+
+    /* Заголовки секций */
+    .section-header {
+      text-align: center;
+      margin: 72px 0 34px;
+    }
+
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--primary-bright);
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid var(--card-border);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(24px, 3.4vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .section-sub {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* Интерактивные вкладки возможностей (6 столпов v2.0) */
+    .pillars-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .pillar-tab {
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 22px;
-      backdrop-filter: blur(12px);
+      color: var(--text-secondary);
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
       transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
     }
 
-    .feature-item:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
+    .pillar-tab:hover {
+      border-color: var(--primary-bright);
+      color: #fff;
+    }
+
+    .pillar-tab.active {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(6, 182, 212, 0.12));
+      border-color: var(--primary-bright);
+      color: #fff;
+      box-shadow: 0 8px 20px -6px var(--primary-glow);
+    }
+
+    /* Сетка карточек фич */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      backdrop-filter: blur(14px);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .feature-card:hover {
+      border-color: var(--primary-bright);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    .f-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
     }
 
     .f-icon {
-      font-size: 24px;
-      margin-bottom: 12px;
-      display: inline-block;
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+    }
+
+    .f-tag {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.14);
+      color: var(--primary-bright);
+      font-family: 'JetBrains Mono', monospace;
     }
 
     .f-title {
       font-size: 17px;
-      font-weight: 700;
+      font-weight: 800;
       color: #fff;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
 
     .f-desc {
@@ -296,14 +899,180 @@
       line-height: 1.55;
     }
 
-    /* Спойлер Политики (для идеальной высоты без дыр) */
-    .policy-box {
+    .f-bullets {
+      list-style: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .f-bullets li::before {
+      content: "✓ ";
+      color: var(--emerald-bright);
+      font-weight: 800;
+    }
+
+    /* Интерактивный блок: Экономика Времени и Ядро Фокуса */
+    .interactive-showcase {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .interactive-showcase {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bento-panel {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 24px;
-      margin-top: 30px;
+      border-radius: var(--radius-xl);
+      padding: 26px;
+      backdrop-filter: blur(16px);
+    }
+
+    .calc-row {
+      margin: 14px 0;
+    }
+
+    .calc-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .roi-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .roi-mini-card {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .roi-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 19px;
+      font-weight: 800;
+      margin-top: 3px;
+    }
+
+    /* Симулятор Ядра Фокуса (ChronoCoreStage 5 фаз) */
+    .core-stage-buttons {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin: 14px 0;
+    }
+
+    .stage-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      padding: 8px 4px;
+      border-radius: 11px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .stage-btn.active {
+      border-color: #fff;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .core-orb-preview {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 12px;
+    }
+
+    .orb-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 17px;
+      color: #fff;
+      border: 4px solid var(--emerald);
+      box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+
+    /* Витрина Экосистемы: Часы, Виджеты, Супер-Плитка */
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 920px) {
+      .ecosystem-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .watch-mockup {
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      margin: 14px auto;
+      background: radial-gradient(circle at 30% 30%, #172136, #060911);
+      border: 4px solid #334155;
+      box-shadow: 0 0 25px rgba(6, 182, 212, 0.28), inset 0 0 14px rgba(6, 182, 212, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Политика Конфиденциальности (100% полный текст) */
+    .policy-box {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      margin-top: 56px;
       text-align: left;
+      box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.65);
     }
 
     .policy-trigger {
@@ -312,16 +1081,17 @@
       align-items: center;
       cursor: pointer;
       user-select: none;
+      gap: 12px;
     }
 
     .policy-content {
       display: none;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      font-size: 13.5px;
-      color: var(--text-muted);
-      line-height: 1.65;
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
     }
 
     .policy-content.open {
@@ -329,135 +1099,661 @@
     }
 
     .policy-content h4 {
-      font-size: 15px;
+      font-size: 16px;
       color: #fff;
-      margin: 16px 0 6px;
+      margin: 18px 0 8px;
+    }
+
+    .policy-content h4:first-child {
+      margin-top: 0;
+    }
+
+    .policy-content p {
+      margin-bottom: 10px;
+      color: var(--text-muted);
+    }
+
+    .policy-content code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--primary-bright);
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 12.5px;
     }
 
     footer {
       text-align: center;
-      padding: 30px 0 10px;
+      padding: 42px 0 12px;
       font-size: 13px;
       color: #64748b;
     }
   </style>
 </head>
 <body>
-  <div class="glow-bg"></div>
+  <div class="ambient-canvas">
+    <div class="orb-primary"></div>
+    <div class="orb-secondary"></div>
+    <div class="grid-overlay"></div>
+  </div>
 
   <div class="wrapper">
-    <!-- Хедер -->
-    <div class="top-bar">
-      <div class="brand">
+    <!-- Навигация с живым переключателем 7 палитр из приложения -->
+    <nav class="sticky-nav">
+      <a href="#" class="brand">
         <div class="brand-logo">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round">
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
         </div>
-        TimeFlow AI
+        <span>TimeFlow AI</span>
+        <span class="version-tag">v2.0</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#features-section" class="nav-link">Возможности</a>
+        <a href="#economics-section" class="nav-link">Экономика & ИИ</a>
+        <a href="#widgets-section" class="nav-link">Часы & Виджеты</a>
+        <button class="nav-link" onclick="togglePolicyScroll()">Политика приватности</button>
       </div>
 
-      <div class="status-pill">
-        <span class="pulse-dot"></span>
-        100% Offline AI
-      </div>
-    </div>
-
-    <!-- Hero блок -->
-    <div class="hero">
-      <h1>Умный тайм-трекер личного времени</h1>
-      <p class="hero-sub">
-        Локальный ИИ для глубокого анализа продуктивности и контроля выгорания. Без интернета, серверов и утечек данных.
-      </p>
-
-      <div class="cta-row">
-        <a href="https://www.rustore.ru/catalog/app/com.timeflow.ai" target="_blank" rel="noopener noreferrer" class="btn-rustore">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          Скачать в RuStore
-        </a>
-
-        <button class="btn-policy-link" onclick="togglePolicyScroll()">
-          <span>🛡️</span> Политика приватности
-        </button>
-      </div>
-
-      <!-- Интерактивный живой виджет с переключением прямо на сайте -->
-      <div class="interactive-card">
-        <div class="widget-head">
-          <span class="widget-badge" id="widget-status-badge">РАБОТА · В ФОКУСЕ</span>
-          <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--emerald);"></span>
+      <div class="nav-controls">
+        <div class="palette-switcher" title="Выберите фирменную палитру TimeFlow AI">
+          <button class="palette-dot active" style="background:#6366f1;" onclick="setPalette('indigo', this)" aria-label="Indigo Neon"></button>
+          <button class="palette-dot" style="background:#10b981;" onclick="setPalette('emerald', this)" aria-label="Emerald Forest"></button>
+          <button class="palette-dot" style="background:#8b5cf6;" onclick="setPalette('violet', this)" aria-label="Ultraviolet"></button>
+          <button class="palette-dot" style="background:#f97316;" onclick="setPalette('sunset', this)" aria-label="Sunset Coral"></button>
+          <button class="palette-dot" style="background:#06b6d4;" onclick="setPalette('cyan', this)" aria-label="Cyber Cyan"></button>
+          <button class="palette-dot" style="background:#f43f5e;" onclick="setPalette('rose', this)" aria-label="Neon Rose"></button>
+          <button class="palette-dot" style="background:#0284c7;" onclick="setPalette('ocean', this)" aria-label="Deep Ocean"></button>
         </div>
-        <div class="widget-title">Разработка TimeFlow AI</div>
-        <div class="widget-body">
-          <div class="timer-display" id="web-timer">00:42:15</div>
-          <button class="toggle-btn" id="web-toggle-btn" onclick="toggleTimer()">
-            <svg id="icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="6" y="4" width="4" height="16" rx="1"></rect>
-              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+
+        <div class="status-pill">
+          <span class="pulse-dot"></span>
+          100% Offline AI
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Секция -->
+    <section class="hero">
+      <div>
+        <div class="hero-badges">
+          <span class="pill-badge">🎙️ Sherpa-ONNX (Zipformer INT8)</span>
+          <span class="pill-badge">🔒 SQLCipher AES-256</span>
+          <span class="pill-badge">⌚ Smartwatch & 6 Виджетов</span>
+        </div>
+
+        <h1>Архитектура личного времени и когнитивного ресурса</h1>
+        <p class="hero-sub">
+          Локальный потоковый ИИ для мгновенного голосового трекинга, расчёта отдыха Flowmodoro 5:1, анализа биоритмов, стоимости часа и защиты от выгорания. Без интернета, серверов и слежки.
+        </p>
+
+        <div class="cta-row">
+          <a href="https://www.rustore.ru/catalog/app/com.timeflow.ai" target="_blank" rel="noopener noreferrer" class="btn-rustore">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            <svg id="icon-play" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
+            Скачать в RuStore
+          </a>
+
+          <button class="btn-secondary" onclick="togglePolicyScroll()">
+            🛡️ Политика конфиденциальности
           </button>
         </div>
-      </div>
-    </div>
 
-    <!-- Ключевые возможности -->
-    <div class="features-grid">
-      <div class="feature-item">
-        <div class="f-icon">🎙️</div>
-        <div class="f-title">Нейросетевой голосовой ввод</div>
-        <div class="f-desc">Потоковая офлайн нейросеть Sherpa-ONNX (Zipformer INT8). Распознаёт речь прямо на процессоре без задержек и интернета.</div>
-      </div>
-
-      <div class="feature-item">
-        <div class="f-icon">📱</div>
-        <div class="f-title">Автотрекинг приложений</div>
-        <div class="f-desc">Ставит задачу на паузу, если вы зашли в соцсети или игры, и возвращает таймер обратно при выходе из них.</div>
-      </div>
-
-      <div class="feature-item">
-        <div class="f-icon">🧠</div>
-        <div class="f-title">Забота о выгорании</div>
-        <div class="f-desc">Движок DayAnalysisEngine поощряет качественный отдых, определяет архетип дня и вовремя сигнализирует о переутомлении.</div>
+        <div class="hero-micro-stats">
+          <div>
+            <div class="micro-stat-val">0 байт</div>
+            <div class="micro-stat-lbl">Передачи в сеть</div>
+          </div>
+          <div>
+            <div class="micro-stat-val">17 окон</div>
+            <div class="micro-stat-lbl">Глубокой аналитики</div>
+          </div>
+          <div>
+            <div class="micro-stat-val">5 : 1</div>
+            <div class="micro-stat-lbl">Алгоритм Flowmodoro</div>
+          </div>
+          <div>
+            <div class="micro-stat-val">AES-256</div>
+            <div class="micro-stat-lbl">Android Keystore</div>
+          </div>
+        </div>
       </div>
 
-      <div class="feature-item">
-        <div class="f-icon">⏱️</div>
-        <div class="f-title">Интерактивный таймлайн</div>
-        <div class="f-desc">Визуальный редактор дня: перетаскивание границ задач (Drag-and-Drop), разделение и заполнение пауз одним жестом.</div>
+      <!-- Интерактивный Симулятор Главного Экрана TimeFlow AI 2.0 -->
+      <div class="simulator-card">
+        <div class="sim-top-bar">
+          <div class="mode-segmented">
+            <button class="seg-btn active" id="mode-stopwatch" onclick="setSimTimerMode('stopwatch')">⏱ Секундомер</button>
+            <button class="seg-btn" id="mode-sprint" onclick="setSimTimerMode('sprint')">🎯 Спринт 45м</button>
+          </div>
+
+          <button class="sound-pill" id="sound-toggle-btn" onclick="toggleWebFocusSound()" title="Процедурный синтезатор звука (Web Audio)">
+            <span id="sound-icon">🎧</span>
+            <span id="sound-label">Звук потока</span>
+          </button>
+        </div>
+
+        <div class="sim-badges-row">
+          <span class="live-badge" id="widget-status-badge">РАБОТА · В ФОКУСЕ</span>
+          <span class="flowmodoro-chip" id="flowmodoro-earned-chip" onclick="startSimFlowmodoroRest()">☕ +9м отдыха (5:1)</span>
+        </div>
+
+        <div class="sim-main-row">
+          <div>
+            <div class="sim-task-title" id="sim-task-title">Архитектура TimeFlow AI</div>
+            <div class="sim-task-sub" id="sim-task-cat">Продуктивный фокус · Индекс монолитности ≥45м</div>
+            <div class="sim-tags-row" id="sim-tags-container">
+              <span class="tag-pill">#android</span>
+              <span class="tag-pill">#клиент</span>
+            </div>
+          </div>
+
+          <div class="sim-timer-controls">
+            <div class="timer-display" id="web-timer">00:42:18</div>
+            <button class="toggle-btn" id="web-toggle-btn" onclick="toggleTimer()" aria-label="Пауза или Старт">
+              <svg id="icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+                <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+              </svg>
+              <svg id="icon-play" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Интерактивный чек-лист с авто-хронометражем шагов -->
+        <div class="sim-workspace">
+          <div class="sim-ws-head">
+            <span>☑ ПЛАН НА СЕССИЮ (АВТО-ТАЙМИНГ ШАГОВ)</span>
+            <span class="mono" id="checklist-counter" style="color:var(--emerald-bright);">2/3</span>
+          </div>
+          <div class="checklist-item checked" onclick="toggleChecklistStep(this)">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="chk-box">✓</span>
+              <span class="chk-text">Аудит шифрования SQLCipher AES-256</span>
+            </div>
+            <span class="chk-time">⏱ 18м</span>
+          </div>
+          <div class="checklist-item checked" onclick="toggleChecklistStep(this)">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="chk-box">✓</span>
+              <span class="chk-text">Калибровка голосового парсера Sherpa-ONNX</span>
+            </div>
+            <span class="chk-time">⏱ 24м</span>
+          </div>
+          <div class="checklist-item" onclick="toggleChecklistStep(this)">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="chk-box"></span>
+              <span class="chk-text">Сборка релизного APK для RuStore</span>
+            </div>
+            <span class="chk-time" style="opacity:0.6;">⏳ в работе</span>
+          </div>
+        </div>
+
+        <!-- Тренажёр голосового NLP-парсера (VoiceIntentParser) -->
+        <div class="voice-nlp-box">
+          <div class="nlp-label">
+            <span>🎙️ Протестируйте голосовой NLP-парсер (1 тап):</span>
+            <span class="mono" style="font-size:10px; opacity:0.8;">VoiceIntentParser</span>
+          </div>
+          <div class="nlp-chips">
+            <button class="nlp-chip" onclick="simulateVoiceCommand('Кодинг #релиз на 45 минут', 'Работа', ['#релиз', '#фокус'], true, 45)">«Кодинг #релиз на 45 минут»</button>
+            <button class="nlp-chip" onclick="simulateVoiceCommand('Тренировка в зале #спорт', 'Спорт · Ресурс', ['#спорт', '#здоровье'], false, 0)">«Тренировка в зале тег спорт»</button>
+            <button class="nlp-chip" onclick="simulateVoiceCommand('С 13:00 до 14:00 был обед', 'Еда · Записано задним числом (13:00–14:00)', ['#ретро_ввод'], false, 0)">«С 13 до 14 был обед»</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция: Все возможности TimeFlow AI v2.0 (Bento + Фильтр по 6 модулям) -->
+    <section id="features-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Полный аудит возможностей v2.0</span>
+        <h2 class="section-title">Больше чем таймер. Персональная система продуктивности</h2>
+        <p class="section-sub">
+          Выберите интересующий модуль или просмотрите все уникальные технологии, работающие на 100% локально внутри вашего устройства.
+        </p>
       </div>
 
-      <div class="feature-item">
-        <div class="f-icon">📍</div>
-        <div class="f-title">Умный гео-трекинг</div>
-        <div class="f-desc">Автоматическое переключение задач по геозонам (Офис, Дом, Спортзал) с защитой от ложных срабатываний.</div>
+      <div class="pillars-tabs">
+        <button class="pillar-tab active" onclick="filterFeatures('all', this)">✨ Все функции (12)</button>
+        <button class="pillar-tab" onclick="filterFeatures('ai', this)">🎙️ Голос ИИ & Парсер</button>
+        <button class="pillar-tab" onclick="filterFeatures('focus', this)">⚡ Спринты, 5:1 & Звук</button>
+        <button class="pillar-tab" onclick="filterFeatures('auto', this)">🤖 Автотрекинг, Сон & Гео</button>
+        <button class="pillar-tab" onclick="filterFeatures('analytics', this)">📊 Биоритмы & Экономика</button>
+        <button class="pillar-tab" onclick="filterFeatures('ecosystem', this)">⌚ Часы, Плитка & Защита</button>
       </div>
 
-      <div class="feature-item">
-        <div class="f-icon">🔒</div>
-        <div class="f-title">Шифрование AES-256</div>
-        <div class="f-desc">База данных зашифрована SQLCipher с аппаратным ключом Android Keystore (StrongBox/TEE). Данные изолированы от вирусов.</div>
-      </div>
-    </div>
+      <div class="features-grid" id="features-grid">
+        <!-- 1. Голосовой ИИ и NLP -->
+        <div class="feature-card" data-cat="ai">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">🎙️</div>
+              <span class="f-tag">Sherpa-ONNX INT8</span>
+            </div>
+            <div class="f-title">Потоковый голосовой ИИ и NLP-парсер</div>
+            <div class="f-desc">
+              Нейросеть <strong>Streaming Zipformer Transducer</strong> распознаёт русскую и английскую речь на процессоре без интернета и мгновенно разбирает контекст фразы.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Запуск спринтов голосом: <em>«Кодинг на 45 минут»</em></li>
+            <li>Ввод задним числом: <em>«С 14 до 15 был обед»</em></li>
+            <li>Авто-извлечение <code>#тегов</code>, заметок и категории</li>
+          </ul>
+        </div>
 
-    <!-- Раскрывающийся раздел Политики Конфиденциальности (Решает проблему дыры!) -->
+        <!-- 2. Спринты и Flowmodoro 5:1 -->
+        <div class="feature-card" data-cat="focus">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">☕</div>
+              <span class="f-tag">Flowmodoro 5:1</span>
+            </div>
+            <div class="f-title">Спринт-Таймбокс и отдых Flowmodoro</div>
+            <div class="f-desc">
+              Переключайтесь между секундомером и спринт-таймером (15–90 мин). После фокуса приложение рассчитывает точное время для перезагрузки нейронов.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Гибкие пропорции отдыха: 5:1, 4:1 или 3:1</li>
+            <li>Настраиваемая активность отдыха (прогулка, разминка, чай)</li>
+            <li>Возврат к прерванной рабочей задаче в 1 клик</li>
+          </ul>
+        </div>
+
+        <!-- 3. Чек-листы с таймингом шагов -->
+        <div class="feature-card" data-cat="focus">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">☑️</div>
+              <span class="f-tag">Step Chronometry</span>
+            </div>
+            <div class="f-title">Чек-листы сессий с авто-хронометражем</div>
+            <div class="f-desc">
+              Разбивайте задачу на микро-шаги прямо во время работы таймера. При отметке пункта галочкой автоматически фиксируется время его выполнения.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Точный тайминг каждого шага (<code>⏱ 18м · 14:20</code>)</li>
+            <li>Автоперенос незавершённых шагов в следующую сессию</li>
+            <li>Дайджест достижений в Журнале Фокуса и B2B-актах</li>
+          </ul>
+        </div>
+
+        <!-- 4. Акустика Фокуса -->
+        <div class="feature-card" data-cat="focus">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">🎧</div>
+              <span class="f-tag">Procedural Synth</span>
+            </div>
+            <div class="f-title">Процедурная Акустика Фокуса</div>
+            <div class="f-desc">
+              Встроенный математический аудио-движок генерирует звуки природы и нейро-волны в реальном времени без тяжёлых аудиофайлов и интернета.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Природа: Шелест листвы, Лесной ручей и птицы, Прибой</li>
+            <li>Шумы и ритмы: Коричневый шум, Розовый дождь</li>
+            <li>Бинауральные волны: Альфа 10 Гц, Бета 14 Гц, Гамма 40 Гц</li>
+          </ul>
+        </div>
+
+        <!-- 5. Умная утренняя коррекция сна и дневных пауз -->
+        <div class="feature-card" data-cat="auto">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">🌙</div>
+              <span class="f-tag">Smart Recovery</span>
+            </div>
+            <div class="f-title">Умная коррекция сна и слепых зон</div>
+            <div class="f-desc">
+              Забыли выключить таймер перед сном? Утром детектор проанализирует время блокировки экрана и фазу Doze Mode, предложив исправить историю в 1 тап.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Защита от коротких ночных пробуждений экрана (до 5 мин)</li>
+            <li>Авто-обрезка вечерней задачи и запись точного Сна</li>
+            <li>Дневной ассистент пауз (&gt;45 мин) с шаблонами в 1 клик</li>
+          </ul>
+        </div>
+
+        <!-- 6. Автотрекинг приложений и Эко-Радар Геозон -->
+        <div class="feature-card" data-cat="auto">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">📍</div>
+              <span class="f-tag">Eco-Radar 2026</span>
+            </div>
+            <div class="f-title">Автотрекинг приложений и Гео-трекинг</div>
+            <div class="f-desc">
+              Автоматическое переключение задач при открытии соцсетей/игр (с тайм-аутом возврата к работе) и при входе/выходе из геозон (Дом, Офис, Зал).
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>100% нативный AOSP гео-движок (Wi-Fi + Motion + GPS)</li>
+            <li>Память присутствия и анти-дребезг (Debounce 35 сек)</li>
+            <li>Журнал срабатываний и дистанция до геозон в реальном времени</li>
+          </ul>
+        </div>
+
+        <!-- 7. Ядро Фокуса (Хранитель ритма) -->
+        <div class="feature-card" data-cat="auto">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">❤️‍🔥</div>
+              <span class="f-tag">Focus Core 5-Stage</span>
+            </div>
+            <div class="f-title">«Ядро Фокуса» и защита от выгорания</div>
+            <div class="f-desc">
+              Движок <strong>DayAnalysisEngine</strong> бережёт нервную систему, вовремя напоминает об отдыхе, а при пропуске дней включает 5-фазную систему возврата в ритм.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>5 фаз заряда ядра: 78% → 52% → 28% → 11% → 1%</li>
+            <li>5 характеров общения (Дерзкая искра, Тёплый маяк, Бережный)</li>
+            <li>Кнопка «🌿 День отдыха» мгновенно заряжает ядро на 100%</li>
+          </ul>
+        </div>
+
+        <!-- 8. Визуальный Таймлайн и Расписания -->
+        <div class="feature-card" data-cat="focus">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">⏱️</div>
+              <span class="f-tag">Drag & Drop</span>
+            </div>
+            <div class="f-title">Интерактивный Таймлайн и Расписания</div>
+            <div class="f-desc">
+              Редактируйте день перетаскиванием границ задач, разделяйте блоки и заполняйте пустоты одним жестом. Планируйте маршруты будней и выходных.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Готовые сценарии дня в 1 тап и автостарт по будильнику</li>
+            <li>Аналитика «План против Факта» с точностью маршрута в %</li>
+            <li>Автоматический поиск «Перехватчиков времени» (вне плана)</li>
+          </ul>
+        </div>
+
+        <!-- 9. Глубина фокуса, Хронотипы и 17 окон аналитики -->
+        <div class="feature-card" data-cat="analytics">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">🧠</div>
+              <span class="f-tag">Biorhythm AI</span>
+            </div>
+            <div class="f-title">Биоритмы, Хронотип и 17 окон аналитики</div>
+            <div class="f-desc">
+              Настраивайте экран аналитики под себя. Алгоритмы рассчитывают Индекс Монолитности внимания (блоки ≥45 мин) и строят 24-часовую волну вашей энергии.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Определение хронотипа и лучших часов для сложных задач</li>
+            <li>Анализ привычек: кривые Безье, разброс (σ) и гистограмма</li>
+            <li>Исключение аномальных дней (выколотые точки) долгим тапом</li>
+          </ul>
+        </div>
+
+        <!-- 10. Экономика Времени, Ретейнеры и B2B-Инвойсы -->
+        <div class="feature-card" data-cat="analytics">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">💰</div>
+              <span class="f-tag">Time Economics</span>
+            </div>
+            <div class="f-title">Экономика времени и Паспорта Проектов</div>
+            <div class="f-desc">
+              Оцените свой час: приложение считает заработанный капитал фокуса, переводит отвлечения в деньги и отслеживает лимиты часов по проектам (<code>#тегам</code>).
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Режим «🌿 Человек — не робот» с дивидендом за здоровый отдых</li>
+            <li>Расчёт реальной ставки часа <code>R_real</code> на Fixed-Price проектах</li>
+            <li>Выгрузка готовых B2B-счетов (XLSX / CSV) со строкой «К оплате»</li>
+          </ul>
+        </div>
+
+        <!-- 11. Паспорт Капитала Времени и Постеры (NDA Safe) -->
+        <div class="feature-card" data-cat="analytics">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">🏆</div>
+              <span class="f-tag">Time Capital</span>
+            </div>
+            <div class="f-title">Паспорт Капитала Времени и NDA-сводки</div>
+            <div class="f-desc">
+              Накапливайте часы чистого фокуса, закрывайте недельные спринты в квартальной матрице (12 недель) и открывайте 16 рубежей мастерства до 5 000 часов.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Хроно-календарь месяца с 3 тепловыми линзами</li>
+            <li>Генератор PNG-постеров (5 стилей) и Markdown-сводок</li>
+            <li>Режим <code>🔒 Приватно (NDA)</code> — скрывает задачи и суммы</li>
+          </ul>
+        </div>
+
+        <!-- 12. Умные часы, Супер-Плитка и 6 Виджетов -->
+        <div class="feature-card" data-cat="ecosystem">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">⌚</div>
+              <span class="f-tag">Smartwatch & Tile</span>
+            </div>
+            <div class="f-title">Умные часы, Супер-Плитка и 6 Виджетов</div>
+            <div class="f-desc">
+              Управляйте временем с запястья на часах Android (пауза, диктовка задачи голосом, шаблоны, отдых 5:1) или через оверлейный пульт в верхней шторке.
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li>Супер-плитка Android (6 режимов + всплывающий мини-хаб)</li>
+            <li>Умная микро-кнопка 1×1 (7 режимов с переключением на виджете)</li>
+            <li>Виджеты Аналитики 3×2 и 2×2 с 3 линзами + экран блокировки</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Интерактивный стенд: Калькулятор Экономики Времени + Симулятор Ядра Фокуса -->
+    <section id="economics-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Интерактивные алгоритмы 2026</span>
+        <h2 class="section-title">Испытайте математику TimeFlow AI прямо в браузере</h2>
+        <p class="section-sub">
+          Посмотрите, как движок <code>GetFinancialBalanceUseCase</code> считает реальную стоимость вашего часа с защитой отдыха, и как работает 5-фазное «Ядро Фокуса».
+        </p>
+      </div>
+
+      <div class="interactive-showcase">
+        <!-- Калькулятор Экономики Времени -->
+        <div class="bento-panel">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+            <div>
+              <span style="font-size:11px; font-weight:800; color:var(--emerald-bright); text-transform:uppercase; letter-spacing:0.06em;">💰 Калькулятор Экономики Времени</span>
+              <h3 style="font-size:20px; font-weight:800; color:#fff; margin-top:2px;">Реальная стоимость вашего часа (R_real)</h3>
+            </div>
+            <button class="sound-pill playing" id="human-mode-btn" onclick="toggleHumanMode()">
+              🌿 Человек — не робот: ВКЛ
+            </button>
+          </div>
+
+          <div class="calc-row">
+            <div class="calc-label-row">
+              <span>Ваша базовая ставка часа:</span>
+              <span class="mono" id="rate-val" style="color:var(--primary-bright);">3 000 ₽/ч</span>
+            </div>
+            <input type="range" id="rate-slider" min="500" max="10000" step="250" value="3000" oninput="updateRoiCalculator()">
+          </div>
+
+          <div class="calc-row">
+            <div class="calc-label-row">
+              <span>Чистый продуктивный фокус за день:</span>
+              <span class="mono" id="work-val" style="color:var(--emerald-bright);">5.0 ч</span>
+            </div>
+            <input type="range" id="work-slider" min="1" max="10" step="0.5" value="5" oninput="updateRoiCalculator()">
+          </div>
+
+          <div class="calc-row">
+            <div class="calc-label-row">
+              <span>Отвлечения (соцсети, игры, шум):</span>
+              <span class="mono" id="dist-val" style="color:var(--rose);">1.5 ч</span>
+            </div>
+            <input type="range" id="dist-slider" min="0" max="6" step="0.5" value="1.5" oninput="updateRoiCalculator()">
+          </div>
+
+          <div class="roi-cards-grid">
+            <div class="roi-mini-card">
+              <div style="font-size:11px; font-weight:700; color:var(--emerald-bright);">📈 АКТИВ ФОКУСА</div>
+              <div class="roi-val" id="roi-earned" style="color:#fff;">+15 000 ₽</div>
+              <div style="font-size:11px; color:var(--text-muted);" id="roi-dividend-note">+1 575 ₽ дивиденд отдыха</div>
+            </div>
+            <div class="roi-mini-card">
+              <div style="font-size:11px; font-weight:700; color:var(--rose);">📉 ЦЕНА ОТВЛЕЧЕНИЙ</div>
+              <div class="roi-val" id="roi-loss" style="color:var(--rose);">−4 500 ₽</div>
+              <div style="font-size:11px; color:var(--text-muted);" id="roi-month-loss">В месяц: −135 000 ₽</div>
+            </div>
+            <div class="roi-mini-card">
+              <div style="font-size:11px; font-weight:700; color:var(--amber);">⚡ РЕАЛЬНАЯ СТАВКА ЧАСА</div>
+              <div class="roi-val" id="roi-real-rate" style="color:var(--amber);">2 550 ₽/ч</div>
+              <div style="font-size:11px; color:var(--text-muted);">За 1 час бодрствования</div>
+            </div>
+            <div class="roi-mini-card">
+              <div style="font-size:11px; font-weight:700; color:var(--secondary);">💎 ИТОГОВОЕ САЛЬДО ДНЯ</div>
+              <div class="roi-val" id="roi-net" style="color:var(--emerald-bright);">+12 075 ₽</div>
+              <div style="font-size:11px; color:var(--text-muted);">Готово для B2B-экспорта</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Симулятор 5 фаз заряда «Ядра Фокуса» (ChronoCoreStage) -->
+        <div class="bento-panel" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <span style="font-size:11px; font-weight:800; color:var(--secondary); text-transform:uppercase; letter-spacing:0.06em;">🔥 Симулятор «Ядра Фокуса» (ChronoCoreStage)</span>
+            <h3 style="font-size:20px; font-weight:800; color:#fff; margin-top:2px;">5 фаз удержания привычки без выгорания</h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">
+              Нажмите на день пропуска ниже, чтобы увидеть, как меняется заряд Ядра Фокуса и мотивация при длительном отсутствии:
+            </p>
+
+            <div class="core-stage-buttons">
+              <button class="stage-btn active" onclick="setCoreStage(1, this)">⚡ День 1<br><span class="mono">78%</span></button>
+              <button class="stage-btn" onclick="setCoreStage(2, this)">🌫️ День 2<br><span class="mono">52%</span></button>
+              <button class="stage-btn" onclick="setCoreStage(3, this)">🔥 День 3<br><span class="mono">28%</span></button>
+              <button class="stage-btn" onclick="setCoreStage(4, this)">🚨 День 4<br><span class="mono">11%</span></button>
+              <button class="stage-btn" onclick="setCoreStage(5, this)">❤️‍🔥 День 5+<br><span class="mono">1%</span></button>
+            </div>
+
+            <div class="core-orb-preview">
+              <div class="orb-circle" id="core-orb-circle">78%</div>
+              <div>
+                <div style="font-size:11px; font-weight:800; color:var(--secondary);" id="core-stage-tag">ФАЗА 1 · ДРЕЙФ ОРБИТЫ</div>
+                <div style="font-size:15.5px; font-weight:800; color:#fff; margin:2px 0;" id="core-stage-title">⚡ День идёт на автопилоте?</div>
+                <div style="font-size:12.5px; color:var(--text-muted);" id="core-stage-desc">
+                  Сутки без таймера! Нажмите «Глубокий фокус» или включите «🌿 День отдыха» — честный отдых тоже заряжает ядро на 100%!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px; padding:12px 14px; border-radius:14px; background:rgba(16, 185, 129, 0.09); border:1px solid rgba(16, 185, 129, 0.3); font-size:12.5px; color:var(--text-secondary);">
+            💡 <strong>Гуманная философия:</strong> в отличие от жёстких трекеров, TimeFlow AI не наказывает за усталость. Кнопка <strong>«🌿 Отдыхаю»</strong> прямо в уведомлении защищает вашу серию дней в балансе.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Секция: Экосистема Виджетов, Умных Часов и Безопасности -->
+    <section id="widgets-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Полная экосистема Android & Security</span>
+        <h2 class="section-title">Мгновенный доступ с часов, шторки и экрана блокировки</h2>
+        <p class="section-sub">
+          Управляйте потоком времени за долю секунды, даже не открывая само приложение.
+        </p>
+      </div>
+
+      <div class="ecosystem-grid">
+        <!-- Карточка 1: Умные часы -->
+        <div class="feature-card" style="text-align:center;">
+          <div>
+            <span class="f-tag">Smartwatch Bridge</span>
+            <div class="f-title" style="margin-top:8px;">Умные часы (Smartwatch)</div>
+            <div class="f-desc">
+              Нативный мост для часов на базе Android без установки отдельного APK. Нажмите на циферблат ниже для смены экрана:
+            </div>
+
+            <div class="watch-mockup" onclick="cycleWatchScreen()" title="Нажмите для переключения экрана часов">
+              <div style="font-size:9px; font-weight:800; color:var(--cyan); letter-spacing:0.06em;" id="watch-badge">РАБОТА · СПРИНТ</div>
+              <div style="font-size:12px; font-weight:800; color:#fff; margin-top:2px;" id="watch-title">Архитектура ИИ</div>
+              <div class="mono" style="font-size:24px; font-weight:800; color:#fff; margin:4px 0;" id="watch-time">42:18</div>
+              <div style="font-size:10px; font-weight:700; color:var(--emerald-bright); background:rgba(16,185,129,0.16); padding:3px 9px; border-radius:999px;" id="watch-action">☕ Отдых +9м (5:1)</div>
+            </div>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted);">
+            Голосовая диктовка задач с микрофона часов, быстрые шаблоны и вибро-пульс окончания спринта.
+          </div>
+        </div>
+
+        <!-- Карточка 2: 6 Виджетов и Супер-Плитка -->
+        <div class="feature-card">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">🎛️</div>
+              <span class="f-tag">6 Glance Widgets</span>
+            </div>
+            <div class="f-title">6 Виджетов и Супер-Плитка Android</div>
+            <div class="f-desc">
+              Полный набор интерактивных виджетов в едином неоновом Bento-стиле 2026 года и системная плитка в верхней шторке:
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li><strong>Аналитика Pro 3×2 и Мини 2×2:</strong> переключение 3 линз (Цели / Донат категорий / Ритм 7 дней) прямо на виджете</li>
+            <li><strong>Микро-кнопка 1×1:</strong> 7 режимов с переключением верхней капсулой</li>
+            <li><strong>Капсула экрана блокировки 2×1</strong> и лента <strong>Быстрого старта 4×1</strong></li>
+            <li><strong>Супер-Плитка в шторке:</strong> открывает оверлейный мини-пульт поверх любых игр и браузера</li>
+          </ul>
+        </div>
+
+        <!-- Карточка 3: Криптографическая защита -->
+        <div class="feature-card">
+          <div>
+            <div class="f-top">
+              <div class="f-icon">🛡️</div>
+              <span class="f-tag">Zero-Knowledge</span>
+            </div>
+            <div class="f-title">Аппаратное шифрование AES-256</div>
+            <div class="f-desc">
+              Ваше расписание и финансовые ставки — строго конфиденциальная информация. TimeFlow AI защищает её на уровне банковских стандартов:
+            </div>
+          </div>
+          <ul class="f-bullets">
+            <li><strong>Нет разрешения INTERNET:</strong> физически невозможна передача данных вовне</li>
+            <li><strong>SQLCipher 4.6.1 (256-bit AES):</strong> полное шифрование БД Room</li>
+            <li><strong>Android Keystore (StrongBox / TEE):</strong> аппаратная изоляция мастер-ключа</li>
+            <li><strong>Авто-бэкапы <code>.enc</code>:</strong> зашифрованные слепки в папку Documents</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Раздел Политики Конфиденциальности (100% полный текст из прикреплённого файла без сокращений) -->
     <div class="policy-box" id="policy-container">
       <div class="policy-trigger" onclick="togglePolicy()">
         <div>
-          <div style="font-weight:700; font-size:16px; color:#fff;">Политика конфиденциальности TimeFlow AI</div>
-          <div style="font-size:12.5px; color:var(--text-muted); margin-top:2px;">Редакция от 20 сентября 2026 г. • Для модерации RuStore</div>
+          <div style="font-weight:800; font-size:18px; color:#fff;">Политика конфиденциальности TimeFlow AI</div>
+          <div style="font-size:13px; color:var(--text-muted); margin-top:3px;">Редакция от 20 сентября 2026 г. • Для модерации RuStore • Полный официальный текст</div>
         </div>
-        <div id="policy-arrow" style="font-size:18px; color:var(--primary); transition:transform 0.2s;">▼</div>
+        <div id="policy-arrow" style="font-size:18px; color:var(--primary-bright); transition:transform 0.2s;">▼</div>
       </div>
 
-      <div class="policy-content" id="policy-body">
+      <div class="policy-content open" id="policy-body">
         <h4>1. Главный принцип — абсолютная автономность (Offline First)</h4>
         <p>Приложение TimeFlow AI работает на 100% офлайн. В манифесте приложения полностью отсутствует разрешение <code>INTERNET</code>. Приложение не передаёт личные данные на внешние серверы и не использует сторонние аналитические SDK.</p>
 
@@ -469,17 +1765,24 @@
         <p><strong>2.5. Уведомления (POST_NOTIFICATIONS):</strong> Отображение текущего секундомера в шторке через защищённый Foreground Service.</p>
 
         <h4>3. Контакты разработчика</h4>
-        <p>Разработчик: Mikhail Rudakov<br>Email для связи: <a href="mailto:rassia723@yandex.ru" style="color:var(--primary); text-decoration:none;">rassia723@yandex.ru</a></p>
+        <p>Разработчик: Mikhail Rudakov<br>Email для связи: <a href="mailto:rassia723@yandex.ru" style="color:var(--primary-bright); text-decoration:none; font-weight:700;">rassia723@yandex.ru</a></p>
       </div>
     </div>
 
     <footer>
-      © 2026 TimeFlow AI. Разработано для Android и магазина приложений RuStore.
+      © 2026 TimeFlow AI v2.0. Разработано Mikhail Rudakov для Android и магазина приложений RuStore. Все права защищены.
     </footer>
   </div>
 
   <script>
-    // Раскрытие политики
+    // 1. Переключение 7 фирменных палитр приложения
+    function setPalette(paletteName, btnElem) {
+      document.documentElement.setAttribute('data-palette', paletteName);
+      document.querySelectorAll('.palette-dot').forEach(dot => dot.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+    }
+
+    // 2. Раскрытие и скролл к Политике конфиденциальности
     function togglePolicy() {
       const body = document.getElementById('policy-body');
       const arrow = document.getElementById('policy-arrow');
@@ -495,24 +1798,61 @@
       document.getElementById('policy-container').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Живой интерактивный таймер с кнопкой паузы
+    // Синхронизация стрелки при загрузке (политика открыта по умолчанию для удобства модерации)
+    window.addEventListener('DOMContentLoaded', () => {
+      const arrow = document.getElementById('policy-arrow');
+      if (arrow) arrow.style.transform = 'rotate(180deg)';
+      updateRoiCalculator();
+    });
+
+    // 3. Живой интерактивный таймер (Секундомер / Спринт 45м + Flowmodoro 5:1)
     let isRunning = true;
-    let seconds = 42 * 60 + 15;
+    let timerMode = 'stopwatch'; // 'stopwatch' | 'sprint'
+    let elapsedSeconds = 42 * 60 + 18;
+    let sprintTargetSeconds = 45 * 60;
+
     const timerElem = document.getElementById('web-timer');
     const toggleBtn = document.getElementById('web-toggle-btn');
     const badgeElem = document.getElementById('widget-status-badge');
     const iconPause = document.getElementById('icon-pause');
     const iconPlay = document.getElementById('icon-play');
+    const flowChip = document.getElementById('flowmodoro-earned-chip');
+
+    function formatTimeHMS(totalSec) {
+      const safe = Math.max(0, totalSec);
+      const hrs = String(Math.floor(safe / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((safe % 3600) / 60)).padStart(2, '0');
+      const secs = String(safe % 60).padStart(2, '0');
+      return `${hrs}:${mins}:${secs}`;
+    }
+
+    function renderTimerDisplay() {
+      if (timerMode === 'sprint') {
+        const rem = Math.max(0, sprintTargetSeconds - elapsedSeconds);
+        timerElem.innerText = formatTimeHMS(rem);
+      } else {
+        timerElem.innerText = formatTimeHMS(elapsedSeconds);
+      }
+      const earnedRest = Math.max(1, Math.round(elapsedSeconds / 60 / 5));
+      flowChip.innerText = `☕ +${earnedRest}м отдыха (5:1)`;
+    }
 
     setInterval(() => {
       if (isRunning) {
-        seconds++;
-        const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
-        const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-        const secs = String(seconds % 60).padStart(2, '0');
-        timerElem.innerText = `${hrs}:${mins}:${secs}`;
+        elapsedSeconds++;
+        renderTimerDisplay();
       }
     }, 1000);
+
+    function setSimTimerMode(mode) {
+      timerMode = mode;
+      document.getElementById('mode-stopwatch').classList.toggle('active', mode === 'stopwatch');
+      document.getElementById('mode-sprint').classList.toggle('active', mode === 'sprint');
+      if (isRunning) {
+        badgeElem.innerText = mode === 'sprint' ? 'ТАЙМБОКС · СПРИНТ 45М' : 'РАБОТА · В ФОКУСЕ';
+      }
+      renderTimerDisplay();
+    }
 
     function toggleTimer() {
       isRunning = !isRunning;
@@ -520,8 +1860,8 @@
         toggleBtn.classList.remove('paused');
         iconPause.style.display = 'block';
         iconPlay.style.display = 'none';
-        badgeElem.innerText = 'РАБОТА · В ФОКУСЕ';
-        badgeElem.style.color = 'var(--primary)';
+        badgeElem.innerText = timerMode === 'sprint' ? 'ТАЙМБОКС · СПРИНТ 45М' : 'РАБОТА · В ФОКУСЕ';
+        badgeElem.style.color = 'var(--primary-bright)';
       } else {
         toggleBtn.classList.add('paused');
         iconPause.style.display = 'none';
@@ -529,6 +1869,247 @@
         badgeElem.innerText = 'ТАЙМЕР НА ПАУЗЕ';
         badgeElem.style.color = '#94a3b8';
       }
+    }
+
+    function startSimFlowmodoroRest() {
+      const earnedRest = Math.max(1, Math.round(elapsedSeconds / 60 / 5));
+      document.getElementById('sim-task-title').innerText = `Заслуженный отдых (${earnedRest} мин)`;
+      document.getElementById('sim-task-cat').innerText = 'Отдых Flowmodoro 5:1 · Восстановление нейронов';
+      badgeElem.innerText = 'ОТДЫХ · FLOWMODORO 5:1';
+      badgeElem.style.color = '#34d399';
+      timerMode = 'sprint';
+      sprintTargetSeconds = earnedRest * 60;
+      elapsedSeconds = 0;
+      isRunning = true;
+      toggleBtn.classList.remove('paused');
+      iconPause.style.display = 'block';
+      iconPlay.style.display = 'none';
+      document.getElementById('mode-stopwatch').classList.remove('active');
+      document.getElementById('mode-sprint').classList.add('active');
+      renderTimerDisplay();
+    }
+
+    // 4. Интерактивный чек-лист в симуляторе
+    function toggleChecklistStep(itemElem) {
+      itemElem.classList.toggle('checked');
+      const box = itemElem.querySelector('.chk-box');
+      const timeBadge = itemElem.querySelector('.chk-time');
+      const isChecked = itemElem.classList.contains('checked');
+      box.innerText = isChecked ? '✓' : '';
+      if (isChecked) {
+        timeBadge.innerText = '⏱ только что';
+        timeBadge.style.opacity = '1';
+      } else {
+        timeBadge.innerText = '⏳ в плане';
+        timeBadge.style.opacity = '0.6';
+      }
+      const total = document.querySelectorAll('.checklist-item').length;
+      const done = document.querySelectorAll('.checklist-item.checked').length;
+      document.getElementById('checklist-counter').innerText = `${done}/${total}`;
+    }
+
+    // 5. Симуляция голосового NLP-парсера (VoiceIntentParser)
+    function simulateVoiceCommand(cleanTitle, categorySubtitle, tagsList, isSprint, sprintMins) {
+      document.getElementById('sim-task-title').innerText = cleanTitle.replace(/#[\p{L}\p{N}_-]+/gu, '').replace(/на \d+ минут/gi, '').trim();
+      document.getElementById('sim-task-cat').innerText = categorySubtitle;
+      const tagsContainer = document.getElementById('sim-tags-container');
+      tagsContainer.innerHTML = tagsList.map(t => `<span class="tag-pill">${t}</span>`).join('');
+      if (isSprint && sprintMins > 0) {
+        sprintTargetSeconds = sprintMins * 60;
+        elapsedSeconds = 0;
+        setSimTimerMode('sprint');
+      } else {
+        elapsedSeconds = 12 * 60 + 5;
+        setSimTimerMode('stopwatch');
+      }
+      if (!isRunning) toggleTimer();
+    }
+
+    // 6. Процедурный генератор мягкого коричневого шума (Web Audio API)
+    let audioCtx = null;
+    let noiseNode = null;
+    let gainNode = null;
+    let isSoundPlaying = false;
+
+    function toggleWebFocusSound() {
+      const btn = document.getElementById('sound-toggle-btn');
+      const label = document.getElementById('sound-label');
+      if (!isSoundPlaying) {
+        try {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!audioCtx) audioCtx = new AudioContextClass();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+
+          const bufferSize = audioCtx.sampleRate * 2;
+          const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+          const data = buffer.getChannelData(0);
+          let lastOut = 0.0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            data[i] = (lastOut + (0.02 * white)) / 1.02;
+            lastOut = data[i];
+            data[i] *= 0.18; // мягкий комфортный уровень коричневого шума
+          }
+
+          noiseNode = audioCtx.createBufferSource();
+          noiseNode.buffer = buffer;
+          noiseNode.loop = true;
+
+          gainNode = audioCtx.createGain();
+          gainNode.gain.setValueAtTime(0.01, audioCtx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.25, audioCtx.currentTime + 0.4);
+
+          noiseNode.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          noiseNode.start();
+
+          isSoundPlaying = true;
+          btn.classList.add('playing');
+          label.innerText = 'Коричневый шум · ВКЛ';
+        } catch (e) {
+          label.innerText = 'Акустика активна';
+        }
+      } else {
+        if (noiseNode) {
+          try { noiseNode.stop(); noiseNode.disconnect(); } catch (e) {}
+          noiseNode = null;
+        }
+        isSoundPlaying = false;
+        btn.classList.remove('playing');
+        label.innerText = 'Звук потока';
+      }
+    }
+
+    // 7. Фильтрация карточек возможностей по 6 столпам
+    function filterFeatures(cat, tabBtn) {
+      document.querySelectorAll('.pillar-tab').forEach(b => b.classList.remove('active'));
+      if (tabBtn) tabBtn.classList.add('active');
+      document.querySelectorAll('#features-grid .feature-card').forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 8. Интерактивный калькулятор Экономики Времени (GetFinancialBalanceUseCase)
+    let humanCentricMode = true;
+
+    function toggleHumanMode() {
+      humanCentricMode = !humanCentricMode;
+      const btn = document.getElementById('human-mode-btn');
+      btn.classList.toggle('playing', humanCentricMode);
+      btn.innerText = humanCentricMode ? '🌿 Человек — не робот: ВКЛ' : '💼 Строгий B2B биллинг';
+      updateRoiCalculator();
+    }
+
+    function formatRub(val) {
+      return Math.round(val).toLocaleString('ru-RU') + ' ₽';
+    }
+
+    function updateRoiCalculator() {
+      const rate = parseFloat(document.getElementById('rate-slider').value);
+      const workHours = parseFloat(document.getElementById('work-slider').value);
+      const distHours = parseFloat(document.getElementById('dist-slider').value);
+
+      document.getElementById('rate-val').innerText = `${rate.toLocaleString('ru-RU')} ₽/ч`;
+      document.getElementById('work-val').innerText = `${workHours.toFixed(1)} ч`;
+      document.getElementById('dist-val').innerText = `${distHours.toFixed(1)} ч`;
+
+      const earned = workHours * rate;
+      const loss = distHours * rate;
+      const monthLoss = loss * 30;
+      const recoveryDividend = humanCentricMode ? (1.5 * rate * 0.35) : 0;
+
+      const awakeDenominator = humanCentricMode
+        ? Math.max(workHours, workHours + distHours + 0.5)
+        : Math.max(workHours, workHours + distHours + 2.0);
+
+      const realHourlyRate = Math.max(0, (earned + recoveryDividend) / awakeDenominator);
+      const netBalance = earned + recoveryDividend - loss;
+
+      document.getElementById('roi-earned').innerText = `+${formatRub(earned)}`;
+      document.getElementById('roi-dividend-note').innerText = humanCentricMode
+        ? `+${formatRub(recoveryDividend)} дивиденд отдыха`
+        : 'Отдых нейтрален (0 ₽)';
+      document.getElementById('roi-loss').innerText = loss > 0 ? `−${formatRub(loss)}` : '0 ₽';
+      document.getElementById('roi-month-loss').innerText = loss > 0
+        ? `В месяц: −${formatRub(monthLoss)}`
+        : 'Утечек бюджета нет ✨';
+      document.getElementById('roi-real-rate').innerText = `${Math.round(realHourlyRate).toLocaleString('ru-RU')} ₽/ч`;
+      document.getElementById('roi-net').innerText = (netBalance >= 0 ? '+' : '−') + formatRub(Math.abs(netBalance));
+      document.getElementById('roi-net').style.color = netBalance >= 0 ? 'var(--emerald-bright)' : 'var(--rose)';
+    }
+
+    // 9. Симулятор 5 фаз «Ядра Фокуса» (ChronoCoreStage)
+    const coreStagesData = {
+      1: {
+        pct: '78%',
+        color: '#06b6d4',
+        tag: 'ФАЗА 1 · ДРЕЙФ ОРБИТЫ (24Ч)',
+        title: '⚡ День идёт на автопилоте?',
+        desc: 'Сутки без таймера! Нажмите «Глубокий фокус» или включите «🌿 День отдыха» — честный отдых тоже заряжает ядро на 100%!'
+      },
+      2: {
+        pct: '52%',
+        color: '#8b5cf6',
+        tag: 'ФАЗА 2 · ХРОНО-ТУМАН (48Ч)',
+        title: '🌫️ Вспомните, куда ушли последние 48 часов?',
+        desc: 'Два дня без записей сливаются в туман. Запустите таймер хотя бы на 10 минут или отметьте день отдыха.'
+      },
+      3: {
+        pct: '28%',
+        color: '#f59e0b',
+        tag: 'ФАЗА 3 · ОХЛАЖДЕНИЕ ПАМЯТИ (72Ч)',
+        title: '🔥 3 дня тишины: ловушка перфекционизма',
+        desc: 'После 3 дней паузы 80% людей бросают привычку. Обойдите эту ловушку в 1 тап прямо из уведомления!'
+      },
+      4: {
+        pct: '11%',
+        color: '#f97316',
+        tag: 'ФАЗА 4 · РАЗРЫВ КОНТИНУУМА (96Ч)',
+        title: '🚨 Ядро Фокуса на 11%! Не ждите понедельника',
+        desc: 'От вас не требуется марафон на 8 часов. Один клик по любимому шаблону мгновенно вернёт заряд на 100%.'
+      },
+      5: {
+        pct: '1%',
+        color: '#f43f5e',
+        tag: 'ФАЗА 5 · СИНГУЛЯРНОСТЬ (5+ ДНЕЙ)',
+        title: '❤️‍🔥 Остался 1% заряда · Время легендарного камбэка!',
+        desc: 'Ваша статистика в полной сохранности и ждёт только вас. Зажгите Ядро Фокуса с 1% одним нажатием!'
+      }
+    };
+
+    function setCoreStage(day, btnElem) {
+      document.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      const st = coreStagesData[day];
+      const orb = document.getElementById('core-orb-circle');
+      orb.innerText = st.pct;
+      orb.style.borderColor = st.color;
+      orb.style.boxShadow = `0 0 24px ${st.color}66`;
+      document.getElementById('core-stage-tag').innerText = st.tag;
+      document.getElementById('core-stage-tag').style.color = st.color;
+      document.getElementById('core-stage-title').innerText = st.title;
+      document.getElementById('core-stage-desc').innerText = st.desc;
+    }
+
+    // 10. Переключение экранов круглых умных часов
+    let watchScreenIdx = 0;
+    const watchScreens = [
+      { badge: 'РАБОТА · СПРИНТ', title: 'Архитектура ИИ', time: '42:18', action: '☕ Отдых +9м (5:1)' },
+      { badge: 'ГОЛОС И ШАБЛОНЫ', title: '🎙️ Диктовка с часов', time: '⚡ 5', action: '▶ Кодинг #проект' },
+      { badge: 'FLOWMODORO 5:1', title: 'Нейроны в тонусе', time: '+9 мин', action: '🚀 Запустить отдых' }
+    ];
+
+    function cycleWatchScreen() {
+      watchScreenIdx = (watchScreenIdx + 1) % watchScreens.length;
+      const s = watchScreens[watchScreenIdx];
+      document.getElementById('watch-badge').innerText = s.badge;
+      document.getElementById('watch-title').innerText = s.title;
+      document.getElementById('watch-time').innerText = s.time;
+      document.getElementById('watch-action').innerText = s.action;
     }
   </script>
 </body>
