@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TimeFlow AI 2.0 — Офлайн ИИ тайм-трекер и Архитектура Времени</title>
-  <meta name="description" content="Умный офлайн тайм-трекер личного времени для Android. Потоковый голосовой ИИ Sherpa-ONNX, спринты и отдых Flowmodoro 5:1, биоритмы, экономика времени, гео-трекинг, умные часы и шифрование AES-256.">
+  <title>TimeFlow AI 2.0 — Офлайн ИИ тайм-трекер и Архитектура Времени для Android</title>
+  <meta name="description" content="Умный 100% офлайн тайм-трекер личного времени для Android. Потоковый голосовой ИИ Sherpa-ONNX (Zipformer INT8), спринты и отдых Flowmodoro 5:1, биоритмы, экономика времени, гео-трекинг AOSP, умные часы, 6 виджетов и шифрование SQLCipher AES-256.">
+  <meta name="theme-color" content="#070a12">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #070a12;
       --bg-elevated: #0d1220;
-      --card-bg: rgba(18, 24, 39, 0.78);
+      --card-bg: rgba(18, 24, 39, 0.80);
       --card-bg-solid: #121827;
-      --card-border: rgba(129, 140, 248, 0.22);
+      --card-border: rgba(129, 140, 248, 0.24);
       --primary: #6366f1;
       --primary-bright: #818cf8;
       --primary-hover: #4f46e5;
@@ -41,17 +42,17 @@
       --primary: #6366f1;
       --primary-bright: #818cf8;
       --primary-hover: #4f46e5;
-      --primary-glow: rgba(99, 102, 241, 0.35);
+      --primary-glow: rgba(99, 102, 241, 0.36);
       --secondary: #38bdf8;
-      --card-border: rgba(129, 140, 248, 0.24);
+      --card-border: rgba(129, 140, 248, 0.26);
     }
     [data-palette="emerald"] {
       --primary: #10b981;
       --primary-bright: #34d399;
       --primary-hover: #059669;
-      --primary-glow: rgba(16, 185, 129, 0.35);
+      --primary-glow: rgba(16, 185, 129, 0.36);
       --secondary: #2dd4bf;
-      --card-border: rgba(52, 211, 153, 0.26);
+      --card-border: rgba(52, 211, 153, 0.28);
     }
     [data-palette="violet"] {
       --primary: #8b5cf6;
@@ -59,15 +60,15 @@
       --primary-hover: #7c3aed;
       --primary-glow: rgba(139, 92, 246, 0.38);
       --secondary: #f472b6;
-      --card-border: rgba(167, 139, 250, 0.26);
+      --card-border: rgba(167, 139, 250, 0.28);
     }
     [data-palette="sunset"] {
       --primary: #f97316;
       --primary-bright: #fb923c;
       --primary-hover: #ea580c;
-      --primary-glow: rgba(249, 115, 22, 0.35);
+      --primary-glow: rgba(249, 115, 22, 0.36);
       --secondary: #fb7185;
-      --card-border: rgba(251, 146, 60, 0.26);
+      --card-border: rgba(251, 146, 60, 0.28);
     }
     [data-palette="cyan"] {
       --primary: #06b6d4;
@@ -75,7 +76,7 @@
       --primary-hover: #0891b2;
       --primary-glow: rgba(6, 182, 212, 0.36);
       --secondary: #6366f1;
-      --card-border: rgba(34, 211, 238, 0.26);
+      --card-border: rgba(34, 211, 238, 0.28);
     }
     [data-palette="rose"] {
       --primary: #f43f5e;
@@ -83,7 +84,7 @@
       --primary-hover: #e11d48;
       --primary-glow: rgba(244, 63, 94, 0.36);
       --secondary: #e879f9;
-      --card-border: rgba(251, 113, 133, 0.26);
+      --card-border: rgba(251, 113, 133, 0.28);
     }
     [data-palette="ocean"] {
       --primary: #0284c7;
@@ -91,7 +92,7 @@
       --primary-hover: #0369a1;
       --primary-glow: rgba(56, 189, 248, 0.36);
       --secondary: #60a5fa;
-      --card-border: rgba(56, 189, 248, 0.26);
+      --card-border: rgba(56, 189, 248, 0.28);
     }
 
     * {
@@ -109,10 +110,10 @@
     body {
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.55;
+      line-height: 1.58;
       overflow-x: hidden;
       position: relative;
-      padding-bottom: 50px;
+      padding-bottom: 64px;
     }
 
     /* Архитектурный фон с сеткой и аврора-орбами (как в TimeFlowScaffold) */
@@ -126,24 +127,36 @@
 
     .orb-primary {
       position: absolute;
-      top: -120px;
-      left: 15%;
-      width: 680px;
-      height: 520px;
+      top: -130px;
+      left: 12%;
+      width: 720px;
+      height: 540px;
       background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-      filter: blur(45px);
-      opacity: 0.65;
+      filter: blur(50px);
+      opacity: 0.68;
       transition: background 0.4s ease;
     }
 
     .orb-secondary {
       position: absolute;
-      top: 18%;
-      right: -120px;
-      width: 560px;
-      height: 560px;
+      top: 22%;
+      right: -140px;
+      width: 580px;
+      height: 580px;
       background: radial-gradient(circle, rgba(6, 182, 212, 0.16) 0%, transparent 70%);
-      filter: blur(55px);
+      filter: blur(60px);
+    }
+
+    .orb-bottom {
+      position: absolute;
+      bottom: -180px;
+      left: 30%;
+      width: 640px;
+      height: 460px;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 72%);
+      filter: blur(65px);
+      opacity: 0.35;
+      transition: background 0.4s ease;
     }
 
     .grid-overlay {
@@ -151,19 +164,19 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 520px;
+      height: 560px;
       background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        linear-gradient(to right, rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
       background-size: 44px 44px;
-      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 10%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 10%, transparent 100%);
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.88) 12%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.88) 12%, transparent 100%);
     }
 
     .wrapper {
       position: relative;
       z-index: 1;
-      max-width: 1140px;
+      max-width: 1160px;
       margin: 0 auto;
       padding: 0 20px;
     }
@@ -176,29 +189,29 @@
     /* Навигация и панель палитр */
     .sticky-nav {
       position: sticky;
-      top: 14px;
-      z-index: 50;
-      margin-top: 16px;
-      background: rgba(13, 18, 32, 0.82);
+      top: 12px;
+      z-index: 60;
+      margin-top: 14px;
+      background: rgba(13, 18, 32, 0.85);
       border: 1px solid var(--card-border);
       border-radius: 20px;
-      padding: 12px 18px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      padding: 11px 16px;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.72);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       font-weight: 800;
-      font-size: 19px;
+      font-size: 18.5px;
       letter-spacing: -0.02em;
       color: #fff;
       text-decoration: none;
@@ -214,6 +227,7 @@
       justify-content: center;
       box-shadow: 0 0 18px var(--primary-glow);
       transition: all 0.3s ease;
+      flex-shrink: 0;
     }
 
     .version-tag {
@@ -229,16 +243,16 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       flex-wrap: wrap;
     }
 
     .nav-link {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
-      padding: 7px 12px;
+      padding: 7px 11px;
       border-radius: 10px;
       transition: all 0.2s ease;
       cursor: pointer;
@@ -248,7 +262,7 @@
 
     .nav-link:hover {
       color: #fff;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.07);
     }
 
     .nav-controls {
@@ -268,8 +282,8 @@
     }
 
     .palette-dot {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
       border: 2px solid transparent;
       cursor: pointer;
@@ -293,9 +307,9 @@
       background: rgba(16, 185, 129, 0.12);
       border: 1px solid rgba(16, 185, 129, 0.35);
       color: #34d399;
-      padding: 6px 12px;
+      padding: 6px 11px;
       border-radius: 999px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       white-space: nowrap;
     }
@@ -311,23 +325,23 @@
 
     @keyframes pulseGlow {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.25); }
+      50% { opacity: 0.45; transform: scale(1.28); }
     }
 
     /* Hero Секция */
     .hero {
-      padding: 44px 0 36px;
+      padding: 42px 0 34px;
       display: grid;
-      grid-template-columns: 1.12fr 0.88fr;
-      gap: 36px;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 34px;
       align-items: center;
     }
 
-    @media (max-width: 940px) {
+    @media (max-width: 960px) {
       .hero {
         grid-template-columns: 1fr;
         text-align: center;
-        padding: 32px 0 24px;
+        padding: 28px 0 24px;
       }
       .nav-links {
         display: none;
@@ -339,10 +353,10 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
-    @media (max-width: 940px) {
+    @media (max-width: 960px) {
       .hero-badges {
         justify-content: center;
       }
@@ -354,7 +368,7 @@
       gap: 6px;
       padding: 5px 12px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
@@ -362,24 +376,24 @@
     }
 
     h1 {
-      font-size: clamp(30px, 4.4vw, 52px);
+      font-size: clamp(30px, 4.2vw, 50px);
       font-weight: 800;
       line-height: 1.1;
       letter-spacing: -0.03em;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       background: linear-gradient(180deg, #ffffff 35%, #cbd5e1 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .hero-sub {
-      font-size: clamp(15px, 1.6vw, 17.5px);
+      font-size: clamp(15px, 1.5vw, 17px);
       color: var(--text-muted);
-      margin-bottom: 26px;
-      max-width: 580px;
+      margin-bottom: 24px;
+      max-width: 590px;
     }
 
-    @media (max-width: 940px) {
+    @media (max-width: 960px) {
       .hero-sub {
         margin-left: auto;
         margin-right: auto;
@@ -389,12 +403,12 @@
     .cta-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 26px;
+      margin-bottom: 24px;
     }
 
-    @media (max-width: 940px) {
+    @media (max-width: 960px) {
       .cta-row {
         justify-content: center;
       }
@@ -406,10 +420,10 @@
       gap: 10px;
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: #ffffff;
-      padding: 14px 26px;
+      padding: 13px 24px;
       border-radius: 15px;
       font-weight: 700;
-      font-size: 15.5px;
+      font-size: 15px;
       text-decoration: none;
       box-shadow: 0 10px 26px rgba(37, 99, 235, 0.42);
       transition: all 0.2s ease;
@@ -427,10 +441,10 @@
       gap: 8px;
       background: rgba(255, 255, 255, 0.05);
       color: var(--text);
-      padding: 14px 20px;
+      padding: 13px 18px;
       border-radius: 15px;
       font-weight: 600;
-      font-size: 14.5px;
+      font-size: 14px;
       text-decoration: none;
       border: 1px solid rgba(255, 255, 255, 0.12);
       transition: all 0.2s ease;
@@ -457,14 +471,14 @@
     }
 
     .micro-stat-val {
-      font-size: 18px;
+      font-size: 17.5px;
       font-weight: 800;
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
     }
 
     .micro-stat-lbl {
-      font-size: 11.5px;
+      font-size: 11px;
       color: var(--text-muted);
     }
 
@@ -474,7 +488,7 @@
       border: 1.5px solid var(--card-border);
       border-radius: var(--radius-xl);
       padding: 20px;
-      box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.8), 0 0 32px var(--primary-glow);
+      box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.82), 0 0 32px var(--primary-glow);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       text-align: left;
@@ -486,7 +500,8 @@
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
     }
 
     .mode-segmented {
@@ -515,6 +530,12 @@
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
+    .sound-controls-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
     .sound-pill {
       display: inline-flex;
       align-items: center;
@@ -536,9 +557,47 @@
       color: #34d399;
     }
 
+    .sprint-presets-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 7px 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sprint-presets-bar.visible {
+      display: flex;
+    }
+
+    .preset-mini-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.15s ease;
+    }
+
+    .preset-mini-btn.active,
+    .preset-mini-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary-bright);
+      color: #fff;
+    }
+
     .sim-badges-row {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 8px;
       flex-wrap: wrap;
       margin-bottom: 8px;
@@ -555,6 +614,12 @@
       text-transform: uppercase;
     }
 
+    .flowmodoro-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     .flowmodoro-chip {
       font-size: 10.5px;
       font-weight: 800;
@@ -568,7 +633,25 @@
     }
 
     .flowmodoro-chip:hover {
-      background: rgba(16, 185, 129, 0.25);
+      background: rgba(16, 185, 129, 0.26);
+    }
+
+    .ratio-pill {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 6px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .ratio-pill.active {
+      background: rgba(16, 185, 129, 0.22);
+      border-color: #34d399;
+      color: #fff;
     }
 
     .sim-main-row {
@@ -580,14 +663,14 @@
     }
 
     .sim-task-title {
-      font-size: 19px;
+      font-size: 18.5px;
       font-weight: 800;
       color: #fff;
       line-height: 1.25;
     }
 
     .sim-task-sub {
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--text-muted);
       margin-top: 3px;
     }
@@ -616,7 +699,7 @@
 
     .timer-display {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 27px;
+      font-size: 25px;
       font-weight: 800;
       color: var(--secondary);
       letter-spacing: -0.03em;
@@ -660,7 +743,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: var(--text-muted);
       margin-bottom: 8px;
@@ -717,6 +800,40 @@
       white-space: nowrap;
     }
 
+    .quick-step-input-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 7px;
+      padding-top: 7px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .quick-step-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 5px 10px;
+      color: #fff;
+      font-size: 11.5px;
+      outline: none;
+    }
+
+    .quick-step-input:focus {
+      border-color: var(--primary-bright);
+    }
+
+    .quick-step-add-btn {
+      background: var(--primary);
+      border: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 0 11px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
     /* NLP Голосовой тренажёр в симуляторе */
     .voice-nlp-box {
       background: rgba(6, 182, 212, 0.07);
@@ -758,18 +875,18 @@
     .nlp-chip:hover {
       border-color: var(--secondary);
       color: #fff;
-      background: rgba(6, 182, 212, 0.15);
+      background: rgba(6, 182, 212, 0.16);
     }
 
     /* Заголовки секций */
     .section-header {
       text-align: center;
-      margin: 72px 0 34px;
+      margin: 68px 0 30px;
     }
 
     .section-eyebrow {
       display: inline-block;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.09em;
@@ -782,7 +899,7 @@
     }
 
     .section-title {
-      font-size: clamp(24px, 3.4vw, 36px);
+      font-size: clamp(23px, 3.2vw, 35px);
       font-weight: 800;
       letter-spacing: -0.02em;
       color: #fff;
@@ -790,9 +907,9 @@
     }
 
     .section-sub {
-      font-size: 15px;
+      font-size: 14.5px;
       color: var(--text-muted);
-      max-width: 640px;
+      max-width: 660px;
       margin: 0 auto;
     }
 
@@ -809,9 +926,9 @@
       background: var(--card-bg);
       border: 1px solid rgba(255, 255, 255, 0.08);
       color: var(--text-secondary);
-      padding: 10px 16px;
+      padding: 9px 15px;
       border-radius: 14px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -826,7 +943,7 @@
     }
 
     .pillar-tab.active {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(6, 182, 212, 0.12));
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.24), rgba(6, 182, 212, 0.14));
       border-color: var(--primary-bright);
       color: #fff;
       box-shadow: 0 8px 20px -6px var(--primary-glow);
@@ -854,7 +971,7 @@
     .feature-card:hover {
       border-color: var(--primary-bright);
       transform: translateY(-3px);
-      box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.65);
     }
 
     .f-top {
@@ -925,7 +1042,7 @@
       margin-top: 24px;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 920px) {
       .interactive-showcase {
         grid-template-columns: 1fr;
       }
@@ -935,18 +1052,18 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-xl);
-      padding: 26px;
+      padding: 24px;
       backdrop-filter: blur(16px);
     }
 
     .calc-row {
-      margin: 14px 0;
+      margin: 13px 0;
     }
 
     .calc-label-row {
       display: flex;
       justify-content: space-between;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       margin-bottom: 6px;
     }
@@ -961,7 +1078,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
     .roi-mini-card {
@@ -973,7 +1090,7 @@
 
     .roi-val {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 800;
       margin-top: 3px;
     }
@@ -992,7 +1109,7 @@
       color: var(--text-secondary);
       padding: 8px 4px;
       border-radius: 11px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -1003,6 +1120,7 @@
       border-color: #fff;
       color: #fff;
       transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.09);
     }
 
     .core-orb-preview {
@@ -1027,10 +1145,46 @@
       font-weight: 800;
       font-size: 17px;
       color: #fff;
-      border: 4px solid var(--emerald);
-      box-shadow: 0 0 24px rgba(16, 185, 129, 0.35);
+      border: 4px solid var(--cyan);
+      box-shadow: 0 0 24px rgba(6, 182, 212, 0.35);
       flex-shrink: 0;
       transition: all 0.3s ease;
+    }
+
+    /* Секция 17 окон аналитики и NDA-постера */
+    .analytics-chips-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .analytic-window-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .analytic-window-chip.highlighted {
+      background: rgba(99, 102, 241, 0.16);
+      border-color: var(--primary-bright);
+      color: #fff;
+    }
+
+    .nda-poster-card {
+      background: linear-gradient(160deg, #090d1a 0%, #11182d 55%, #161332 100%);
+      border: 1.5px solid var(--primary-bright);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
     }
 
     /* Витрина Экосистемы: Часы, Виджеты, Супер-Плитка */
@@ -1040,20 +1194,20 @@
       gap: 18px;
     }
 
-    @media (max-width: 920px) {
+    @media (max-width: 960px) {
       .ecosystem-grid {
         grid-template-columns: 1fr;
       }
     }
 
     .watch-mockup {
-      width: 168px;
-      height: 168px;
+      width: 176px;
+      height: 176px;
       border-radius: 50%;
       margin: 14px auto;
-      background: radial-gradient(circle at 30% 30%, #172136, #060911);
+      background: radial-gradient(circle at 30% 30%, #172136, #050811);
       border: 4px solid #334155;
-      box-shadow: 0 0 25px rgba(6, 182, 212, 0.28), inset 0 0 14px rgba(6, 182, 212, 0.2);
+      box-shadow: 0 0 26px rgba(6, 182, 212, 0.30), inset 0 0 16px rgba(6, 182, 212, 0.22);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1062,71 +1216,327 @@
       text-align: center;
       position: relative;
       cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    /* Политика Конфиденциальности (100% полный текст) */
+    .watch-mockup:hover {
+      transform: scale(1.03);
+    }
+
+    .widget-mockup-box {
+      background: linear-gradient(145deg, #121826, #0b0f1a);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: 20px;
+      padding: 14px;
+      margin: 12px 0;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .widget-mockup-box:hover {
+      border-color: var(--emerald-bright);
+    }
+
+    /* Сравнительная таблица */
+    .comparison-table-wrap {
+      overflow-x: auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 20px;
+    }
+
+    table.comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    table.comp-table th,
+    table.comp-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    table.comp-table th {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    table.comp-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .tf-col-highlight {
+      background: rgba(99, 102, 241, 0.11);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* FAQ Аккордеон */
+    .faq-list {
+      display: grid;
+      gap: 10px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--primary-bright);
+    }
+
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .faq-a {
+      display: none;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .faq-item.open .faq-a {
+      display: block;
+    }
+
+    /* Правовой Центр: Политика Конфиденциальности и Лицензии (100% полный текст) */
     .policy-box {
       background: var(--card-bg);
       border: 1.5px solid var(--card-border);
       border-radius: var(--radius-xl);
       padding: 28px;
-      margin-top: 56px;
+      margin-top: 64px;
       text-align: left;
-      box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 20px 44px -12px rgba(0, 0, 0, 0.72);
     }
 
-    .policy-trigger {
+    .legal-top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
-      user-select: none;
+      flex-wrap: wrap;
       gap: 12px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .legal-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .legal-tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-secondary);
+      padding: 9px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .legal-tab-btn.active {
+      background: var(--primary);
+      border-color: var(--primary-bright);
+      color: #fff;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+
+    .legal-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .legal-search {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      padding: 7px 12px;
+      color: #fff;
+      font-size: 12.5px;
+      outline: none;
+      min-width: 210px;
+    }
+
+    .legal-search:focus {
+      border-color: var(--primary-bright);
+    }
+
+    .legal-action-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: var(--text-secondary);
+      padding: 7px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .legal-action-btn:hover {
+      border-color: var(--primary-bright);
+      color: #fff;
+    }
+
+    .legal-toc {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 14px 0 18px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .toc-chip {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--primary-bright);
+      text-decoration: none;
+      padding: 4px 9px;
+      border-radius: 8px;
+      background: rgba(99, 102, 241, 0.12);
+      transition: background 0.15s ease;
+    }
+
+    .toc-chip:hover {
+      background: rgba(99, 102, 241, 0.25);
+      color: #fff;
     }
 
     .policy-content {
       display: none;
-      margin-top: 22px;
-      padding-top: 22px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 16px;
       font-size: 14px;
       color: var(--text-secondary);
-      line-height: 1.7;
+      line-height: 1.72;
     }
 
     .policy-content.open {
       display: block;
     }
 
-    .policy-content h4 {
-      font-size: 16px;
-      color: #fff;
-      margin: 18px 0 8px;
+    .legal-section-block {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 14px;
     }
 
-    .policy-content h4:first-child {
-      margin-top: 0;
+    .policy-content h3 {
+      font-size: 19px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .policy-content h4 {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 10px;
+      letter-spacing: -0.01em;
     }
 
     .policy-content p {
       margin-bottom: 10px;
-      color: var(--text-muted);
+      color: var(--text-secondary);
+    }
+
+    .policy-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .policy-content ul {
+      margin: 6px 0 12px 18px;
+      color: var(--text-secondary);
+    }
+
+    .policy-content li {
+      margin-bottom: 5px;
     }
 
     .policy-content code {
       font-family: 'JetBrains Mono', monospace;
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(99, 102, 241, 0.14);
       color: var(--primary-bright);
       padding: 2px 6px;
       border-radius: 5px;
-      font-size: 12.5px;
+      font-size: 12px;
+      word-break: break-word;
+    }
+
+    .license-pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.8px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      background: rgba(7, 10, 18, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 16px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-x: auto;
+      margin-top: 10px;
     }
 
     footer {
       text-align: center;
-      padding: 42px 0 12px;
+      padding: 44px 0 16px;
       font-size: 13px;
       color: #64748b;
+    }
+
+    @media print {
+      .sticky-nav, .hero, #features-section, #economics-section, #analytics-section, #widgets-section, #comparison-section, #faq-section, .legal-actions {
+        display: none !important;
+      }
+      body {
+        background: #fff;
+        color: #000;
+      }
+      .policy-box, .legal-section-block, .license-pre {
+        background: #fff !important;
+        color: #000 !important;
+        border-color: #ccc !important;
+        box-shadow: none !important;
+      }
+      .policy-content, .policy-content p, .policy-content h3, .policy-content h4 {
+        color: #000 !important;
+      }
     }
   </style>
 </head>
@@ -1134,11 +1544,12 @@
   <div class="ambient-canvas">
     <div class="orb-primary"></div>
     <div class="orb-secondary"></div>
+    <div class="orb-bottom"></div>
     <div class="grid-overlay"></div>
   </div>
 
   <div class="wrapper">
-    <!-- Навигация с живым переключателем 7 палитр из приложения -->
+    <!-- Навигация с живым переключателем 7 фирменных палитр из приложения -->
     <nav class="sticky-nav">
       <a href="#" class="brand">
         <div class="brand-logo">
@@ -1148,25 +1559,27 @@
           </svg>
         </div>
         <span>TimeFlow AI</span>
-        <span class="version-tag">v2.0</span>
+        <span class="version-tag">v2.0.0</span>
       </a>
 
       <div class="nav-links">
-        <a href="#features-section" class="nav-link">Возможности</a>
-        <a href="#economics-section" class="nav-link">Экономика & ИИ</a>
-        <a href="#widgets-section" class="nav-link">Часы & Виджеты</a>
-        <button class="nav-link" onclick="togglePolicyScroll()">Политика приватности</button>
+        <a href="#features-section" class="nav-link">Возможности (12)</a>
+        <a href="#economics-section" class="nav-link">Экономика &amp; Ядро</a>
+        <a href="#analytics-section" class="nav-link">17 Окон &amp; NDA</a>
+        <a href="#widgets-section" class="nav-link">Часы &amp; Виджеты</a>
+        <button class="nav-link" onclick="openLegalTab('privacy', true)">Политика конфиденциальности</button>
+        <button class="nav-link" onclick="openLegalTab('licenses', true)">Лицензии ПО</button>
       </div>
 
       <div class="nav-controls">
         <div class="palette-switcher" title="Выберите фирменную палитру TimeFlow AI">
-          <button class="palette-dot active" style="background:#6366f1;" onclick="setPalette('indigo', this)" aria-label="Indigo Neon"></button>
-          <button class="palette-dot" style="background:#10b981;" onclick="setPalette('emerald', this)" aria-label="Emerald Forest"></button>
-          <button class="palette-dot" style="background:#8b5cf6;" onclick="setPalette('violet', this)" aria-label="Ultraviolet"></button>
-          <button class="palette-dot" style="background:#f97316;" onclick="setPalette('sunset', this)" aria-label="Sunset Coral"></button>
-          <button class="palette-dot" style="background:#06b6d4;" onclick="setPalette('cyan', this)" aria-label="Cyber Cyan"></button>
-          <button class="palette-dot" style="background:#f43f5e;" onclick="setPalette('rose', this)" aria-label="Neon Rose"></button>
-          <button class="palette-dot" style="background:#0284c7;" onclick="setPalette('ocean', this)" aria-label="Deep Ocean"></button>
+          <button class="palette-dot active" data-pal="indigo" style="background:#6366f1;" onclick="setPalette('indigo', this)" aria-label="Indigo Neon"></button>
+          <button class="palette-dot" data-pal="emerald" style="background:#10b981;" onclick="setPalette('emerald', this)" aria-label="Emerald Forest"></button>
+          <button class="palette-dot" data-pal="violet" style="background:#8b5cf6;" onclick="setPalette('violet', this)" aria-label="Ultraviolet"></button>
+          <button class="palette-dot" data-pal="sunset" style="background:#f97316;" onclick="setPalette('sunset', this)" aria-label="Sunset Coral"></button>
+          <button class="palette-dot" data-pal="cyan" style="background:#06b6d4;" onclick="setPalette('cyan', this)" aria-label="Cyber Cyan"></button>
+          <button class="palette-dot" data-pal="rose" style="background:#f43f5e;" onclick="setPalette('rose', this)" aria-label="Neon Rose"></button>
+          <button class="palette-dot" data-pal="ocean" style="background:#0284c7;" onclick="setPalette('ocean', this)" aria-label="Deep Ocean"></button>
         </div>
 
         <div class="status-pill">
@@ -1182,12 +1595,12 @@
         <div class="hero-badges">
           <span class="pill-badge">🎙️ Sherpa-ONNX (Zipformer INT8)</span>
           <span class="pill-badge">🔒 SQLCipher AES-256</span>
-          <span class="pill-badge">⌚ Smartwatch & 6 Виджетов</span>
+          <span class="pill-badge">⌚ Smartwatch &amp; 6 Glance-виджетов</span>
         </div>
 
         <h1>Архитектура личного времени и когнитивного ресурса</h1>
         <p class="hero-sub">
-          Локальный потоковый ИИ для мгновенного голосового трекинга, расчёта отдыха Flowmodoro 5:1, анализа биоритмов, стоимости часа и защиты от выгорания. Без интернета, серверов и слежки.
+          Локальный потоковый ИИ для мгновенного голосового трекинга, расчёта отдыха Flowmodoro 5:1, анализа биоритмов, оценки реальной стоимости часа и защиты от выгорания. Без интернета, облаков и слежки.
         </p>
 
         <div class="cta-row">
@@ -1200,27 +1613,31 @@
             Скачать в RuStore
           </a>
 
-          <button class="btn-secondary" onclick="togglePolicyScroll()">
+          <button class="btn-secondary" onclick="openLegalTab('privacy', true)">
             🛡️ Политика конфиденциальности
+          </button>
+
+          <button class="btn-secondary" onclick="openLegalTab('licenses', true)">
+            ⚖️ Лицензии ПО (OSS)
           </button>
         </div>
 
         <div class="hero-micro-stats">
           <div>
             <div class="micro-stat-val">0 байт</div>
-            <div class="micro-stat-lbl">Передачи в сеть</div>
+            <div class="micro-stat-lbl">Передачи в сеть (No Internet)</div>
           </div>
           <div>
             <div class="micro-stat-val">17 окон</div>
-            <div class="micro-stat-lbl">Глубокой аналитики</div>
+            <div class="micro-stat-lbl">Кастомизируемой аналитики</div>
           </div>
           <div>
             <div class="micro-stat-val">5 : 1</div>
-            <div class="micro-stat-lbl">Алгоритм Flowmodoro</div>
+            <div class="micro-stat-lbl">Нейро-отдых Flowmodoro</div>
           </div>
           <div>
             <div class="micro-stat-val">AES-256</div>
-            <div class="micro-stat-lbl">Android Keystore</div>
+            <div class="micro-stat-lbl">StrongBox / Keystore</div>
           </div>
         </div>
       </div>
@@ -1230,24 +1647,46 @@
         <div class="sim-top-bar">
           <div class="mode-segmented">
             <button class="seg-btn active" id="mode-stopwatch" onclick="setSimTimerMode('stopwatch')">⏱ Секундомер</button>
-            <button class="seg-btn" id="mode-sprint" onclick="setSimTimerMode('sprint')">🎯 Спринт 45м</button>
+            <button class="seg-btn" id="mode-sprint" onclick="setSimTimerMode('sprint')">🎯 Спринт <span id="sprint-btn-mins">45</span>м</button>
           </div>
 
-          <button class="sound-pill" id="sound-toggle-btn" onclick="toggleWebFocusSound()" title="Процедурный синтезатор звука (Web Audio)">
-            <span id="sound-icon">🎧</span>
-            <span id="sound-label">Звук потока</span>
-          </button>
+          <div class="sound-controls-group">
+            <button class="sound-pill" id="sound-toggle-btn" onclick="toggleWebFocusSound()" title="Включить процедурный генератор звука (Web Audio API)">
+              <span id="sound-icon">🎧</span>
+              <span id="sound-label">Звук потока</span>
+            </button>
+            <button class="sound-pill" onclick="cycleFocusSoundPreset()" title="Сменить пресет процедурного синтезатора">
+              <span id="sound-preset-badge">🌊 Коричневый шум ↻</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Панель выбора лимита спринта (15/25/45/60/90м) -->
+        <div class="sprint-presets-bar" id="sprint-presets-bar">
+          <span style="font-size:10.5px; font-weight:800; color:var(--primary-bright);">ЛИМИТ СПРИНТА:</span>
+          <div style="display:flex; gap:5px;">
+            <button class="preset-mini-btn" onclick="selectSprintLimit(15, this)">15м</button>
+            <button class="preset-mini-btn" onclick="selectSprintLimit(25, this)">25м</button>
+            <button class="preset-mini-btn active" onclick="selectSprintLimit(45, this)">45м</button>
+            <button class="preset-mini-btn" onclick="selectSprintLimit(60, this)">60м</button>
+            <button class="preset-mini-btn" onclick="selectSprintLimit(90, this)">90м</button>
+          </div>
         </div>
 
         <div class="sim-badges-row">
           <span class="live-badge" id="widget-status-badge">РАБОТА · В ФОКУСЕ</span>
-          <span class="flowmodoro-chip" id="flowmodoro-earned-chip" onclick="startSimFlowmodoroRest()">☕ +9м отдыха (5:1)</span>
+          <div class="flowmodoro-group">
+            <button class="ratio-pill active" onclick="setFlowmodoroDivisor(5, this)" title="Пропорция отдыха 5:1">5:1</button>
+            <button class="ratio-pill" onclick="setFlowmodoroDivisor(4, this)" title="Пропорция отдыха 4:1">4:1</button>
+            <button class="ratio-pill" onclick="setFlowmodoroDivisor(3, this)" title="Пропорция отдыха 3:1">3:1</button>
+            <span class="flowmodoro-chip" id="flowmodoro-earned-chip" onclick="startSimFlowmodoroRest()">☕ +9м отдыха</span>
+          </div>
         </div>
 
         <div class="sim-main-row">
           <div>
             <div class="sim-task-title" id="sim-task-title">Архитектура TimeFlow AI</div>
-            <div class="sim-task-sub" id="sim-task-cat">Продуктивный фокус · Индекс монолитности ≥45м</div>
+            <div class="sim-task-sub" id="sim-task-cat">Продуктивный фокус · Монолитный блок ≥45м</div>
             <div class="sim-tags-row" id="sim-tags-container">
               <span class="tag-pill">#android</span>
               <span class="tag-pill">#клиент</span>
@@ -1271,29 +1710,35 @@
         <!-- Интерактивный чек-лист с авто-хронометражем шагов -->
         <div class="sim-workspace">
           <div class="sim-ws-head">
-            <span>☑ ПЛАН НА СЕССИЮ (АВТО-ТАЙМИНГ ШАГОВ)</span>
-            <span class="mono" id="checklist-counter" style="color:var(--emerald-bright);">2/3</span>
+            <span>☑ ПЛАН НА СЕССИЮ (АВТО-ХРОНОМЕТРАЖ ШАГОВ)</span>
+            <span class="mono" id="checklist-counter" style="color:var(--emerald-bright);">2/3 · ⏱ 42м</span>
           </div>
-          <div class="checklist-item checked" onclick="toggleChecklistStep(this)">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span class="chk-box">✓</span>
-              <span class="chk-text">Аудит шифрования SQLCipher AES-256</span>
+          <div id="sim-checklist-list">
+            <div class="checklist-item checked" onclick="toggleChecklistStep(this)">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="chk-box">✓</span>
+                <span class="chk-text">Аудит шифрования SQLCipher AES-256</span>
+              </div>
+              <span class="chk-time">⏱ 18м</span>
             </div>
-            <span class="chk-time">⏱ 18м</span>
+            <div class="checklist-item checked" onclick="toggleChecklistStep(this)">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="chk-box">✓</span>
+                <span class="chk-text">Калибровка голосового парсера Sherpa-ONNX</span>
+              </div>
+              <span class="chk-time">🔥 ⏱ 24м</span>
+            </div>
+            <div class="checklist-item" onclick="toggleChecklistStep(this)">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="chk-box"></span>
+                <span class="chk-text">Публикация релиза v2.0.0 в RuStore</span>
+              </div>
+              <span class="chk-time" style="opacity:0.65;">⏳ в работе</span>
+            </div>
           </div>
-          <div class="checklist-item checked" onclick="toggleChecklistStep(this)">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span class="chk-box">✓</span>
-              <span class="chk-text">Калибровка голосового парсера Sherpa-ONNX</span>
-            </div>
-            <span class="chk-time">⏱ 24м</span>
-          </div>
-          <div class="checklist-item" onclick="toggleChecklistStep(this)">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span class="chk-box"></span>
-              <span class="chk-text">Сборка релизного APK для RuStore</span>
-            </div>
-            <span class="chk-time" style="opacity:0.6;">⏳ в работе</span>
+          <div class="quick-step-input-row">
+            <input type="text" id="new-step-input" class="quick-step-input" placeholder="Добавить шаг в план сессии (Enter)…" onkeydown="if(event.key==='Enter') addCustomChecklistStep()">
+            <button class="quick-step-add-btn" onclick="addCustomChecklistStep()">+</button>
           </div>
         </div>
 
@@ -1301,11 +1746,11 @@
         <div class="voice-nlp-box">
           <div class="nlp-label">
             <span>🎙️ Протестируйте голосовой NLP-парсер (1 тап):</span>
-            <span class="mono" style="font-size:10px; opacity:0.8;">VoiceIntentParser</span>
+            <span class="mono" style="font-size:10px; opacity:0.8;">Pre-Roll 15s · Zipformer</span>
           </div>
           <div class="nlp-chips">
-            <button class="nlp-chip" onclick="simulateVoiceCommand('Кодинг #релиз на 45 минут', 'Работа', ['#релиз', '#фокус'], true, 45)">«Кодинг #релиз на 45 минут»</button>
-            <button class="nlp-chip" onclick="simulateVoiceCommand('Тренировка в зале #спорт', 'Спорт · Ресурс', ['#спорт', '#здоровье'], false, 0)">«Тренировка в зале тег спорт»</button>
+            <button class="nlp-chip" onclick="simulateVoiceCommand('Кодинг #релиз на 45 минут', 'Работа · Спринт 45м', ['#релиз', '#фокус'], true, 45)">«Кодинг #релиз на 45 минут»</button>
+            <button class="nlp-chip" onclick="simulateVoiceCommand('Тренировка в зале #спорт', 'Спорт · Капитал восстановления', ['#спорт', '#ресурс'], false, 0)">«Тренировка в зале тег спорт»</button>
             <button class="nlp-chip" onclick="simulateVoiceCommand('С 13:00 до 14:00 был обед', 'Еда · Записано задним числом (13:00–14:00)', ['#ретро_ввод'], false, 0)">«С 13 до 14 был обед»</button>
           </div>
         </div>
@@ -1315,20 +1760,20 @@
     <!-- Секция: Все возможности TimeFlow AI v2.0 (Bento + Фильтр по 6 модулям) -->
     <section id="features-section">
       <div class="section-header">
-        <span class="section-eyebrow">Полный аудит возможностей v2.0</span>
-        <h2 class="section-title">Больше чем таймер. Персональная система продуктивности</h2>
+        <span class="section-eyebrow">Полный архитектурный аудит v2.0</span>
+        <h2 class="section-title">Больше чем таймер. Персональная ОС вашего времени</h2>
         <p class="section-sub">
-          Выберите интересующий модуль или просмотрите все уникальные технологии, работающие на 100% локально внутри вашего устройства.
+          Все 12 ключевых подсистем работают на 100% локально внутри защищённой среды вашего смартфона — с мгновенным откликом и нулевой задержкой.
         </p>
       </div>
 
       <div class="pillars-tabs">
-        <button class="pillar-tab active" onclick="filterFeatures('all', this)">✨ Все функции (12)</button>
-        <button class="pillar-tab" onclick="filterFeatures('ai', this)">🎙️ Голос ИИ & Парсер</button>
-        <button class="pillar-tab" onclick="filterFeatures('focus', this)">⚡ Спринты, 5:1 & Звук</button>
-        <button class="pillar-tab" onclick="filterFeatures('auto', this)">🤖 Автотрекинг, Сон & Гео</button>
-        <button class="pillar-tab" onclick="filterFeatures('analytics', this)">📊 Биоритмы & Экономика</button>
-        <button class="pillar-tab" onclick="filterFeatures('ecosystem', this)">⌚ Часы, Плитка & Защита</button>
+        <button class="pillar-tab active" onclick="filterFeatures('all', this)">✨ Все модули (12)</button>
+        <button class="pillar-tab" onclick="filterFeatures('ai', this)">🎙️ Потоковый ИИ &amp; NLP</button>
+        <button class="pillar-tab" onclick="filterFeatures('focus', this)">⚡ Спринты, 5:1 &amp; Акустика</button>
+        <button class="pillar-tab" onclick="filterFeatures('auto', this)">🤖 Автотрекинг, Сон &amp; Гео</button>
+        <button class="pillar-tab" onclick="filterFeatures('analytics', this)">📊 Биоритмы &amp; Экономика</button>
+        <button class="pillar-tab" onclick="filterFeatures('ecosystem', this)">⌚ Часы, Плитка &amp; Защита</button>
       </div>
 
       <div class="features-grid" id="features-grid">
@@ -1339,15 +1784,15 @@
               <div class="f-icon">🎙️</div>
               <span class="f-tag">Sherpa-ONNX INT8</span>
             </div>
-            <div class="f-title">Потоковый голосовой ИИ и NLP-парсер</div>
+            <div class="f-title">Потоковый голосовой ИИ с буфером Pre-Roll</div>
             <div class="f-desc">
-              Нейросеть <strong>Streaming Zipformer Transducer</strong> распознаёт русскую и английскую речь на процессоре без интернета и мгновенно разбирает контекст фразы.
+              Нейросеть <strong>Streaming Zipformer Transducer</strong> распознаёт речь на процессоре без интернета. Кольцевой буфер (15 с) позволяет говорить в ту же секунду, не дожидаясь загрузки модели.
             </div>
           </div>
           <ul class="f-bullets">
             <li>Запуск спринтов голосом: <em>«Кодинг на 45 минут»</em></li>
-            <li>Ввод задним числом: <em>«С 14 до 15 был обед»</em></li>
-            <li>Авто-извлечение <code>#тегов</code>, заметок и категории</li>
+            <li>Ретроспективный ввод: <em>«С 14 до 15 был обед»</em></li>
+            <li>Фонетический автокорректор Левенштейна и авто-теги</li>
           </ul>
         </div>
 
@@ -1358,9 +1803,9 @@
               <div class="f-icon">☕</div>
               <span class="f-tag">Flowmodoro 5:1</span>
             </div>
-            <div class="f-title">Спринт-Таймбокс и отдых Flowmodoro</div>
+            <div class="f-title">Спринт-Таймбокс и нейро-отдых Flowmodoro</div>
             <div class="f-desc">
-              Переключайтесь между секундомером и спринт-таймером (15–90 мин). После фокуса приложение рассчитывает точное время для перезагрузки нейронов.
+              Переключайтесь между секундомером и таймбоксом (15–90 мин). После фокуса приложение рассчитывает точное время для перезагрузки нейронов.
             </div>
           </div>
           <ul class="f-bullets">
@@ -1379,7 +1824,7 @@
             </div>
             <div class="f-title">Чек-листы сессий с авто-хронометражем</div>
             <div class="f-desc">
-              Разбивайте задачу на микро-шаги прямо во время работы таймера. При отметке пункта галочкой автоматически фиксируется время его выполнения.
+              Разбивайте задачу на микро-шаги прямо во время работы таймера. При отметке пункта галочкой автоматически фиксируется длительность и время его завершения.
             </div>
           </div>
           <ul class="f-bullets">
@@ -1396,14 +1841,14 @@
               <div class="f-icon">🎧</div>
               <span class="f-tag">Procedural Synth</span>
             </div>
-            <div class="f-title">Процедурная Акустика Фокуса</div>
+            <div class="f-title">Процедурная Акустика Фокуса (8 сцен)</div>
             <div class="f-desc">
-              Встроенный математический аудио-движок генерирует звуки природы и нейро-волны в реальном времени без тяжёлых аудиофайлов и интернета.
+              Математический аудио-движок <strong>ProceduralFocusAudioEngine</strong> синтезирует звуки живой природы и нейро-волны в реальном времени без тяжёлых аудиофайлов.
             </div>
           </div>
           <ul class="f-bullets">
             <li>Природа: Шелест листвы, Лесной ручей и птицы, Прибой</li>
-            <li>Шумы и ритмы: Коричневый шум, Розовый дождь</li>
+            <li>Шумы: Коричневый шум, Розовый дождь</li>
             <li>Бинауральные волны: Альфа 10 Гц, Бета 14 Гц, Гамма 40 Гц</li>
           </ul>
         </div>
@@ -1415,9 +1860,9 @@
               <div class="f-icon">🌙</div>
               <span class="f-tag">Smart Recovery</span>
             </div>
-            <div class="f-title">Умная коррекция сна и слепых зон</div>
+            <div class="f-title">Умная коррекция сна и слепых зон дня</div>
             <div class="f-desc">
-              Забыли выключить таймер перед сном? Утром детектор проанализирует время блокировки экрана и фазу Doze Mode, предложив исправить историю в 1 тап.
+              Забыли выключить таймер перед сном? Утром детектор проанализирует время блокировки экрана и фазу <code>Doze Mode</code>, предложив исправить историю в 1 тап.
             </div>
           </div>
           <ul class="f-bullets">
@@ -1436,12 +1881,12 @@
             </div>
             <div class="f-title">Автотрекинг приложений и Гео-трекинг</div>
             <div class="f-desc">
-              Автоматическое переключение задач при открытии соцсетей/игр (с тайм-аутом возврата к работе) и при входе/выходе из геозон (Дом, Офис, Зал).
+              Авто-переключение задач при открытии соцсетей/игр (с тайм-аутом возврата к работе) и при посещении/покидании геозон (Дом, Офис, Спортзал).
             </div>
           </div>
           <ul class="f-bullets">
             <li>100% нативный AOSP гео-движок (Wi-Fi + Motion + GPS)</li>
-            <li>Память присутствия и анти-дребезг (Debounce 35 сек)</li>
+            <li>Память присутствия и анти-дребезг выхода (Debounce 35 с)</li>
             <li>Журнал срабатываний и дистанция до геозон в реальном времени</li>
           </ul>
         </div>
@@ -1455,13 +1900,13 @@
             </div>
             <div class="f-title">«Ядро Фокуса» и защита от выгорания</div>
             <div class="f-desc">
-              Движок <strong>DayAnalysisEngine</strong> бережёт нервную систему, вовремя напоминает об отдыхе, а при пропуске дней включает 5-фазную систему возврата в ритм.
+              Алгоритм <strong>DayAnalysisEngine</strong> бережёт нервную систему, вовремя напоминает об отдыхе, а при пропуске дней включает 5-фазную систему возврата в ритм.
             </div>
           </div>
           <ul class="f-bullets">
             <li>5 фаз заряда ядра: 78% → 52% → 28% → 11% → 1%</li>
             <li>5 характеров общения (Дерзкая искра, Тёплый маяк, Бережный)</li>
-            <li>Кнопка «🌿 День отдыха» мгновенно заряжает ядро на 100%</li>
+            <li>Кнопка «🌿 Отдыхаю» защищает ритм и заряжает ядро на 100%</li>
           </ul>
         </div>
 
@@ -1470,7 +1915,7 @@
           <div>
             <div class="f-top">
               <div class="f-icon">⏱️</div>
-              <span class="f-tag">Drag & Drop</span>
+              <span class="f-tag">Drag &amp; Drop</span>
             </div>
             <div class="f-title">Интерактивный Таймлайн и Расписания</div>
             <div class="f-desc">
@@ -1493,12 +1938,12 @@
             </div>
             <div class="f-title">Биоритмы, Хронотип и 17 окон аналитики</div>
             <div class="f-desc">
-              Настраивайте экран аналитики под себя. Алгоритмы рассчитывают Индекс Монолитности внимания (блоки ≥45 мин) и строят 24-часовую волну вашей энергии.
+              Настраивайте порядок и видимость 17 аналитических окон. Алгоритмы считают Индекс Монолитности (блоки ≥45 мин) и строят 24-часовую волну энергии.
             </div>
           </div>
           <ul class="f-bullets">
             <li>Определение хронотипа и лучших часов для сложных задач</li>
-            <li>Анализ привычек: кривые Безье, разброс (σ) и гистограмма</li>
+            <li>Анализ привычек: кривые Безье, разброс ($\sigma$) и гистограмма</li>
             <li>Исключение аномальных дней (выколотые точки) долгим тапом</li>
           </ul>
         </div>
@@ -1512,12 +1957,12 @@
             </div>
             <div class="f-title">Экономика времени и Паспорта Проектов</div>
             <div class="f-desc">
-              Оцените свой час: приложение считает заработанный капитал фокуса, переводит отвлечения в деньги и отслеживает лимиты часов по проектам (<code>#тегам</code>).
+              Оцените свой час: приложение считает заработанный капитал фокуса, переводит отвлечения в деньги и контролирует лимиты часов по проектам (<code>#тегам</code>).
             </div>
           </div>
           <ul class="f-bullets">
             <li>Режим «🌿 Человек — не робот» с дивидендом за здоровый отдых</li>
-            <li>Расчёт реальной ставки часа <code>R_real</code> на Fixed-Price проектах</li>
+            <li>Расчёт реальной ставки часа $R_{\text{real}}$ на Fixed-Price проектах</li>
             <li>Выгрузка готовых B2B-счетов (XLSX / CSV) со строкой «К оплате»</li>
           </ul>
         </div>
@@ -1536,7 +1981,7 @@
           </div>
           <ul class="f-bullets">
             <li>Хроно-календарь месяца с 3 тепловыми линзами</li>
-            <li>Генератор PNG-постеров (5 стилей) и Markdown-сводок</li>
+            <li>Генератор PNG-постеров (5 режимов) и Markdown-сводок</li>
             <li>Режим <code>🔒 Приватно (NDA)</code> — скрывает задачи и суммы</li>
           </ul>
         </div>
@@ -1546,7 +1991,7 @@
           <div>
             <div class="f-top">
               <div class="f-icon">⌚</div>
-              <span class="f-tag">Smartwatch & Tile</span>
+              <span class="f-tag">Smartwatch &amp; Tile</span>
             </div>
             <div class="f-title">Умные часы, Супер-Плитка и 6 Виджетов</div>
             <div class="f-desc">
@@ -1554,7 +1999,7 @@
             </div>
           </div>
           <ul class="f-bullets">
-            <li>Супер-плитка Android (6 режимов + всплывающий мини-хаб)</li>
+            <li>Супер-плитка Android (6 режимов + всплывающий мини-пульт)</li>
             <li>Умная микро-кнопка 1×1 (7 режимов с переключением на виджете)</li>
             <li>Виджеты Аналитики 3×2 и 2×2 с 3 линзами + экран блокировки</li>
           </ul>
@@ -1568,7 +2013,7 @@
         <span class="section-eyebrow">Интерактивные алгоритмы 2026</span>
         <h2 class="section-title">Испытайте математику TimeFlow AI прямо в браузере</h2>
         <p class="section-sub">
-          Посмотрите, как движок <code>GetFinancialBalanceUseCase</code> считает реальную стоимость вашего часа с защитой отдыха, и как работает 5-фазное «Ядро Фокуса».
+          Посмотрите, как движок <code>GetFinancialBalanceUseCase</code> считает реальную стоимость вашего часа $R_{\text{real}}$ с защитой отдыха, и как работает 5-фазное «Ядро Фокуса».
         </p>
       </div>
 
@@ -1578,7 +2023,7 @@
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
             <div>
               <span style="font-size:11px; font-weight:800; color:var(--emerald-bright); text-transform:uppercase; letter-spacing:0.06em;">💰 Калькулятор Экономики Времени</span>
-              <h3 style="font-size:20px; font-weight:800; color:#fff; margin-top:2px;">Реальная стоимость вашего часа (R_real)</h3>
+              <h3 style="font-size:19.5px; font-weight:800; color:#fff; margin-top:2px;">Реальная стоимость вашего часа ($R_{\text{real}}$)</h3>
             </div>
             <button class="sound-pill playing" id="human-mode-btn" onclick="toggleHumanMode()">
               🌿 Человек — не робот: ВКЛ
@@ -1611,22 +2056,22 @@
 
           <div class="roi-cards-grid">
             <div class="roi-mini-card">
-              <div style="font-size:11px; font-weight:700; color:var(--emerald-bright);">📈 АКТИВ ФОКУСА</div>
+              <div style="font-size:10.5px; font-weight:700; color:var(--emerald-bright);">📈 АКТИВ ФОКУСА</div>
               <div class="roi-val" id="roi-earned" style="color:#fff;">+15 000 ₽</div>
               <div style="font-size:11px; color:var(--text-muted);" id="roi-dividend-note">+1 575 ₽ дивиденд отдыха</div>
             </div>
             <div class="roi-mini-card">
-              <div style="font-size:11px; font-weight:700; color:var(--rose);">📉 ЦЕНА ОТВЛЕЧЕНИЙ</div>
+              <div style="font-size:10.5px; font-weight:700; color:var(--rose);">📉 ЦЕНА ОТВЛЕЧЕНИЙ</div>
               <div class="roi-val" id="roi-loss" style="color:var(--rose);">−4 500 ₽</div>
               <div style="font-size:11px; color:var(--text-muted);" id="roi-month-loss">В месяц: −135 000 ₽</div>
             </div>
             <div class="roi-mini-card">
-              <div style="font-size:11px; font-weight:700; color:var(--amber);">⚡ РЕАЛЬНАЯ СТАВКА ЧАСА</div>
-              <div class="roi-val" id="roi-real-rate" style="color:var(--amber);">2 550 ₽/ч</div>
+              <div style="font-size:10.5px; font-weight:700; color:var(--amber);">⚡ РЕАЛЬНАЯ СТАВКА ЧАСА</div>
+              <div class="roi-val" id="roi-real-rate" style="color:var(--amber);">2 368 ₽/ч</div>
               <div style="font-size:11px; color:var(--text-muted);">За 1 час бодрствования</div>
             </div>
             <div class="roi-mini-card">
-              <div style="font-size:11px; font-weight:700; color:var(--secondary);">💎 ИТОГОВОЕ САЛЬДО ДНЯ</div>
+              <div style="font-size:10.5px; font-weight:700; color:var(--secondary);">💎 ИТОГОВОЕ САЛЬДО ДНЯ</div>
               <div class="roi-val" id="roi-net" style="color:var(--emerald-bright);">+12 075 ₽</div>
               <div style="font-size:11px; color:var(--text-muted);">Готово для B2B-экспорта</div>
             </div>
@@ -1637,9 +2082,9 @@
         <div class="bento-panel" style="display:flex; flex-direction:column; justify-content:space-between;">
           <div>
             <span style="font-size:11px; font-weight:800; color:var(--secondary); text-transform:uppercase; letter-spacing:0.06em;">🔥 Симулятор «Ядра Фокуса» (ChronoCoreStage)</span>
-            <h3 style="font-size:20px; font-weight:800; color:#fff; margin-top:2px;">5 фаз удержания привычки без выгорания</h3>
+            <h3 style="font-size:19.5px; font-weight:800; color:#fff; margin-top:2px;">5 фаз удержания привычки без выгорания</h3>
             <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">
-              Нажмите на день пропуска ниже, чтобы увидеть, как меняется заряд Ядра Фокуса и мотивация при длительном отсутствии:
+              Выберите день паузы ниже, чтобы увидеть, как меняется заряд Ядра Фокуса, оттенок уведомления и подача:
             </p>
 
             <div class="core-stage-buttons">
@@ -1653,7 +2098,7 @@
             <div class="core-orb-preview">
               <div class="orb-circle" id="core-orb-circle">78%</div>
               <div>
-                <div style="font-size:11px; font-weight:800; color:var(--secondary);" id="core-stage-tag">ФАЗА 1 · ДРЕЙФ ОРБИТЫ</div>
+                <div style="font-size:11px; font-weight:800; color:var(--secondary);" id="core-stage-tag">ФАЗА 1 · ДРЕЙФ ОРБИТЫ (24Ч)</div>
                 <div style="font-size:15.5px; font-weight:800; color:#fff; margin:2px 0;" id="core-stage-title">⚡ День идёт на автопилоте?</div>
                 <div style="font-size:12.5px; color:var(--text-muted);" id="core-stage-desc">
                   Сутки без таймера! Нажмите «Глубокий фокус» или включите «🌿 День отдыха» — честный отдых тоже заряжает ядро на 100%!
@@ -1669,13 +2114,114 @@
       </div>
     </section>
 
+    <!-- Секция: Конструктор 17 окон аналитики и NDA-генератор сводок -->
+    <section id="analytics-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Кастомизация и Приватность (NDA Safe)</span>
+        <h2 class="section-title">17 Окон Аналитики и Визуальные Сводки</h2>
+        <p class="section-sub">
+          Включайте только нужные аналитические блоки, меняйте их порядок перетаскиванием и делитесь красивыми PNG/Markdown-отчётами с маскировкой коммерческой тайны.
+        </p>
+      </div>
+
+      <div class="interactive-showcase">
+        <!-- Конструктор 17 окон -->
+        <div class="bento-panel">
+          <div style="font-size:11px; font-weight:800; color:var(--primary-bright); text-transform:uppercase; letter-spacing:0.06em;">🎛️ Конструктор экрана аналитики (AnalyticsWidgetId)</div>
+          <h3 style="font-size:19px; font-weight:800; color:#fff; margin-top:3px;">4 готовых пресета или своя раскладка из 17 окон</h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:5px;">
+            Нажмите на пресет ниже, чтобы увидеть, какие из 17 аналитических окон активируются:
+          </p>
+
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:12px;">
+            <button class="preset-mini-btn active" onclick="setAnalyticsPreset('all', this)">✨ Все окна (17)</button>
+            <button class="preset-mini-btn" onclick="setAnalyticsPreset('focus', this)">⚡ Фокус и биоритмы (8)</button>
+            <button class="preset-mini-btn" onclick="setAnalyticsPreset('executive', this)">💼 Бизнес и проекты (8)</button>
+            <button class="preset-mini-btn" onclick="setAnalyticsPreset('minimal', this)">🎯 Минимализм (5)</button>
+          </div>
+
+          <div class="analytics-chips-cloud" id="analytics-windows-cloud">
+            <span class="analytic-window-chip highlighted" data-w="overview">📊 Общая сводка</span>
+            <span class="analytic-window-chip highlighted" data-w="ai">✨ AI-Анализ и выводы</span>
+            <span class="analytic-window-chip highlighted" data-w="plan">📅 План против факта</span>
+            <span class="analytic-window-chip highlighted" data-w="bio">⚡ Глубина и биоритмы</span>
+            <span class="analytic-window-chip highlighted" data-w="journal">☑️ Журнал сессий</span>
+            <span class="analytic-window-chip highlighted" data-w="finance">💰 Финансовый баланс</span>
+            <span class="analytic-window-chip highlighted" data-w="projects">🛡️ Проектные бюджеты</span>
+            <span class="analytic-window-chip highlighted" data-w="passport">🏆 Паспорт капитала</span>
+            <span class="analytic-window-chip highlighted" data-w="habits">📈 Анализ привычек</span>
+            <span class="analytic-window-chip highlighted" data-w="donut">🍩 Кольцо категорий</span>
+            <span class="analytic-window-chip highlighted" data-w="split">⚖️ Баланс пользы</span>
+            <span class="analytic-window-chip highlighted" data-w="top">🔥 Топ активностей</span>
+            <span class="analytic-window-chip highlighted" data-w="attention">🧠 Архитектура внимания</span>
+            <span class="analytic-window-chip highlighted" data-w="sleep">🌙 Статус сна</span>
+            <span class="analytic-window-chip highlighted" data-w="trends">📉 Динамика и тренды</span>
+            <span class="analytic-window-chip highlighted" data-w="bestworst">🏅 Лучший и худший день</span>
+            <span class="analytic-window-chip highlighted" data-w="patterns">🔄 Паттерны привычек</span>
+          </div>
+        </div>
+
+        <!-- Симулятор NDA-карточки сводки -->
+        <div class="bento-panel" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+            <div>
+              <span style="font-size:11px; font-weight:800; color:var(--emerald-bright); text-transform:uppercase;">🖼 Генератор PNG &amp; Markdown</span>
+              <h3 style="font-size:18.5px; font-weight:800; color:#fff;">Режим «Приватно (NDA Safe)»</h3>
+            </div>
+            <button class="sound-pill" id="nda-toggle-btn" onclick="toggleNdaPreview()">
+              👁️ Все названия: ВКЛ
+            </button>
+          </div>
+
+          <div class="nda-poster-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <div>
+                <div style="font-size:9.5px; font-weight:800; color:var(--primary-bright); letter-spacing:0.08em;">EXECUTIVE SUMMARY · ИТОГИ ДНЯ</div>
+                <div style="font-size:16px; font-weight:800; color:#fff;">Воскресенье, 8 ноября</div>
+              </div>
+              <div style="text-align:right;">
+                <span class="mono" style="font-size:20px; font-weight:800; color:var(--emerald-bright);">92</span>
+                <span style="font-size:10px; color:var(--text-muted); display:block;">ИНДЕКС</span>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+              <div style="background:rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px;">
+                <div style="font-size:9.5px; color:var(--emerald-bright); font-weight:800;">ЧИСТЫЙ ФОКУС</div>
+                <div class="mono" style="font-size:14.5px; font-weight:800; color:#fff;">5ч 20м (74%)</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px;">
+                <div style="font-size:9.5px; color:var(--amber); font-weight:800;" id="nda-cap-label">КАПИТАЛ ФОКУСА</div>
+                <div class="mono" style="font-size:14.5px; font-weight:800; color:#fff;" id="nda-cap-val">+16 000 ₽</div>
+              </div>
+            </div>
+
+            <div style="font-size:11.5px; color:var(--text-secondary); display:flex; flex-direction:column; gap:5px;">
+              <div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); padding:6px 9px; border-radius:8px;">
+                <span id="nda-item-1">1. Архитектура Android · #клиент_альфа</span>
+                <span class="mono" style="font-weight:700; color:var(--primary-bright);">3ч 30м</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); padding:6px 9px; border-radius:8px;">
+                <span id="nda-item-2">2. Аудит безопасности · #nda_банк</span>
+                <span class="mono" style="font-weight:700; color:var(--emerald-bright);">1ч 50м</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size:11.5px; color:var(--text-muted); margin-top:10px;">
+            Нажмите кнопку <strong>«Все названия / Приватно (NDA)»</strong> выше, чтобы увидеть, как приложение автоматически скрывает имена клиентов, задачи и суммы перед публикацией.
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Секция: Экосистема Виджетов, Умных Часов и Безопасности -->
     <section id="widgets-section">
       <div class="section-header">
-        <span class="section-eyebrow">Полная экосистема Android & Security</span>
-        <h2 class="section-title">Мгновенный доступ с часов, шторки и экрана блокировки</h2>
+        <span class="section-eyebrow">Полная экосистема Android &amp; Security</span>
+        <h2 class="section-title">Мгновенный доступ с часов, шторки и рабочего стола</h2>
         <p class="section-sub">
-          Управляйте потоком времени за долю секунды, даже не открывая само приложение.
+          Управляйте потоком времени за долю секунды, даже не открывая само приложение. Все макеты ниже интерактивны — нажимайте на них!
         </p>
       </div>
 
@@ -1686,7 +2232,7 @@
             <span class="f-tag">Smartwatch Bridge</span>
             <div class="f-title" style="margin-top:8px;">Умные часы (Smartwatch)</div>
             <div class="f-desc">
-              Нативный мост для часов на базе Android без установки отдельного APK. Нажмите на циферблат ниже для смены экрана:
+              Нативный мост для часов на базе Android без установки отдельного APK. Нажмите на циферблат ниже для смены экрана (4 режима):
             </div>
 
             <div class="watch-mockup" onclick="cycleWatchScreen()" title="Нажмите для переключения экрана часов">
@@ -1697,7 +2243,7 @@
             </div>
           </div>
           <div style="font-size:12px; color:var(--text-muted);">
-            Голосовая диктовка задач с микрофона часов, быстрые шаблоны и вибро-пульс окончания спринта.
+            Голосовая диктовка задач с микрофона часов (<code>RemoteInput</code>), быстрые шаблоны и вибро-пульс окончания спринта.
           </div>
         </div>
 
@@ -1710,14 +2256,25 @@
             </div>
             <div class="f-title">6 Виджетов и Супер-Плитка Android</div>
             <div class="f-desc">
-              Полный набор интерактивных виджетов в едином неоновом Bento-стиле 2026 года и системная плитка в верхней шторке:
+              Нажмите на интерактивный макет виджета <strong>Аналитика Pro 3×2</strong> ниже, чтобы переключить его линзу прямо здесь:
+            </div>
+
+            <div class="widget-mockup-box" onclick="cycleGlanceWidgetLens()" title="Нажмите для смены линзы виджета 3×2">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span style="font-size:10.5px; font-weight:800; color:#fff; background:rgba(255,255,255,0.08); padding:3px 9px; border-radius:999px;" id="gw-lens-title">● ФОКУС ДНЯ ›</span>
+                <span class="mono" style="font-size:10.5px; color:var(--emerald-bright); font-weight:800;" id="gw-lens-dots">● ○ ○</span>
+              </div>
+              <div id="gw-lens-body" style="font-size:12px; color:var(--text-secondary);">
+                🎯 <strong>Цель фокуса:</strong> 3ч 40м / 4ч (92%)<br>
+                🌿 <strong>Цель отдыха:</strong> 1ч 20м / 1ч 30м (88%)<br>
+                <span style="color:var(--secondary); font-weight:700;">Поток ≥45м: 74% · КПД дня: 68%</span>
+              </div>
             </div>
           </div>
           <ul class="f-bullets">
-            <li><strong>Аналитика Pro 3×2 и Мини 2×2:</strong> переключение 3 линз (Цели / Донат категорий / Ритм 7 дней) прямо на виджете</li>
-            <li><strong>Микро-кнопка 1×1:</strong> 7 режимов с переключением верхней капсулой</li>
+            <li><strong>Микро-виджет 1×1:</strong> 7 режимов с переключением верхней капсулой</li>
             <li><strong>Капсула экрана блокировки 2×1</strong> и лента <strong>Быстрого старта 4×1</strong></li>
-            <li><strong>Супер-Плитка в шторке:</strong> открывает оверлейный мини-пульт поверх любых игр и браузера</li>
+            <li><strong>Супер-Плитка в шторке:</strong> открывает оверлейный мини-пульт поверх любых игр</li>
           </ul>
         </div>
 
@@ -1730,7 +2287,7 @@
             </div>
             <div class="f-title">Аппаратное шифрование AES-256</div>
             <div class="f-desc">
-              Ваше расписание и финансовые ставки — строго конфиденциальная информация. TimeFlow AI защищает её на уровне банковских стандартов:
+              Ваше расписание, голосовые записи и финансовые ставки — строго конфиденциальная информация. TimeFlow AI защищает её на уровне банковских стандартов:
             </div>
           </div>
           <ul class="f-bullets">
@@ -1738,78 +2295,737 @@
             <li><strong>SQLCipher 4.6.1 (256-bit AES):</strong> полное шифрование БД Room</li>
             <li><strong>Android Keystore (StrongBox / TEE):</strong> аппаратная изоляция мастер-ключа</li>
             <li><strong>Авто-бэкапы <code>.enc</code>:</strong> зашифрованные слепки в папку Documents</li>
+            <li><strong>SignatureVerifier:</strong> защита от модификации APK по SHA-256</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <!-- Раздел Политики Конфиденциальности (100% полный текст из прикреплённого файла без сокращений) -->
-    <div class="policy-box" id="policy-container">
-      <div class="policy-trigger" onclick="togglePolicy()">
-        <div>
-          <div style="font-weight:800; font-size:18px; color:#fff;">Политика конфиденциальности TimeFlow AI</div>
-          <div style="font-size:13px; color:var(--text-muted); margin-top:3px;">Редакция от 20 сентября 2026 г. • Для модерации RuStore • Полный официальный текст</div>
-        </div>
-        <div id="policy-arrow" style="font-size:18px; color:var(--primary-bright); transition:transform 0.2s;">▼</div>
+    <!-- Сравнительная матрица -->
+    <section id="comparison-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Почему выбирают TimeFlow AI 2.0</span>
+        <h2 class="section-title">Сравнение с обычными тайм-трекерами</h2>
+        <p class="section-sub">
+          Сочетание локального нейросетевого распознавания речи, гуманной математики восстановления и аппаратного шифрования без подписок на облака.
+        </p>
       </div>
 
+      <div class="comparison-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Критерий / Технология</th>
+              <th class="tf-col-highlight">⚡ TimeFlow AI 2.0</th>
+              <th>Облачные B2B-трекеры</th>
+              <th>Обычные Pomodoro-таймеры</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Приватность и доступ к сети</strong></td>
+              <td class="tf-col-highlight">100% Офлайн (нет INTERNET в манифесте)</td>
+              <td>Облачные серверы, телеметрия</td>
+              <td>Рекламные SDK и аналитика</td>
+            </tr>
+            <tr>
+              <td><strong>Голосовой ИИ и парсер контекста</strong></td>
+              <td class="tf-col-highlight">Sherpa-ONNX (Zipformer INT8) + Pre-Roll 15с</td>
+              <td>Нет или требует облачного API</td>
+              <td>Отсутствует</td>
+            </tr>
+            <tr>
+              <td><strong>Адаптивный расчёт отдыха</strong></td>
+              <td class="tf-col-highlight">Flowmodoro (5:1, 4:1, 3:1) + возврат в 1 тап</td>
+              <td>Нет контроля усталости</td>
+              <td>Жёсткие 25/5 мин (обрывают поток)</td>
+            </tr>
+            <tr>
+              <td><strong>Экономика времени и B2B-счета</strong></td>
+              <td class="tf-col-highlight">Ставка часа, $R_{\text{real}}$, ретейнеры, XLSX/CSV</td>
+              <td>Только базовый биллинг (платно)</td>
+              <td>Отсутствует</td>
+            </tr>
+            <tr>
+              <td><strong>Автоматизация (Сон, Гео, Приложения)</strong></td>
+              <td class="tf-col-highlight">Утренняя коррекция сна, AOSP Гео-радар, App-трекинг</td>
+              <td>Ручной старт/стоп</td>
+              <td>Ручной старт/стоп</td>
+            </tr>
+            <tr>
+              <td><strong>Шифрование локальной базы данных</strong></td>
+              <td class="tf-col-highlight">SQLCipher AES-256 + Android StrongBox</td>
+              <td>Незашифрованный кэш SQLite</td>
+              <td>Открытый SQLite / SharedPreferences</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Секция FAQ -->
+    <section id="faq-section">
+      <div class="section-header">
+        <span class="section-eyebrow">Частые вопросы (FAQ)</span>
+        <h2 class="section-title">Ответы на ключевые вопросы пользователей</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item open" onclick="this.classList.toggle('open')">
+          <div class="faq-q">
+            <span>1. Как голосовой ИИ распознаёт речь без доступа к интернету?</span>
+            <span style="color:var(--primary-bright);">▼</span>
+          </div>
+          <div class="faq-a">
+            Внутри приложения в папке <code>assets/model-ru/</code> встроена квантованная потоковая нейросеть <strong>sherpa-onnx-streaming-zipformer-ru (INT8)</strong>. Она выполняет распознавание прямо на процессоре вашего смартфона в оперативной памяти. Благодаря кольцевому пред-буферу (Pre-Roll 15 секунд) вы можете говорить сразу после нажатия кнопки — ни одно слово в начале фразы не потеряется.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q">
+            <span>2. Что произойдёт, если я забуду выключить таймер вечером перед сном?</span>
+            <span style="color:var(--primary-bright);">▼</span>
+          </div>
+          <div class="faq-a">
+            Утром на главном экране появится карточка <strong>«Умная утренняя коррекция сна»</strong>. Детектор сопоставит время последнего выключения экрана, переход смартфона в ночной режим <code>Doze Mode</code> и утреннее пробуждение (игнорируя короткие ночные взгляды на часы до 5 минут). Одним нажатием на кнопку «Исправить в 1 клик» вечерняя задача будет аккуратно завершена в момент засыпания, а за ночь запишется точный интервал Сна.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q">
+            <span>3. Как добавить Супер-Плитку TimeFlow AI в верхнюю шторку Android?</span>
+            <span style="color:var(--primary-bright);">▼</span>
+          </div>
+          <div class="faq-a">
+            Откройте в приложении <strong>Настройки → Виджеты и системная плитка Android</strong> и нажмите кнопку <strong>«➕ Добавить плитку в шторку»</strong> (на Android 13+ система предложит добавить её в 1 клик), либо откройте верхнюю шторку быстрых настроек телефона (рядом с Wi-Fi и Фонариком), нажмите карандаш ✏️ и перетащите плитку <strong>TimeFlow AI</strong> в активную область.
+          </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('open')">
+          <div class="faq-q">
+            <span>4. Как сохранить данные при смене телефона, если приложение 100% офлайн?</span>
+            <span style="color:var(--primary-bright);">▼</span>
+          </div>
+          <div class="faq-a">
+            В разделе <strong>Настройки → Экспорт и импорт</strong> вы можете в любой момент выгрузить полную резервную копию (JSON, CSV, XLSX) или включить ежедневный автоматический бэкап (зашифрованный файл <code>timeflow_ai_auto_backup.enc</code> сохраняется в <code>Documents/TimeFlow AI</code>). При импорте на новом устройстве восстанавливаются все активности, пользовательские категории, шаблоны, расписания и правила.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================================= -->
+    <!-- ПРАВОВОЙ ЦЕНТР: 100% ПОЛНЫЙ ТЕКСТ ПОЛИТИКИ КОНФИДЕНЦИАЛЬНОСТИ И ЛИЦЕНЗИЙ ПО (OSS) -->
+    <!-- ================================================================================= -->
+    <div class="policy-box" id="policy-container">
+      <div id="privacy"></div>
+      <div id="licenses"></div>
+
+      <div class="legal-top-bar">
+        <div class="legal-tabs">
+          <button class="legal-tab-btn active" id="tab-btn-privacy" onclick="openLegalTab('privacy', false)">
+            🛡️ Политика конфиденциальности и Условия (v2.1 — Полный текст)
+          </button>
+          <button class="legal-tab-btn" id="tab-btn-licenses" onclick="openLegalTab('licenses', false)">
+            ⚖️ Лицензии ПО и Весов Нейросети (LICENSE.txt — Полный текст)
+          </button>
+        </div>
+
+        <div class="legal-actions">
+          <input type="search" id="legal-search-input" class="legal-search" placeholder="Поиск по тексту документа…" oninput="filterLegalText(this.value)">
+          <button class="legal-action-btn" onclick="copyActiveLegalDocument()" id="copy-legal-btn">📋 Скопировать</button>
+          <button class="legal-action-btn" onclick="window.print()">🖨️ Печать / PDF</button>
+        </div>
+      </div>
+
+      <!-- ВКЛАДКА 1: 100% ПОЛНЫЙ ТЕКСТ ПОЛИТИКИ КОНФИДЕНЦИАЛЬНОСТИ И УСЛОВИЙ ИСПОЛЬЗОВАНИЯ (БЕЗ СОКРАЩЕНИЙ) -->
       <div class="policy-content open" id="policy-body">
-        <h4>1. Главный принцип — абсолютная автономность (Offline First)</h4>
-        <p>Приложение TimeFlow AI работает на 100% офлайн. В манифесте приложения полностью отсутствует разрешение <code>INTERNET</code>. Приложение не передаёт личные данные на внешние серверы и не использует сторонние аналитические SDK.</p>
+        <div class="legal-toc">
+          <a href="#sec-intro" class="toc-chip">Преамбула</a>
+          <a href="#sec-1" class="toc-chip">1. 152-ФЗ и статус данных</a>
+          <a href="#sec-2" class="toc-chip">2. Разрешения (2.1–2.10)</a>
+          <a href="#sec-3" class="toc-chip">3. Финансы, NDA, Часы</a>
+          <a href="#sec-4" class="toc-chip">4. Шифрование AES-256</a>
+          <a href="#sec-5" class="toc-chip">5. Ограничение ответственности</a>
+          <a href="#sec-6" class="toc-chip">6. Открытое ПО и отсутствие SDK</a>
+          <a href="#sec-7" class="toc-chip">7. Удаление данных</a>
+          <a href="#sec-8" class="toc-chip">8. Контакты</a>
+        </div>
 
-        <h4>2. Запрашиваемые системные разрешения</h4>
-        <p><strong>2.1. Доступ к микрофону (RECORD_AUDIO):</strong> Используется строго для локального голосового ввода. Аудиоданные обрабатываются потоковой нейросетью внутри устройства и не сохраняются в файлы.</p>
-        <p><strong>2.2. Фоновая геолокация (ACCESS_FINE_LOCATION, ACCESS_BACKGROUND_LOCATION):</strong> Используется строго для функции «Гео-трекинг» (авто-запуск задач при входе в геозоны). Координаты обрабатываются локально и не передаются в сеть.</p>
-        <p><strong>2.3. История использования приложений (PACKAGE_USAGE_STATS):</strong> Используется для функции «Автотрекинг» для паузы таймеров при открытии игр и соцсетей.</p>
-        <p><strong>2.4. Файловая система (Документы):</strong> Создание зашифрованных локальных бэкапов базы данных (AES-256) в папку Documents/TimeFlow AI.</p>
-        <p><strong>2.5. Уведомления (POST_NOTIFICATIONS):</strong> Отображение текущего секундомера в шторке через защищённый Foreground Service.</p>
+        <div class="legal-section-block" id="sec-intro">
+          <h3>Политика конфиденциальности и Условия использования приложения TimeFlow AI</h3>
+          <p><strong>Дата вступления в силу:</strong> 8 ноября 2026 г.<br>
+          <strong>Версия документа:</strong> 2.1 (RuStore &amp; Commercial Release Edition — v2.0.0)</p>
+          <p>Настоящая Политика конфиденциальности и Условия использования (далее — «Политика») регулируют порядок обработки локальных данных и определяют границы ответственности при использовании мобильного приложения TimeFlow AI (далее — «Приложение»), разработанного для операционной системы Android.</p>
+          <p>Главный фундаментальный принцип TimeFlow AI — полная автономность и непреложная конфиденциальность (Архитектура Offline-First). Приложение функционирует на 100% офлайн, не имеет технического доступа к сети Интернет (в манифесте приложения полностью отсутствует разрешение <code>android.permission.INTERNET</code>) и физически не способно передавать ваши персональные, финансовые, биометрические или пользовательские данные на внешние серверы разработчика или третьих лиц.</p>
+        </div>
 
-        <h4>3. Контакты разработчика</h4>
-        <p>Разработчик: Mikhail Rudakov<br>Email для связи: <a href="mailto:rassia723@yandex.ru" style="color:var(--primary-bright); text-decoration:none; font-weight:700;">rassia723@yandex.ru</a></p>
+        <div class="legal-section-block" id="sec-1">
+          <h4>1. ПРАВОВОЙ СТАТУС ДАННЫХ И СООТВЕТСТВИЕ 152-ФЗ</h4>
+          <p>1.1. В соответствии с Федеральным законом РФ от 27.07.2006 № 152-ФЗ «О персональных данных», разработчик Приложения не осуществляет сбор, систематизацию, накопление, хранение, трансграничную передачу или распространение персональных данных пользователей на удаленных серверах разработчика или облачных платформах.</p>
+          <p>1.2. Все данные, вносимые пользователем или генерируемые алгоритмами Приложения, обрабатываются и хранятся исключительно локально в изолированной зашифрованной среде (Sandbox) вашего мобильного устройства. К таким локальным данным относятся:</p>
+          <ul>
+            <li>— история активностей, категории, пользовательские #теги, текстовые заметки и микро-чеклисты с хронометражем шагов;</li>
+            <li>— голосовой аудиопоток в момент диктовки задач;</li>
+            <li>— индивидуальные цели фокуса и отдыха по дням недели, история изменений целей и периоды каникул/отпуска;</li>
+            <li>— финансовые настройки (почасовые ставки, валюта, бюджеты клиентских ретейнеров, Fixed-Price проекты, личные квоты времени и сметы);</li>
+            <li>— аналитические профили (индекс системности, паспорт капитала времени, хронотип, карта биоритмов, оценка риска выгорания и сверка «План против факта»);</li>
+            <li>— правила автотрекинга приложений, координаты настроенных пользователем геозон и временные метки ночного покоя экрана.</li>
+          </ul>
+          <p>Разработчик Приложения не имеет технической возможности получить доступ к этим данным.</p>
+        </div>
+
+        <div class="legal-section-block" id="sec-2">
+          <h4>2. ИСЧЕРПЫВАЮЩИЙ ПЕРЕЧЕНЬ СИСТЕМНЫХ РАЗРЕШЕНИЙ И ЦЕЛИ ИХ ИСПОЛЬЗОВАНИЯ</h4>
+          <p>Для реализации заявленных интеллектуальных функций тайм-трекинга Приложению требуются следующие системные разрешения операционной системы Android. Каждое разрешение запрашивается прозрачно, используется строго по прямому назначению и обрабатывается исключительно в локальной памяти устройства:</p>
+          <p><strong>2.1. Доступ к микрофону (<code>android.permission.RECORD_AUDIO</code>):</strong><br>
+          Используется исключительно в момент ручной активации пользователем кнопки голосового ввода (в Приложении, на виджете рабочего стола, в системной плитке быстрых настроек или через команду с умных часов). Аудиопоток передается напрямую во встроенную в Приложение локальную нейросеть распознавания речи (движок Sherpa-ONNX / модель <code>sherpa-onnx-streaming-zipformer-ru</code>) и локальный парсер намерений (<code>VoiceIntentParser</code>). Голосовые данные не записываются в аудиофайлы, не сохраняются после преобразования в текст и никогда не покидают оперативную память вашего устройства.</p>
+          <p><strong>2.2. Доступ к данным геолокации, включая работу в фоновом режиме (<code>android.permission.ACCESS_FINE_LOCATION</code>, <code>android.permission.ACCESS_COARSE_LOCATION</code>, <code>android.permission.ACCESS_BACKGROUND_LOCATION</code>):</strong><br>
+          Разрешение является строго опциональным и используется исключительно при включении пользователем функции «Гео-трекинг (Локации)» для автоматического запуска или переключения задач при физическом посещении либо покидании настроенных геозон (например, автоматический старт активности «Работа» при входе в офис или «Дорога домой» при выходе). Обработка координат, триггеров движения и статуса присутствия внутри зоны осуществляется локально через системный провайдер Android (AOSP <code>LocationManager</code>) без использования сторонних облачных гео-сервисов. Координаты пользователя никуда не передаются и хранятся в зашифрованной локальной базе данных только в рамках созданных пользователем правил.</p>
+          <p><strong>2.3. Доступ к статистике использования приложений и перечню пакетов (<code>android.permission.PACKAGE_USAGE_STATS</code>, <code>android.permission.QUERY_ALL_PACKAGES</code>):</strong><br>
+          Используется исключительно для работы двух локальных функций:<br>
+          — «Автотрекинг приложений»: определение факта открытия выбранных пользователем программ (например, социальных сетей или игр) для автоматического переключения таймера и напоминания о возврате к фокусу по истечении тайм-аута;<br>
+          — «Умная утренняя коррекция сна»: определение интервала ночного бездействия экрана смартфона для утреннего предложения в 1 клик завершить забытый с вечера таймер и зафиксировать время сна.<br>
+          Список установленных приложений и статистика экранного времени анализируются строго в оперативной памяти устройства и никуда не выгружаются.</p>
+          <p><strong>2.4. Служба переднего плана специального назначения (<code>android.permission.FOREGROUND_SERVICE</code>, <code>android.permission.FOREGROUND_SERVICE_SPECIAL_USE</code>):</strong><br>
+          Необходима для непрерывной работы живого секундомера и спринт-таймера в строке состояния (Status Bar), на экране блокировки, на часах и для фонового синтеза процедурных звуков концентрации (<code>ProceduralFocusAudioEngine</code>) без принудительного усыпления процесса системой Android при выключении экрана.</p>
+          <p><strong>2.5. Отправка уведомлений (<code>android.permission.POST_NOTIFICATIONS</code>):</strong><br>
+          Используется для отображения интерактивного пульта текущей задачи в шторке уведомлений, передачи команд на умные часы (Smartwatch / Wear OS), отправки напоминаний об отдыхе (включая калькулятор Flowmodoro 5:1), уведомлений о старте задач по расписанию, вечерних итогов дня и мотивационных уведомлений системы возврата в ритм («Ядро Фокуса»).</p>
+          <p><strong>2.6. Плитка быстрых настроек системы (<code>android.permission.BIND_QUICK_SETTINGS_TILE</code>):</strong><br>
+          Используется службой <code>TimeFlowTileService</code> для работы интерактивной плитки «TimeFlow AI» в верхней системной шторке Android и открытия всплывающего мини-пульта управления таймером поверх других приложений по нажатию пользователя.</p>
+          <p><strong>2.7. Точные будильники и автозапуск после перезагрузки (<code>android.permission.SCHEDULE_EXACT_ALARM</code>, <code>android.permission.USE_EXACT_ALARM</code>, <code>android.permission.RECEIVE_BOOT_COMPLETED</code>):</strong><br>
+          Используются системным планировщиком <code>AlarmManager</code> для точного поминутного срабатывания расписаний дня, лимитов спринт-таймбоксов, напоминаний об отдыхе, вечерней аналитики, ежедневного автобэкапа и автоматического восстановления всех активных будильников и геозон после перезагрузки или обновления устройства.</p>
+          <p><strong>2.8. Отключение оптимизации энергопотребления (<code>android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</code>):</strong><br>
+          Запрашивается для предотвращения принудительной остановки живого секундомера и фоновых будильников агрессивными механизмами энергосбережения сторонних оболочек ОС. Если пользователь отзывает разрешение на работу в фоне, Приложение автоматически и безопасно ставит активный таймер на паузу при сворачивании окна, предупреждая об этом при следующем входе.</p>
+          <p><strong>2.9. Управление вибромотором (<code>android.permission.VIBRATE</code>):</strong><br>
+          Используется для генерации тактильного отклика (Haptic Feedback) при взаимодействии с элементами интерфейса, перетаскивании границ на таймлайне, завершении фокус-спринтов, управлении виджетами и передаче тактильных импульсов на умные часы.</p>
+          <p><strong>2.10. Взаимодействие с файловой системой и Галереей (MediaStore API / Storage Access Framework):</strong><br>
+          Используется исключительно по инициативе пользователя или настроенного им расписания для:<br>
+          — сохранения зашифрованных автоматических резервных копий (<code>.enc</code>) в пользовательскую директорию «Documents/TimeFlow AI»;<br>
+          — экспорта и импорта пользовательских отчетов и табличных смет в форматах JSON, CSV и Excel (<code>.xlsx</code>) через системный диалог выбора файлов;<br>
+          — сохранения сгенерированных пользователем визуальных карточек-сводок (PNG-инфографики) в системную галерею («Pictures/TimeFlow AI») или их отправки через стандартное меню «Поделиться» ОС Android.</p>
+        </div>
+
+        <div class="legal-section-block" id="sec-3">
+          <h4>3. ОСОБЕННОСТИ ОБРАБОТКИ СПЕЦИАЛЬНЫХ ФУНКЦИОНАЛЬНЫХ ДАННЫХ</h4>
+          <p><strong>3.1. Экономика времени и финансовые расчеты:</strong><br>
+          Все указываемые пользователем часовые ставки, бюджеты проектов, фиксированные суммы контрактов (Fixed-Price) и рассчитываемые показатели (Актив фокуса, Потери на отвлечениях, Дивиденд восстановления, Реальная стоимость часа) являются сугубо информационными локальными расчетами. Приложение не запрашивает банковские реквизиты, не подключается к платежным системам и не совершает финансовых транзакций.</p>
+          <p><strong>3.2. Приватный режим NDA при экспорте визуальных сводок:</strong><br>
+          В генераторе визуальных карточек аналитики предусмотрен специальный режим «Приватно (NDA)». При его включении Приложение автоматически маскирует личные названия задач, #теги проектов и денежные суммы, оставляя на изображении и в текстовой сводке только обобщенные категории, часы и проценты, чтобы пользователь мог безопасно делиться своими результатами в публичном пространстве.</p>
+          <p><strong>3.3. Процедурная акустика и управление с умных часов:</strong><br>
+          Фоновые звуки концентрации (шум листвы, дождь, прибой, коричневый шум, бинауральные волны) синтезируются локально математическим алгоритмом без обращения к внешним аудиосервисам. Обмен командами с умными часами осуществляется исключительно через локальный системный мост уведомлений Android (<code>NotificationCompat.WearableExtender</code> и <code>RemoteInput</code>) между вашим телефоном и сопряженными часами.</p>
+        </div>
+
+        <div class="legal-section-block" id="sec-4">
+          <h4>4. БЕЗОПАСНОСТЬ И КРИПТОГРАФИЧЕСКАЯ ЗАЩИТА ДАННЫХ</h4>
+          <p>4.1. Локальная база данных Приложения (Room / SQLite) полностью зашифрована промышленным алгоритмом AES-256 с использованием криптографического движка SQLCipher.</p>
+          <p>4.2. Криптографические ключи шифрования генерируются на устройстве при первом запуске и хранятся внутри аппаратно-изолированного системного хранилища Android Keystore (MasterKey AES256-GCM и EncryptedSharedPreferences) с приоритетным задействованием защищенного чипа безопасности StrongBox (при его наличии в устройстве) или доверенной среды исполнения (TEE).</p>
+          <p>4.3. Файлы автоматических ежедневных резервных копий (<code>timeflow_ai_auto_backup.enc</code>) перед записью в хранилище устройства шифруются алгоритмом AES-GCM, а координаты геозон в настройках дополнительно проходят локальное шифрование через <code>CryptoManager</code>. Это делает невозможным чтение ваших данных сторонними приложениями или вредоносным ПО без аппаратного ключа конкретного устройства.</p>
+          <p>4.4. Приложение включает механизм проверки целостности цифровой подписи сборки (<code>SignatureVerifier</code>) для защиты пользователя от запуска модифицированных или поддельных копий APK.</p>
+        </div>
+
+        <div class="legal-section-block" id="sec-5">
+          <h4>5. ОТКАЗ ОТ ГАРАНТИЙ И ОГРАНИЧЕНИЕ ОТВЕТСТВЕННОСТИ РАЗРАБОТЧИКА (DISCLAIMER OF LIABILITY)</h4>
+          <p><strong>5.1. Предоставление «КАК ЕСТЬ» («AS IS»):</strong><br>
+          Приложение и все его модули предоставляются на условиях «КАК ЕСТЬ» («AS IS») и «ПО МЕРЕ ДОСТУПНОСТИ» («AS AVAILABLE»), без каких-либо явных или подразумеваемых гарантий безошибочности, непрерывности работы или пригодности для конкретных коммерческих целей.</p>
+          <p><strong>5.2. Ответственность за системные ограничения ОС и сбои:</strong><br>
+          Разработчик не несет ответственности за задержки уведомлений, несрабатывание будильников расписаний, погрешности GPS-координат в плотной застройке или остановку фоновых служб, вызванные ограничениями конкретных версий ОС Android, сторонними прошивками производителей устройств (MIUI/HyperOS, One UI, EMUI, MagicOS, ColorOS и др.), работой агрессивных системных контроллеров питания (Task Killers, Doze Mode) или аппаратными сбоями смартфона.</p>
+          <p><strong>5.3. Ответственность за сохранность данных и резервное копирование:</strong><br>
+          Поскольку все данные хранятся исключительно на устройстве пользователя без облачной синхронизации, разработчик не имеет доступа к вашим записям и не может восстановить их удаленно. Разработчик не несет ответственности за утрату, повреждение или удаление пользовательских данных, возникшие в результате:<br>
+          — сброса настроек, сбоя ОС или аппаратной поломки мобильного устройства;<br>
+          — очистки хранилища Приложения пользователем или сторонними программами-оптимизаторами («клинерами»);<br>
+          — удаления Приложения с устройства без предварительного сохранения резервной копии;<br>
+          — утери или кражи мобильного устройства.<br>
+          Пользователь самостоятельно отвечает за регулярное сохранение резервных копий и важных отчетов (JSON, XLSX, CSV) на внешние надежные носители.</p>
+          <p><strong>5.4. Немедицинский и неконсультационный характер аналитики:</strong><br>
+          Алгоритмический анализ дня и периода (<code>DayAnalysisEngine</code>), индекс выгорания (<code>BurnoutRisk</code>), карта биоритмов и хронотипов, бинауральные звуковые волны, рекомендации отдыха Flowmodoro (5:1) и расчеты «Экономики времени» носят исключительно информационный, познавательный и вспомогательный характер для самоорганизации. Они не являются медицинскими диагнозами, врачебными предписаниями, психологическими заключениями или официальной финансово-бухгалтерской экспертизой.</p>
+          <p><strong>5.5. Ограничение косвенных убытков:</strong><br>
+          Ни при каких обстоятельствах разработчик не несет ответственности за любые прямые, косвенные, случайные или сопутствующие убытки, упущенную выгоду, превышение проектных бюджетов или срыв дедлайнов перед заказчиками, возникшие в связи с использованием или невозможностью использования Приложения.</p>
+        </div>
+
+        <div class="legal-section-block" id="sec-6">
+          <h4>6. СТОРОННЕЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ И ОТСУТСТВИЕ ТРЕКЕРОВ</h4>
+          <p>6.1. В Приложении полностью отсутствуют сторонние рекламные сети, аналитические и телеметрические SDK (такие как Firebase Analytics, Google Analytics, AppMetrica, Adjust, AppsFlyer, Crashlytics и др.), а также любые скрытые механизмы профилирования пользователя.</p>
+          <p>6.2. Приложение использует проверенные компоненты с открытым исходным кодом, работающие строго локально:<br>
+          — движок распознавания речи Sherpa-ONNX (Apache License 2.0) и акустическую модель распознавания русской речи <code>sherpa-onnx-streaming-zipformer-ru</code> (Apache License 2.0 / CC-BY 4.0, без некоммерческих ограничений);<br>
+          — криптографическую библиотеку SQLCipher for Android (BSD 3-Clause License, Copyright © Zetetic LLC);<br>
+          — официальные библиотеки Android Jetpack, Kotlin Coroutines и Dagger Hilt (Apache License 2.0).<br>
+          Полные официальные тексты лицензий и уведомления об авторских правах встроены непосредственно в интерфейс Приложения (раздел «Настройки» -&gt; «Лицензии и правовая информация»).</p>
+        </div>
+
+        <div class="legal-section-block" id="sec-7">
+          <h4>7. УДАЛЕНИЕ ДАННЫХ И ОТЗЫВ РАЗРЕШЕНИЙ</h4>
+          <p>7.1. Пользователь имеет полный контроль над своими данными и может в любой момент:<br>
+          — удалить отдельные записи, категории, шаблоны, расписания, проекты или геозоны непосредственно в интерфейсе Приложения;<br>
+          — отозвать любое выданное разрешение (микрофон, геолокация, уведомления, статистика использования) через системные настройки Android;<br>
+          — полностью и безвозвратно уничтожить всю базу данных и ключи шифрования путем очистки хранилища Приложения («Настройки Android» -&gt; «Приложения» -&gt; «TimeFlow AI» -&gt; «Память / Хранилище» -&gt; «Очистить данные / Стереть хранилище») либо путем удаления Приложения с устройства (при необходимости предварительно удалив папку резервных копий «Documents/TimeFlow AI» и сохраненные карточки «Pictures/TimeFlow AI»).</p>
+        </div>
+
+        <div class="legal-section-block" id="sec-8">
+          <h4>8. ИЗМЕНЕНИЯ В НАСТОЯЩЕЙ ПОЛИТИКЕ И КОНТАКТНАЯ ИНФОРМАЦИЯ</h4>
+          <p>8.1. Разработчик оставляет за собой право обновлять настоящую Политику по мере развития функциональности Приложения или изменения требований законодательства РФ и каталогов приложений (включая RuStore).</p>
+          <p>8.2. Актуальная редакция Политики всегда доступна по ссылке внутри Приложения (на экране приветствия и в разделе «Настройки» -&gt; «Политика конфиденциальности»), а также на официальной странице Приложения.</p>
+          <p>8.3. По любым вопросам, связанным с настоящей Политикой конфиденциальности или работой Приложения, вы можете связаться с разработчиком:</p>
+          <p><strong>Email разработчика:</strong> <a href="mailto:rassia723@yandex.ru" style="color:var(--primary-bright); text-decoration:none; font-weight:700;">rassia723@yandex.ru</a><br>
+          <strong>Официальная страница Политики:</strong> <a href="https://misha964.github.io/TimeFlow-AI-Site-1/" style="color:var(--primary-bright); text-decoration:none; font-weight:700;">https://misha964.github.io/TimeFlow-AI-Site-1/</a><br>
+          <strong>Разработчик:</strong> Михаил Рудаков (TimeFlow AI)</p>
+        </div>
+      </div>
+
+      <!-- ВКЛАДКА 2: 100% ПОЛНЫЙ ТЕКСТ ЛИЦЕНЗИЙ (LICENSE.txt БЕЗ СОКРАЩЕНИЙ) -->
+      <div class="policy-content" id="licenses-body">
+        <div class="legal-toc">
+          <a href="#lic-part1" class="toc-chip">Part I. Proprietary License</a>
+          <a href="#lic-part2" class="toc-chip">Part II. OSS &amp; Neural Weights Registry (1–8)</a>
+          <a href="#lic-part3" class="toc-chip">Part III. BSD 3-Clause (SQLCipher)</a>
+          <a href="#lic-part4" class="toc-chip">Part IV. Apache License 2.0 (Full Text)</a>
+          <a href="#lic-part5" class="toc-chip">Part V. CC-BY 4.0 (Zipformer Weights)</a>
+        </div>
+
+        <div class="legal-section-block" id="lic-part1">
+          <h4>PART I. PROPRIETARY SOFTWARE LICENSE (TIMEFLOW AI APPLICATION &amp; SOURCE CODE)</h4>
+          <div class="license-pre">================================================================================
+TIMEFLOW AI — COMMERCIAL SOFTWARE LICENSE &amp; OPEN-SOURCE NOTICES (2026)
+================================================================================
+
+PART I. PROPRIETARY SOFTWARE LICENSE (TIMEFLOW AI APPLICATION &amp; SOURCE CODE)
+--------------------------------------------------------------------------------
+Copyright (c) 2026 TimeFlow AI Author. All Rights Reserved.
+
+1. Ownership &amp; Commercial Status:
+   The TimeFlow AI Android application, including its original multi-module source
+   code, Clean Architecture implementation, custom UI/UX design system, Glance
+   widgets, procedural audio synthesis engine (`ProceduralFocusAudioEngine`),
+   analytics algorithms (`DayAnalysisEngine`, `GetTimeCapitalPassportUseCase`,
+   `GetFinancialBalanceUseCase`), and custom vector graphics, is a proprietary
+   commercial product.
+
+2. Commercial Distribution &amp; Transfer of Rights:
+   This software is cleared for commercial distribution via app stores (Google
+   Play, RuStore, Huawei AppGallery, Samsung Galaxy Store) and for full or
+   partial assignment/transfer of exclusive intellectual property rights upon
+   commercial sale of the project.
+
+3. Privacy &amp; Offline-First Guarantee:
+   TimeFlow AI operates 100% offline (`android.permission.INTERNET` is absent from
+   the manifest). All speech recognition and analytics run locally on the user's
+   device.</div>
+        </div>
+
+        <div class="legal-section-block" id="lic-part2">
+          <h4>PART II. THIRD-PARTY OPEN-SOURCE SOFTWARE &amp; NEURAL NETWORK WEIGHTS REGISTRY</h4>
+          <div class="license-pre">================================================================================
+PART II. THIRD-PARTY OPEN-SOURCE SOFTWARE &amp; NEURAL NETWORK WEIGHTS REGISTRY
+================================================================================
+In accordance with Section 4 of the Apache License, Version 2.0, and the
+BSD 3-Clause License, the following attribution notices, copyright statements,
+and full license texts are provided both in this `LICENSE.txt` file and inside
+the application's user interface (Settings -&gt; "Open Source Licenses" /
+"Лицензии ПО", Onboarding screen, and AI Voice Input dialog) to compensate for
+stripped `META-INF/LICENSE*` and `META-INF/NOTICE*` resources in the release APK:
+
+1. SQLCipher for Android (AES-256 Database Encryption)
+   - Artifact: `net.zetetic:sqlcipher-android:4.6.1`
+   - Copyright: Copyright (c) 2008-2026, ZETETIC LLC. All rights reserved.
+   - License: BSD-Style 3-Clause License (see full text in Part III below).
+
+2. Sherpa-ONNX Streaming Speech Recognition Runtime
+   - Artifact: `com.github.k2-fsa.sherpa-onnx` (Native C++ JNI / ONNX Runtime)
+   - Copyright: Copyright (c) 2022-2026 Xiaomi Corporation &amp; k2-fsa contributors
+   - License: Apache License, Version 2.0 (see full text in Part IV below).
+
+3. Acoustic Neural Network Model Weights (`app/src/main/assets/model-ru/`)
+   - Model ID: `sherpa-onnx-streaming-zipformer-ru` (Streaming Zipformer INT8)
+   - Files: `encoder.int8.onnx`, `decoder.int8.onnx`, `joiner.int8.onnx`, `tokens.txt`
+   - Copyright: Copyright (c) 2022-2026 k2-fsa / Next-gen Kaldi / Icefall contributors
+   - License: Apache License, Version 2.0 / Creative Commons Attribution 4.0
+     International (CC-BY 4.0) — Commercial Use Permitted (free of `-NC` restrictions).
+
+4. AndroidX &amp; Jetpack Libraries (Compose, Material 3, Glance, Room, DataStore,
+   Lifecycle, Navigation, Core-Splashscreen, Security-Crypto)
+   - Artifacts: `androidx.compose.*`, `androidx.glance.*`, `androidx.room.*`,
+     `androidx.datastore.*`, `androidx.lifecycle.*`, `androidx.navigation.*`,
+     `androidx.security:security-crypto`, `androidx.core.*`
+   - Copyright: Copyright (c) 2005-2026 The Android Open Source Project (Google LLC)
+   - License: Apache License, Version 2.0 (see full text in Part IV below).
+
+5. Android Open Source Project (AOSP) Native Location Framework
+   - API: `android.location.LocationManager`
+   - Copyright: Copyright (c) The Android Open Source Project
+   - License: Apache License, Version 2.0 (zero proprietary GMS dependencies).
+
+6. Kotlin Standard Library, Coroutines, Serialization &amp; Immutable Collections
+   - Artifacts: `org.jetbrains.kotlin:*`, `org.jetbrains.kotlinx:kotlinx-coroutines-*`,
+     `org.jetbrains.kotlinx:kotlinx-serialization-json`,
+     `org.jetbrains.kotlinx:kotlinx-collections-immutable`
+   - Copyright: Copyright (c) 2010-2026 JetBrains s.r.o. and Kotlin Programming
+     Language contributors
+   - License: Apache License, Version 2.0 (see full text in Part IV below).
+
+7. Dagger Hilt Dependency Injection
+   - Artifacts: `com.google.dagger:hilt-android`, `com.google.dagger:hilt-compiler`
+   - Copyright: Copyright (c) 2012-2026 The Dagger Authors (Google LLC)
+   - License: Apache License, Version 2.0 (see full text in Part IV below).
+
+8. Timber Logging Utility
+   - Artifact: `com.jakewharton.timber:timber`
+   - Copyright: Copyright (c) 2013 Jake Wharton
+   - License: Apache License, Version 2.0 (see full text in Part IV below).</div>
+        </div>
+
+        <div class="legal-section-block" id="lic-part3">
+          <h4>PART III. BSD 3-CLAUSE LICENSE (SQLCIPHER FOR ANDROID — ZETETIC LLC)</h4>
+          <div class="license-pre">================================================================================
+PART III. BSD 3-CLAUSE LICENSE (SQLCIPHER FOR ANDROID — ZETETIC LLC)
+================================================================================
+
+Copyright (c) 2008-2026, ZETETIC LLC
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the ZETETIC LLC nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY ZETETIC LLC ''AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL ZETETIC LLC BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</div>
+        </div>
+
+        <div class="legal-section-block" id="lic-part4">
+          <h4>PART IV. APACHE LICENSE, VERSION 2.0 (FULL OFFICIAL TEXT)</h4>
+          <div class="license-pre">================================================================================
+PART IV. APACHE LICENSE, VERSION 2.0 (FULL OFFICIAL TEXT)
+================================================================================
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work.
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner.
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.</div>
+        </div>
+
+        <div class="legal-section-block" id="lic-part5">
+          <h4>PART V. CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL (CC-BY 4.0 SUMMARY)</h4>
+          <div class="license-pre">================================================================================
+PART V. CREATIVE COMMONS ATTRIBUTION 4.0 INTERNATIONAL (CC-BY 4.0 SUMMARY)
+================================================================================
+Acoustic Model Weights: `sherpa-onnx-streaming-zipformer-ru`
+Copyright (c) 2022-2026 Next-gen Kaldi (k2-fsa / sherpa-onnx / icefall)
+
+You are free to:
+  - Share: copy and redistribute the material in any medium or format for any
+    purpose, even commercially.
+  - Adapt: remix, transform, and build upon the material for any purpose, even
+    commercially (including INT8 quantization and bundling inside commercial
+    mobile applications).
+
+Under the following terms:
+  - Attribution: Appropriate credit is given to the Next-gen Kaldi (`k2-fsa /
+    sherpa-onnx / icefall`) project, a link to the license is provided
+    (https://creativecommons.org/licenses/by/4.0/ and
+    http://www.apache.org/licenses/LICENSE-2.0), and changes (INT8 ONNX export)
+    are indicated. Non-Commercial (`-NC`) restrictions do NOT apply to this build.</div>
+        </div>
       </div>
     </div>
 
     <footer>
-      © 2026 TimeFlow AI v2.0. Разработано Mikhail Rudakov для Android и магазина приложений RuStore. Все права защищены.
+      <div>© 2026 TimeFlow AI v2.0.0. Разработано Михаилом Рудаковым (Mikhail Rudakov) для ОС Android и каталога RuStore. Все права защищены.</div>
+      <div style="margin-top:6px;">
+        <a href="#privacy" onclick="openLegalTab('privacy', true); return false;" style="color:var(--primary-bright); text-decoration:none; margin:0 8px;">Политика конфиденциальности (v2.1)</a> ·
+        <a href="#licenses" onclick="openLegalTab('licenses', true); return false;" style="color:var(--primary-bright); text-decoration:none; margin:0 8px;">Лицензии ПО (OSS Notices)</a> ·
+        <a href="mailto:rassia723@yandex.ru" style="color:var(--primary-bright); text-decoration:none; margin:0 8px;">rassia723@yandex.ru</a>
+      </div>
     </footer>
   </div>
 
   <script>
-    // 1. Переключение 7 фирменных палитр приложения
+    // 1. Переключение и сохранение 7 фирменных палитр приложения
     function setPalette(paletteName, btnElem) {
       document.documentElement.setAttribute('data-palette', paletteName);
-      document.querySelectorAll('.palette-dot').forEach(dot => dot.classList.remove('active'));
+      document.querySelectorAll('.palette-dot').forEach(dot => {
+        dot.classList.toggle('active', dot.getAttribute('data-pal') === paletteName);
+      });
       if (btnElem) btnElem.classList.add('active');
+      try { localStorage.setItem('tf_palette', paletteName); } catch (e) {}
     }
 
-    // 2. Раскрытие и скролл к Политике конфиденциальности
-    function togglePolicy() {
-      const body = document.getElementById('policy-body');
-      const arrow = document.getElementById('policy-arrow');
-      const isOpen = body.classList.toggle('open');
-      arrow.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+    // 2. Переключение вкладок Правового Центра (Политика / Лицензии)
+    let currentLegalTab = 'privacy';
+
+    function openLegalTab(tabName, shouldScroll) {
+      currentLegalTab = tabName;
+      const privBody = document.getElementById('policy-body');
+      const licBody = document.getElementById('licenses-body');
+      const btnPriv = document.getElementById('tab-btn-privacy');
+      const btnLic = document.getElementById('tab-btn-licenses');
+
+      if (tabName === 'licenses') {
+        privBody.classList.remove('open');
+        licBody.classList.add('open');
+        btnPriv.classList.remove('active');
+        btnLic.classList.add('active');
+      } else {
+        licBody.classList.remove('open');
+        privBody.classList.add('open');
+        btnLic.classList.remove('active');
+        btnPriv.classList.add('active');
+      }
+
+      if (shouldScroll) {
+        document.getElementById('policy-container').scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
-    function togglePolicyScroll() {
-      const body = document.getElementById('policy-body');
-      const arrow = document.getElementById('policy-arrow');
-      body.classList.add('open');
-      arrow.style.transform = 'rotate(180deg)';
-      document.getElementById('policy-container').scrollIntoView({ behavior: 'smooth' });
+    // Поиск по тексту Политики и Лицензий
+    function filterLegalText(query) {
+      const q = (query || '').trim().toLowerCase();
+      const activeContainer = currentLegalTab === 'licenses'
+        ? document.getElementById('licenses-body')
+        : document.getElementById('policy-body');
+      activeContainer.querySelectorAll('.legal-section-block').forEach(block => {
+        if (!q || block.innerText.toLowerCase().includes(q)) {
+          block.style.display = 'block';
+        } else {
+          block.style.display = 'none';
+        }
+      });
     }
 
-    // Синхронизация стрелки при загрузке (политика открыта по умолчанию для удобства модерации)
+    // Копирование полного текста активного правового документа
+    function copyActiveLegalDocument() {
+      const activeContainer = currentLegalTab === 'licenses'
+        ? document.getElementById('licenses-body')
+        : document.getElementById('policy-body');
+      const text = activeContainer.innerText;
+      const btn = document.getElementById('copy-legal-btn');
+      if (navigator.clipboard && text) {
+        navigator.clipboard.writeText(text).then(() => {
+          const orig = btn.innerText;
+          btn.innerText = '✓ Скопировано!';
+          setTimeout(() => { btn.innerText = orig; }, 2200);
+        });
+      }
+    }
+
+    // Инициализация при загрузке страницы (поддержка #licenses / #privacy и сохранённой палитры)
     window.addEventListener('DOMContentLoaded', () => {
-      const arrow = document.getElementById('policy-arrow');
-      if (arrow) arrow.style.transform = 'rotate(180deg)';
+      try {
+        const savedPal = localStorage.getItem('tf_palette');
+        if (savedPal) setPalette(savedPal);
+      } catch (e) {}
+
+      if (window.location.hash === '#licenses') {
+        openLegalTab('licenses', true);
+      } else if (window.location.hash === '#privacy' || window.location.hash === '#policy-container') {
+        openLegalTab('privacy', true);
+      }
       updateRoiCalculator();
+      updateChecklistSummary();
     });
 
-    // 3. Живой интерактивный таймер (Секундомер / Спринт 45м + Flowmodoro 5:1)
+    // 3. Живой интерактивный таймер (Секундомер / Спринт + Flowmodoro 5:1 / 4:1 / 3:1)
     let isRunning = true;
     let timerMode = 'stopwatch'; // 'stopwatch' | 'sprint'
     let elapsedSeconds = 42 * 60 + 18;
-    let sprintTargetSeconds = 45 * 60;
+    let sprintTargetMinutes = 45;
+    let sprintTargetSeconds = sprintTargetMinutes * 60;
+    let flowmodoroDivisor = 5;
 
     const timerElem = document.getElementById('web-timer');
     const toggleBtn = document.getElementById('web-toggle-btn');
@@ -1833,8 +3049,8 @@
       } else {
         timerElem.innerText = formatTimeHMS(elapsedSeconds);
       }
-      const earnedRest = Math.max(1, Math.round(elapsedSeconds / 60 / 5));
-      flowChip.innerText = `☕ +${earnedRest}м отдыха (5:1)`;
+      const earnedRest = Math.max(1, Math.round(elapsedSeconds / 60 / flowmodoroDivisor));
+      flowChip.innerText = `☕ +${earnedRest}м отдыха (${flowmodoroDivisor}:1)`;
     }
 
     setInterval(() => {
@@ -1848,9 +3064,28 @@
       timerMode = mode;
       document.getElementById('mode-stopwatch').classList.toggle('active', mode === 'stopwatch');
       document.getElementById('mode-sprint').classList.toggle('active', mode === 'sprint');
+      document.getElementById('sprint-presets-bar').classList.toggle('visible', mode === 'sprint');
       if (isRunning) {
-        badgeElem.innerText = mode === 'sprint' ? 'ТАЙМБОКС · СПРИНТ 45М' : 'РАБОТА · В ФОКУСЕ';
+        badgeElem.innerText = mode === 'sprint' ? `ТАЙМБОКС · СПРИНТ ${sprintTargetMinutes}М` : 'РАБОТА · В ФОКУСЕ';
       }
+      renderTimerDisplay();
+    }
+
+    function selectSprintLimit(mins, btnElem) {
+      sprintTargetMinutes = mins;
+      sprintTargetSeconds = mins * 60;
+      document.getElementById('sprint-btn-mins').innerText = String(mins);
+      document.querySelectorAll('#sprint-presets-bar .preset-mini-btn').forEach(b => b.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
+      if (elapsedSeconds >= sprintTargetSeconds) elapsedSeconds = 0;
+      badgeElem.innerText = `ТАЙМБОКС · СПРИНТ ${mins}М`;
+      renderTimerDisplay();
+    }
+
+    function setFlowmodoroDivisor(div, btnElem) {
+      flowmodoroDivisor = div;
+      document.querySelectorAll('.ratio-pill').forEach(b => b.classList.remove('active'));
+      if (btnElem) btnElem.classList.add('active');
       renderTimerDisplay();
     }
 
@@ -1860,7 +3095,7 @@
         toggleBtn.classList.remove('paused');
         iconPause.style.display = 'block';
         iconPlay.style.display = 'none';
-        badgeElem.innerText = timerMode === 'sprint' ? 'ТАЙМБОКС · СПРИНТ 45М' : 'РАБОТА · В ФОКУСЕ';
+        badgeElem.innerText = timerMode === 'sprint' ? `ТАЙМБОКС · СПРИНТ ${sprintTargetMinutes}М` : 'РАБОТА · В ФОКУСЕ';
         badgeElem.style.color = 'var(--primary-bright)';
       } else {
         toggleBtn.classList.add('paused');
@@ -1872,13 +3107,15 @@
     }
 
     function startSimFlowmodoroRest() {
-      const earnedRest = Math.max(1, Math.round(elapsedSeconds / 60 / 5));
+      const earnedRest = Math.max(1, Math.round(elapsedSeconds / 60 / flowmodoroDivisor));
       document.getElementById('sim-task-title').innerText = `Заслуженный отдых (${earnedRest} мин)`;
-      document.getElementById('sim-task-cat').innerText = 'Отдых Flowmodoro 5:1 · Восстановление нейронов';
-      badgeElem.innerText = 'ОТДЫХ · FLOWMODORO 5:1';
+      document.getElementById('sim-task-cat').innerText = `Отдых Flowmodoro ${flowmodoroDivisor}:1 · Восстановление нейронов`;
+      badgeElem.innerText = `ОТДЫХ · FLOWMODORO ${flowmodoroDivisor}:1`;
       badgeElem.style.color = '#34d399';
       timerMode = 'sprint';
+      sprintTargetMinutes = earnedRest;
       sprintTargetSeconds = earnedRest * 60;
+      document.getElementById('sprint-btn-mins').innerText = String(earnedRest);
       elapsedSeconds = 0;
       isRunning = true;
       toggleBtn.classList.remove('paused');
@@ -1890,6 +3127,12 @@
     }
 
     // 4. Интерактивный чек-лист в симуляторе
+    function updateChecklistSummary() {
+      const total = document.querySelectorAll('#sim-checklist-list .checklist-item').length;
+      const done = document.querySelectorAll('#sim-checklist-list .checklist-item.checked').length;
+      document.getElementById('checklist-counter').innerText = `${done}/${total} · ⏱ авто-тайминг`;
+    }
+
     function toggleChecklistStep(itemElem) {
       itemElem.classList.toggle('checked');
       const box = itemElem.querySelector('.chk-box');
@@ -1897,15 +3140,45 @@
       const isChecked = itemElem.classList.contains('checked');
       box.innerText = isChecked ? '✓' : '';
       if (isChecked) {
-        timeBadge.innerText = '⏱ только что';
+        const nowStr = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+        timeBadge.innerText = `⏱ только что · ${nowStr}`;
         timeBadge.style.opacity = '1';
       } else {
         timeBadge.innerText = '⏳ в плане';
-        timeBadge.style.opacity = '0.6';
+        timeBadge.style.opacity = '0.65';
       }
-      const total = document.querySelectorAll('.checklist-item').length;
-      const done = document.querySelectorAll('.checklist-item.checked').length;
-      document.getElementById('checklist-counter').innerText = `${done}/${total}`;
+      updateChecklistSummary();
+    }
+
+    function addCustomChecklistStep() {
+      const input = document.getElementById('new-step-input');
+      const val = (input.value || '').trim();
+      if (!val) return;
+      const container = document.getElementById('sim-checklist-list');
+      const row = document.createElement('div');
+      row.className = 'checklist-item';
+      row.onclick = function() { toggleChecklistStep(row); };
+
+      const left = document.createElement('div');
+      left.style.cssText = 'display:flex; align-items:center; gap:8px;';
+      const box = document.createElement('span');
+      box.className = 'chk-box';
+      const txt = document.createElement('span');
+      txt.className = 'chk-text';
+      txt.innerText = val;
+      left.appendChild(box);
+      left.appendChild(txt);
+
+      const badge = document.createElement('span');
+      badge.className = 'chk-time';
+      badge.style.opacity = '0.65';
+      badge.innerText = '⏳ в работе';
+
+      row.appendChild(left);
+      row.appendChild(badge);
+      container.appendChild(row);
+      input.value = '';
+      updateChecklistSummary();
     }
 
     // 5. Симуляция голосового NLP-парсера (VoiceIntentParser)
@@ -1915,68 +3188,115 @@
       const tagsContainer = document.getElementById('sim-tags-container');
       tagsContainer.innerHTML = tagsList.map(t => `<span class="tag-pill">${t}</span>`).join('');
       if (isSprint && sprintMins > 0) {
+        sprintTargetMinutes = sprintMins;
         sprintTargetSeconds = sprintMins * 60;
+        document.getElementById('sprint-btn-mins').innerText = String(sprintMins);
         elapsedSeconds = 0;
         setSimTimerMode('sprint');
       } else {
-        elapsedSeconds = 12 * 60 + 5;
+        elapsedSeconds = 18 * 60 + 42;
         setSimTimerMode('stopwatch');
       }
       if (!isRunning) toggleTimer();
     }
 
-    // 6. Процедурный генератор мягкого коричневого шума (Web Audio API)
+    // 6. Процедурный синтезатор звука (4 пресета Web Audio API)
     let audioCtx = null;
-    let noiseNode = null;
-    let gainNode = null;
+    let activeAudioNodes = [];
     let isSoundPlaying = false;
+    let currentSoundPresetIdx = 0;
+    const soundPresets = [
+      { id: 'brown', badge: '🌊 Коричневый шум ↻', label: 'Коричневый шум · ВКЛ' },
+      { id: 'pink', badge: '🌧️ Розовый дождь ↻', label: 'Розовый дождь · ВКЛ' },
+      { id: 'ocean', badge: '🏝️ Океанский прибой ↻', label: 'Прибой · ВКЛ' },
+      { id: 'alpha', badge: '🧠 Альфа-волны 10 Гц ↻', label: 'Альфа 10 Гц · ВКЛ' }
+    ];
+
+    function stopAllWebAudioNodes() {
+      activeAudioNodes.forEach(n => {
+        try { if (n.stop) n.stop(); if (n.disconnect) n.disconnect(); } catch (e) {}
+      });
+      activeAudioNodes = [];
+    }
+
+    function startProceduralPreset(presetId) {
+      stopAllWebAudioNodes();
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!audioCtx) audioCtx = new AudioContextClass();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+      masterGain.gain.exponentialRampToValueAtTime(0.24, audioCtx.currentTime + 0.35);
+      masterGain.connect(audioCtx.destination);
+      activeAudioNodes.push(masterGain);
+
+      if (presetId === 'alpha') {
+        const oscL = audioCtx.createOscillator();
+        const oscR = audioCtx.createOscillator();
+        oscL.type = 'sine';
+        oscR.type = 'sine';
+        oscL.frequency.value = 200;
+        oscR.frequency.value = 210; // 10 Hz Alpha binaural beat
+        oscL.connect(masterGain);
+        oscR.connect(masterGain);
+        oscL.start();
+        oscR.start();
+        activeAudioNodes.push(oscL, oscR);
+      } else {
+        const bufferSize = audioCtx.sampleRate * 3;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        let lastOut = 0.0;
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          lastOut = (lastOut + (0.02 * white)) / 1.02;
+          if (presetId === 'pink') {
+            data[i] = (lastOut * 0.65 + white * 0.06) * 0.18;
+          } else if (presetId === 'ocean') {
+            const waveMod = 0.4 + 0.6 * Math.sin((2 * Math.PI * i) / (audioCtx.sampleRate * 3));
+            data[i] = lastOut * waveMod * 0.25;
+          } else {
+            data[i] = lastOut * 0.20;
+          }
+        }
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        noise.loop = true;
+        noise.connect(masterGain);
+        noise.start();
+        activeAudioNodes.push(noise);
+      }
+    }
 
     function toggleWebFocusSound() {
       const btn = document.getElementById('sound-toggle-btn');
       const label = document.getElementById('sound-label');
+      const preset = soundPresets[currentSoundPresetIdx];
       if (!isSoundPlaying) {
         try {
-          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-          if (!audioCtx) audioCtx = new AudioContextClass();
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-
-          const bufferSize = audioCtx.sampleRate * 2;
-          const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-          const data = buffer.getChannelData(0);
-          let lastOut = 0.0;
-          for (let i = 0; i < bufferSize; i++) {
-            const white = Math.random() * 2 - 1;
-            data[i] = (lastOut + (0.02 * white)) / 1.02;
-            lastOut = data[i];
-            data[i] *= 0.18; // мягкий комфортный уровень коричневого шума
-          }
-
-          noiseNode = audioCtx.createBufferSource();
-          noiseNode.buffer = buffer;
-          noiseNode.loop = true;
-
-          gainNode = audioCtx.createGain();
-          gainNode.gain.setValueAtTime(0.01, audioCtx.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.25, audioCtx.currentTime + 0.4);
-
-          noiseNode.connect(gainNode);
-          gainNode.connect(audioCtx.destination);
-          noiseNode.start();
-
+          startProceduralPreset(preset.id);
           isSoundPlaying = true;
           btn.classList.add('playing');
-          label.innerText = 'Коричневый шум · ВКЛ';
+          label.innerText = preset.label;
         } catch (e) {
           label.innerText = 'Акустика активна';
         }
       } else {
-        if (noiseNode) {
-          try { noiseNode.stop(); noiseNode.disconnect(); } catch (e) {}
-          noiseNode = null;
-        }
+        stopAllWebAudioNodes();
         isSoundPlaying = false;
         btn.classList.remove('playing');
         label.innerText = 'Звук потока';
+      }
+    }
+
+    function cycleFocusSoundPreset() {
+      currentSoundPresetIdx = (currentSoundPresetIdx + 1) % soundPresets.length;
+      const preset = soundPresets[currentSoundPresetIdx];
+      document.getElementById('sound-preset-badge').innerText = preset.badge;
+      if (isSoundPlaying) {
+        startProceduralPreset(preset.id);
+        document.getElementById('sound-label').innerText = preset.label;
       }
     }
 
@@ -2095,12 +3415,42 @@
       document.getElementById('core-stage-desc').innerText = st.desc;
     }
 
-    // 10. Переключение экранов круглых умных часов
+    // 10. Конструктор 17 окон аналитики и NDA-превью
+    const analyticsPresetsMap = {
+      all: ['overview', 'ai', 'plan', 'bio', 'journal', 'finance', 'projects', 'passport', 'habits', 'donut', 'split', 'top', 'attention', 'sleep', 'trends', 'bestworst', 'patterns'],
+      focus: ['overview', 'ai', 'plan', 'bio', 'journal', 'attention', 'sleep', 'habits'],
+      executive: ['overview', 'finance', 'projects', 'passport', 'plan', 'journal', 'donut', 'trends'],
+      minimal: ['overview', 'ai', 'donut', 'split', 'trends']
+    };
+
+    function setAnalyticsPreset(presetKey, btnElem) {
+      btnElem.parentElement.querySelectorAll('.preset-mini-btn').forEach(b => b.classList.remove('active'));
+      btnElem.classList.add('active');
+      const activeSet = new Set(analyticsPresetsMap[presetKey] || analyticsPresetsMap.all);
+      document.querySelectorAll('#analytics-windows-cloud .analytic-window-chip').forEach(chip => {
+        chip.classList.toggle('highlighted', activeSet.has(chip.getAttribute('data-w')));
+      });
+    }
+
+    let isNdaMode = false;
+    function toggleNdaPreview() {
+      isNdaMode = !isNdaMode;
+      const btn = document.getElementById('nda-toggle-btn');
+      btn.classList.toggle('playing', isNdaMode);
+      btn.innerText = isNdaMode ? '🔒 Приватно (NDA): ВКЛ' : '👁️ Все названия: ВКЛ';
+      document.getElementById('nda-cap-label').innerText = isNdaMode ? 'ДОЛЯ В БОДРСТВОВАНИИ' : 'КАПИТАЛ ФОКУСА';
+      document.getElementById('nda-cap-val').innerText = isNdaMode ? '🔒 NDA SAFE' : '+16 000 ₽';
+      document.getElementById('nda-item-1').innerText = isNdaMode ? '1. Продуктивный фокус (Работа)' : '1. Архитектура Android · #клиент_альфа';
+      document.getElementById('nda-item-2').innerText = isNdaMode ? '2. Исследования и анализ (Учеба)' : '2. Аудит безопасности · #nda_банк';
+    }
+
+    // 11. Переключение экранов круглых умных часов и виджета 3x2
     let watchScreenIdx = 0;
     const watchScreens = [
       { badge: 'РАБОТА · СПРИНТ', title: 'Архитектура ИИ', time: '42:18', action: '☕ Отдых +9м (5:1)' },
       { badge: 'ГОЛОС И ШАБЛОНЫ', title: '🎙️ Диктовка с часов', time: '⚡ 5', action: '▶ Кодинг #проект' },
-      { badge: 'FLOWMODORO 5:1', title: 'Нейроны в тонусе', time: '+9 мин', action: '🚀 Запустить отдых' }
+      { badge: 'FLOWMODORO 5:1', title: 'Нейроны в тонусе', time: '+9 мин', action: '🚀 Запустить отдых' },
+      { badge: 'ТАЙМБОКС 45М', title: 'Прогресс 93%', time: '+15м', action: '🎯 Продлить спринт' }
     ];
 
     function cycleWatchScreen() {
@@ -2110,6 +3460,33 @@
       document.getElementById('watch-title').innerText = s.title;
       document.getElementById('watch-time').innerText = s.time;
       document.getElementById('watch-action').innerText = s.action;
+    }
+
+    let gwLensIdx = 0;
+    const gwLenses = [
+      {
+        title: '● ФОКУС ДНЯ ›',
+        dots: '● ○ ○',
+        body: '🎯 <strong>Цель фокуса:</strong> 3ч 40м / 4ч (92%)<br>🌿 <strong>Цель отдыха:</strong> 1ч 20м / 1ч 30м (88%)<br><span style="color:var(--secondary); font-weight:700;">Поток ≥45м: 74% · КПД дня: 68%</span>'
+      },
+      {
+        title: '● КАТЕГОРИИ ›',
+        dots: '○ ● ○',
+        body: '1. <strong>Работа:</strong> 3ч 40м (69%)<br>2. <strong>Отдых и Спорт:</strong> 1ч 20м (25%)<br><span style="color:var(--emerald-bright); font-weight:700;">Польза: 69% · Ресурс: 25% · Шум: 6%</span>'
+      },
+      {
+        title: '● РИТМ 7 ДНЕЙ ›',
+        dots: '○ ○ ●',
+        body: '📊 <strong>Средний фокус:</strong> 4ч 15м/день (Σ 29ч 45м)<br>🔥 <strong>Динамика 7Д:</strong> +18% · Норма взята: 6/7 ✓<br><span style="color:var(--amber); font-weight:700;">Пик недели: Чт (5ч 50м)</span>'
+      }
+    ];
+
+    function cycleGlanceWidgetLens() {
+      gwLensIdx = (gwLensIdx + 1) % gwLenses.length;
+      const l = gwLenses[gwLensIdx];
+      document.getElementById('gw-lens-title').innerText = l.title;
+      document.getElementById('gw-lens-dots').innerText = l.dots;
+      document.getElementById('gw-lens-body').innerHTML = l.body;
     }
   </script>
 </body>
