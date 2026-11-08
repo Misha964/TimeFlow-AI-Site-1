@@ -13,7 +13,7 @@
     :root {
       --bg: #070a12;
       --bg-elevated: #0d1220;
-      --card-bg: rgba(18, 24, 39, 0.80);
+      --card-bg: rgba(18, 24, 39, 0.82);
       --card-bg-solid: #121827;
       --card-border: rgba(129, 140, 248, 0.24);
       --primary: #6366f1;
@@ -116,6 +116,29 @@
       padding-bottom: 64px;
     }
 
+    /* Математические и технические переменные (без сырого LaTeX) */
+    .math-var {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-style: normal;
+      color: var(--primary-bright);
+      background: rgba(99, 102, 241, 0.14);
+      border: 1px solid rgba(129, 140, 248, 0.28);
+      padding: 1px 6px;
+      border-radius: 6px;
+      font-size: 0.92em;
+      white-space: nowrap;
+      display: inline-block;
+      line-height: 1.35;
+    }
+
+    .math-var sub {
+      font-size: 0.74em;
+      font-weight: 700;
+      bottom: -0.15em;
+      position: relative;
+    }
+
     /* Архитектурный фон с сеткой и аврора-орбами (как в TimeFlowScaffold) */
     .ambient-canvas {
       position: fixed;
@@ -176,7 +199,7 @@
     .wrapper {
       position: relative;
       z-index: 1;
-      max-width: 1160px;
+      max-width: 1180px;
       margin: 0 auto;
       padding: 0 20px;
     }
@@ -192,7 +215,7 @@
       top: 12px;
       z-index: 60;
       margin-top: 14px;
-      background: rgba(13, 18, 32, 0.85);
+      background: rgba(13, 18, 32, 0.86);
       border: 1px solid var(--card-border);
       border-radius: 20px;
       padding: 11px 16px;
@@ -271,6 +294,32 @@
       gap: 10px;
     }
 
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #fff;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .mobile-nav-drawer {
+      display: none;
+      width: 100%;
+      padding-top: 10px;
+      margin-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .mobile-nav-drawer.open {
+      display: flex;
+    }
+
     .palette-switcher {
       display: flex;
       align-items: center;
@@ -332,12 +381,12 @@
     .hero {
       padding: 42px 0 34px;
       display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
+      grid-template-columns: 1.06fr 0.94fr;
       gap: 34px;
       align-items: center;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .hero {
         grid-template-columns: 1fr;
         text-align: center;
@@ -345,6 +394,11 @@
       }
       .nav-links {
         display: none;
+      }
+      .mobile-menu-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
       }
     }
 
@@ -356,7 +410,7 @@
       margin-bottom: 16px;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .hero-badges {
         justify-content: center;
       }
@@ -378,7 +432,7 @@
     h1 {
       font-size: clamp(30px, 4.2vw, 50px);
       font-weight: 800;
-      line-height: 1.1;
+      line-height: 1.09;
       letter-spacing: -0.03em;
       margin-bottom: 16px;
       background: linear-gradient(180deg, #ffffff 35%, #cbd5e1 100%);
@@ -390,10 +444,10 @@
       font-size: clamp(15px, 1.5vw, 17px);
       color: var(--text-muted);
       margin-bottom: 24px;
-      max-width: 590px;
+      max-width: 600px;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .hero-sub {
         margin-left: auto;
         margin-right: auto;
@@ -408,7 +462,7 @@
       margin-bottom: 24px;
     }
 
-    @media (max-width: 960px) {
+    @media (max-width: 980px) {
       .cta-row {
         justify-content: center;
       }
@@ -572,6 +626,56 @@
 
     .sprint-presets-bar.visible {
       display: flex;
+    }
+
+    /* Студия Акустики Фокуса (8 сцен) в Симуляторе */
+    .acoustic-studio-drawer {
+      display: none;
+      background: rgba(13, 18, 32, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+    }
+
+    .acoustic-studio-drawer.visible {
+      display: block;
+    }
+
+    .acoustic-scenes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 520px) {
+      .acoustic-scenes-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .scene-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 8px;
+      padding: 5px 6px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .scene-chip.active,
+    .scene-chip:hover {
+      background: rgba(6, 182, 212, 0.18);
+      border-color: var(--secondary);
+      color: #fff;
     }
 
     .preset-mini-btn {
@@ -813,7 +917,7 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      padding: 5px 10px;
+      padding: 6px 10px;
       color: #fff;
       font-size: 11.5px;
       outline: none;
@@ -829,7 +933,7 @@
       color: #fff;
       font-weight: 800;
       font-size: 12px;
-      padding: 0 11px;
+      padding: 0 12px;
       border-radius: 8px;
       cursor: pointer;
     }
@@ -909,7 +1013,7 @@
     .section-sub {
       font-size: 14.5px;
       color: var(--text-muted);
-      max-width: 660px;
+      max-width: 680px;
       margin: 0 auto;
     }
 
@@ -1151,6 +1255,54 @@
       transition: all 0.3s ease;
     }
 
+    /* Интерактивная волна биоритмов (BiorhythmEnergyMap) */
+    .bio-bars-row {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 5px;
+      align-items: end;
+      height: 76px;
+      margin-top: 14px;
+      padding: 8px 8px 4px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+    }
+
+    .bio-bar-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      height: 100%;
+      justify-content: flex-end;
+    }
+
+    .bio-bar-fill {
+      width: 100%;
+      border-radius: 5px;
+      background: linear-gradient(180deg, var(--emerald-bright), var(--cyan));
+      transition: all 0.25s ease;
+      opacity: 0.75;
+    }
+
+    .bio-bar-col:hover .bio-bar-fill,
+    .bio-bar-col.active .bio-bar-fill {
+      opacity: 1;
+      box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+    }
+
+    .bio-bar-col.peak .bio-bar-fill {
+      background: linear-gradient(180deg, #fbbf24, #10b981);
+    }
+
+    .bio-hr-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
     /* Секция 17 окон аналитики и NDA-постера */
     .analytics-chips-cloud {
       display: flex;
@@ -1170,6 +1322,8 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
       transition: all 0.2s ease;
     }
 
@@ -1185,6 +1339,7 @@
       border-radius: 22px;
       padding: 18px;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
+      transition: all 0.25s ease;
     }
 
     /* Витрина Экосистемы: Часы, Виджеты, Супер-Плитка */
@@ -1201,8 +1356,8 @@
     }
 
     .watch-mockup {
-      width: 176px;
-      height: 176px;
+      width: 184px;
+      height: 184px;
       border-radius: 50%;
       margin: 14px auto;
       background: radial-gradient(circle at 30% 30%, #172136, #050811);
@@ -1232,11 +1387,34 @@
       margin: 12px 0;
       cursor: pointer;
       user-select: none;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s ease, transform 0.2s ease;
     }
 
     .widget-mockup-box:hover {
       border-color: var(--emerald-bright);
+      transform: translateY(-2px);
+    }
+
+    .micro-widget-1x1 {
+      width: 112px;
+      height: 112px;
+      border-radius: 26px;
+      background: radial-gradient(circle at 50% 45%, rgba(99, 102, 241, 0.25), #090d18 75%);
+      border: 1.5px solid var(--primary-bright);
+      padding: 7px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      flex-shrink: 0;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+      transition: all 0.2s ease;
+    }
+
+    .micro-widget-1x1:hover {
+      transform: scale(1.04);
     }
 
     /* Сравнительная таблица */
@@ -1586,6 +1764,19 @@
           <span class="pulse-dot"></span>
           100% Offline AI
         </div>
+
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Меню навигации">
+          ☰ Меню
+        </button>
+      </div>
+
+      <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <a href="#features-section" class="nav-link" onclick="toggleMobileNav()">✨ Возможности (12)</a>
+        <a href="#economics-section" class="nav-link" onclick="toggleMobileNav()">💰 Экономика &amp; Ядро</a>
+        <a href="#analytics-section" class="nav-link" onclick="toggleMobileNav()">📊 17 Окон &amp; NDA</a>
+        <a href="#widgets-section" class="nav-link" onclick="toggleMobileNav()">⌚ Часы &amp; Виджеты</a>
+        <button class="nav-link" onclick="toggleMobileNav(); openLegalTab('privacy', true)">🛡️ Политика (v2.1)</button>
+        <button class="nav-link" onclick="toggleMobileNav(); openLegalTab('licenses', true)">⚖️ Лицензии ПО</button>
       </div>
     </nav>
 
@@ -1600,7 +1791,7 @@
 
         <h1>Архитектура личного времени и когнитивного ресурса</h1>
         <p class="hero-sub">
-          Локальный потоковый ИИ для мгновенного голосового трекинга, расчёта отдыха Flowmodoro 5:1, анализа биоритмов, оценки реальной стоимости часа и защиты от выгорания. Без интернета, облаков и слежки.
+          Локальный потоковый ИИ для мгновенного голосового трекинга, расчёта отдыха Flowmodoro 5:1, анализа биоритмов, оценки реальной стоимости часа <span class="math-var">R<sub>real</sub></span> и защиты от выгорания. Без интернета, облаков и слежки.
         </p>
 
         <div class="cta-row">
@@ -1655,9 +1846,30 @@
               <span id="sound-icon">🎧</span>
               <span id="sound-label">Звук потока</span>
             </button>
-            <button class="sound-pill" onclick="cycleFocusSoundPreset()" title="Сменить пресет процедурного синтезатора">
-              <span id="sound-preset-badge">🌊 Коричневый шум ↻</span>
+            <button class="sound-pill" onclick="toggleAcousticStudioDrawer()" title="Открыть студию процедурной акустики (8 сцен)">
+              <span id="sound-preset-badge">🌊 Коричневый шум ▾</span>
             </button>
+          </div>
+        </div>
+
+        <!-- Студия Акустики Фокуса (8 процедурных сцен из ProceduralFocusAudioEngine) -->
+        <div class="acoustic-studio-drawer" id="acoustic-studio-drawer">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <div>
+              <span style="font-size:10px; font-weight:800; color:var(--secondary); text-transform:uppercase; letter-spacing:0.05em;">🎧 Акустика Фокуса · Офлайн Синтез (8 сцен)</span>
+              <div style="font-size:11px; color:var(--text-muted);" id="studio-scene-subtitle">Глубокий низкочастотный каскад для блокировки отвлечений</div>
+            </div>
+            <canvas id="acoustic-wave-canvas" width="90" height="26" style="border-radius:6px; background:rgba(255,255,255,0.03);"></canvas>
+          </div>
+          <div class="acoustic-scenes-grid" id="acoustic-scenes-grid">
+            <button class="scene-chip active" onclick="selectFocusSoundPreset(0)">🌊 Коричневый</button>
+            <button class="scene-chip" onclick="selectFocusSoundPreset(1)">🌧️ Розовый дождь</button>
+            <button class="scene-chip" onclick="selectFocusSoundPreset(2)">🏝️ Прибой</button>
+            <button class="scene-chip" onclick="selectFocusSoundPreset(3)">🍃 Листва</button>
+            <button class="scene-chip" onclick="selectFocusSoundPreset(4)">🐦 Лесной ручей</button>
+            <button class="scene-chip" onclick="selectFocusSoundPreset(5)">🧘 Альфа 10 Гц</button>
+            <button class="scene-chip" onclick="selectFocusSoundPreset(6)">⚡ Бета 14 Гц</button>
+            <button class="scene-chip" onclick="selectFocusSoundPreset(7)">🔥 Гамма 40 Гц</button>
           </div>
         </div>
 
@@ -1679,7 +1891,7 @@
             <button class="ratio-pill active" onclick="setFlowmodoroDivisor(5, this)" title="Пропорция отдыха 5:1">5:1</button>
             <button class="ratio-pill" onclick="setFlowmodoroDivisor(4, this)" title="Пропорция отдыха 4:1">4:1</button>
             <button class="ratio-pill" onclick="setFlowmodoroDivisor(3, this)" title="Пропорция отдыха 3:1">3:1</button>
-            <span class="flowmodoro-chip" id="flowmodoro-earned-chip" onclick="startSimFlowmodoroRest()">☕ +9м отдыха</span>
+            <span class="flowmodoro-chip" id="flowmodoro-earned-chip" onclick="startSimFlowmodoroRest()">☕ +9м отдыха (5:1)</span>
           </div>
         </div>
 
@@ -1745,13 +1957,17 @@
         <!-- Тренажёр голосового NLP-парсера (VoiceIntentParser) -->
         <div class="voice-nlp-box">
           <div class="nlp-label">
-            <span>🎙️ Протестируйте голосовой NLP-парсер (1 тап):</span>
+            <span>🎙️ Живой NLP-парсер (VoiceIntentParser):</span>
             <span class="mono" style="font-size:10px; opacity:0.8;">Pre-Roll 15s · Zipformer</span>
           </div>
-          <div class="nlp-chips">
+          <div class="nlp-chips" style="margin-bottom:7px;">
             <button class="nlp-chip" onclick="simulateVoiceCommand('Кодинг #релиз на 45 минут', 'Работа · Спринт 45м', ['#релиз', '#фокус'], true, 45)">«Кодинг #релиз на 45 минут»</button>
             <button class="nlp-chip" onclick="simulateVoiceCommand('Тренировка в зале #спорт', 'Спорт · Капитал восстановления', ['#спорт', '#ресурс'], false, 0)">«Тренировка в зале тег спорт»</button>
             <button class="nlp-chip" onclick="simulateVoiceCommand('С 13:00 до 14:00 был обед', 'Еда · Записано задним числом (13:00–14:00)', ['#ретро_ввод'], false, 0)">«С 13 до 14 был обед»</button>
+          </div>
+          <div class="quick-step-input-row" style="margin-top:4px; padding-top:6px;">
+            <input type="text" id="custom-voice-input" class="quick-step-input" placeholder="Или введите фразу: «Дизайн тег клиент на 25 минут»…" onkeydown="if(event.key==='Enter') runCustomVoiceParser()">
+            <button class="quick-step-add-btn" onclick="runCustomVoiceParser()" title="Распознать намерение">🎙️ Старт</button>
           </div>
         </div>
       </div>
@@ -1943,7 +2159,7 @@
           </div>
           <ul class="f-bullets">
             <li>Определение хронотипа и лучших часов для сложных задач</li>
-            <li>Анализ привычек: кривые Безье, разброс ($\sigma$) и гистограмма</li>
+            <li>Анализ привычек: кривые Безье, разброс (<span class="math-var">&plusmn;&sigma;</span>) и гистограмма</li>
             <li>Исключение аномальных дней (выколотые точки) долгим тапом</li>
           </ul>
         </div>
@@ -1962,7 +2178,7 @@
           </div>
           <ul class="f-bullets">
             <li>Режим «🌿 Человек — не робот» с дивидендом за здоровый отдых</li>
-            <li>Расчёт реальной ставки часа $R_{\text{real}}$ на Fixed-Price проектах</li>
+            <li>Расчёт реальной ставки часа <span class="math-var">R<sub>real</sub></span> на Fixed-Price проектах</li>
             <li>Выгрузка готовых B2B-счетов (XLSX / CSV) со строкой «К оплате»</li>
           </ul>
         </div>
@@ -2013,7 +2229,7 @@
         <span class="section-eyebrow">Интерактивные алгоритмы 2026</span>
         <h2 class="section-title">Испытайте математику TimeFlow AI прямо в браузере</h2>
         <p class="section-sub">
-          Посмотрите, как движок <code>GetFinancialBalanceUseCase</code> считает реальную стоимость вашего часа $R_{\text{real}}$ с защитой отдыха, и как работает 5-фазное «Ядро Фокуса».
+          Посмотрите, как движок <code>GetFinancialBalanceUseCase</code> считает реальную стоимость вашего часа <span class="math-var">R<sub>real</sub></span> с защитой отдыха, и как работает 5-фазное «Ядро Фокуса».
         </p>
       </div>
 
@@ -2023,7 +2239,7 @@
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
             <div>
               <span style="font-size:11px; font-weight:800; color:var(--emerald-bright); text-transform:uppercase; letter-spacing:0.06em;">💰 Калькулятор Экономики Времени</span>
-              <h3 style="font-size:19.5px; font-weight:800; color:#fff; margin-top:2px;">Реальная стоимость вашего часа ($R_{\text{real}}$)</h3>
+              <h3 style="font-size:19.5px; font-weight:800; color:#fff; margin-top:2px;">Реальная стоимость вашего часа (<span class="math-var">R<sub>real</sub></span>)</h3>
             </div>
             <button class="sound-pill playing" id="human-mode-btn" onclick="toggleHumanMode()">
               🌿 Человек — не робот: ВКЛ
@@ -2066,7 +2282,7 @@
               <div style="font-size:11px; color:var(--text-muted);" id="roi-month-loss">В месяц: −135 000 ₽</div>
             </div>
             <div class="roi-mini-card">
-              <div style="font-size:10.5px; font-weight:700; color:var(--amber);">⚡ РЕАЛЬНАЯ СТАВКА ЧАСА</div>
+              <div style="font-size:10.5px; font-weight:700; color:var(--amber);">⚡ РЕАЛЬНАЯ СТАВКА (<span class="math-var">R<sub>real</sub></span>)</div>
               <div class="roi-val" id="roi-real-rate" style="color:var(--amber);">2 368 ₽/ч</div>
               <div style="font-size:11px; color:var(--text-muted);">За 1 час бодрствования</div>
             </div>
@@ -2114,26 +2330,26 @@
       </div>
     </section>
 
-    <!-- Секция: Конструктор 17 окон аналитики и NDA-генератор сводок -->
+    <!-- Секция: Конструктор 17 окон аналитики, Волна Биоритмов и NDA-генератор сводок -->
     <section id="analytics-section">
       <div class="section-header">
-        <span class="section-eyebrow">Кастомизация и Приватность (NDA Safe)</span>
-        <h2 class="section-title">17 Окон Аналитики и Визуальные Сводки</h2>
+        <span class="section-eyebrow">Кастомизация, Биоритмы и Приватность (NDA Safe)</span>
+        <h2 class="section-title">17 Окон Аналитики и Генератор Визуальных Сводок</h2>
         <p class="section-sub">
-          Включайте только нужные аналитические блоки, меняйте их порядок перетаскиванием и делитесь красивыми PNG/Markdown-отчётами с маскировкой коммерческой тайны.
+          Включайте только нужные аналитические блоки, исследуйте свои пиковые часы концентрации и делитесь PNG/Markdown-отчётами с маскировкой коммерческой тайны.
         </p>
       </div>
 
       <div class="interactive-showcase">
-        <!-- Конструктор 17 окон -->
+        <!-- Конструктор 17 окон + Интерактивная волна биоритмов -->
         <div class="bento-panel">
           <div style="font-size:11px; font-weight:800; color:var(--primary-bright); text-transform:uppercase; letter-spacing:0.06em;">🎛️ Конструктор экрана аналитики (AnalyticsWidgetId)</div>
           <h3 style="font-size:19px; font-weight:800; color:#fff; margin-top:3px;">4 готовых пресета или своя раскладка из 17 окон</h3>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:5px;">
-            Нажмите на пресет ниже, чтобы увидеть, какие из 17 аналитических окон активируются:
+          <p style="font-size:13px; color:var(--text-muted); margin-top:4px;">
+            Нажмите на пресет или кликните по любому окну, чтобы переключить его видимость:
           </p>
 
-          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:12px;">
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;">
             <button class="preset-mini-btn active" onclick="setAnalyticsPreset('all', this)">✨ Все окна (17)</button>
             <button class="preset-mini-btn" onclick="setAnalyticsPreset('focus', this)">⚡ Фокус и биоритмы (8)</button>
             <button class="preset-mini-btn" onclick="setAnalyticsPreset('executive', this)">💼 Бизнес и проекты (8)</button>
@@ -2141,75 +2357,148 @@
           </div>
 
           <div class="analytics-chips-cloud" id="analytics-windows-cloud">
-            <span class="analytic-window-chip highlighted" data-w="overview">📊 Общая сводка</span>
-            <span class="analytic-window-chip highlighted" data-w="ai">✨ AI-Анализ и выводы</span>
-            <span class="analytic-window-chip highlighted" data-w="plan">📅 План против факта</span>
-            <span class="analytic-window-chip highlighted" data-w="bio">⚡ Глубина и биоритмы</span>
-            <span class="analytic-window-chip highlighted" data-w="journal">☑️ Журнал сессий</span>
-            <span class="analytic-window-chip highlighted" data-w="finance">💰 Финансовый баланс</span>
-            <span class="analytic-window-chip highlighted" data-w="projects">🛡️ Проектные бюджеты</span>
-            <span class="analytic-window-chip highlighted" data-w="passport">🏆 Паспорт капитала</span>
-            <span class="analytic-window-chip highlighted" data-w="habits">📈 Анализ привычек</span>
-            <span class="analytic-window-chip highlighted" data-w="donut">🍩 Кольцо категорий</span>
-            <span class="analytic-window-chip highlighted" data-w="split">⚖️ Баланс пользы</span>
-            <span class="analytic-window-chip highlighted" data-w="top">🔥 Топ активностей</span>
-            <span class="analytic-window-chip highlighted" data-w="attention">🧠 Архитектура внимания</span>
-            <span class="analytic-window-chip highlighted" data-w="sleep">🌙 Статус сна</span>
-            <span class="analytic-window-chip highlighted" data-w="trends">📉 Динамика и тренды</span>
-            <span class="analytic-window-chip highlighted" data-w="bestworst">🏅 Лучший и худший день</span>
-            <span class="analytic-window-chip highlighted" data-w="patterns">🔄 Паттерны привычек</span>
+            <span class="analytic-window-chip highlighted" data-w="overview" onclick="this.classList.toggle('highlighted')">📊 Общая сводка</span>
+            <span class="analytic-window-chip highlighted" data-w="ai" onclick="this.classList.toggle('highlighted')">✨ AI-Анализ и выводы</span>
+            <span class="analytic-window-chip highlighted" data-w="plan" onclick="this.classList.toggle('highlighted')">📅 План против факта</span>
+            <span class="analytic-window-chip highlighted" data-w="bio" onclick="this.classList.toggle('highlighted')">⚡ Глубина и биоритмы</span>
+            <span class="analytic-window-chip highlighted" data-w="journal" onclick="this.classList.toggle('highlighted')">☑️ Журнал сессий</span>
+            <span class="analytic-window-chip highlighted" data-w="finance" onclick="this.classList.toggle('highlighted')">💰 Финансовый баланс</span>
+            <span class="analytic-window-chip highlighted" data-w="projects" onclick="this.classList.toggle('highlighted')">🛡️ Проектные бюджеты</span>
+            <span class="analytic-window-chip highlighted" data-w="passport" onclick="this.classList.toggle('highlighted')">🏆 Паспорт капитала</span>
+            <span class="analytic-window-chip highlighted" data-w="habits" onclick="this.classList.toggle('highlighted')">📈 Анализ привычек</span>
+            <span class="analytic-window-chip highlighted" data-w="donut" onclick="this.classList.toggle('highlighted')">🍩 Кольцо категорий</span>
+            <span class="analytic-window-chip highlighted" data-w="split" onclick="this.classList.toggle('highlighted')">⚖️ Баланс пользы</span>
+            <span class="analytic-window-chip highlighted" data-w="top" onclick="this.classList.toggle('highlighted')">🔥 Топ активностей</span>
+            <span class="analytic-window-chip highlighted" data-w="attention" onclick="this.classList.toggle('highlighted')">🧠 Архитектура внимания</span>
+            <span class="analytic-window-chip highlighted" data-w="sleep" onclick="this.classList.toggle('highlighted')">🌙 Статус сна</span>
+            <span class="analytic-window-chip highlighted" data-w="trends" onclick="this.classList.toggle('highlighted')">📉 Динамика и тренды</span>
+            <span class="analytic-window-chip highlighted" data-w="bestworst" onclick="this.classList.toggle('highlighted')">🏅 Лучший и худший день</span>
+            <span class="analytic-window-chip highlighted" data-w="patterns" onclick="this.classList.toggle('highlighted')">🔄 Паттерны привычек</span>
+          </div>
+
+          <!-- Интерактивный мини-стенд: 24-часовая Волна Биоритмов (BiorhythmEnergyMap) -->
+          <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+              <span style="font-size:11px; font-weight:800; color:var(--emerald-bright);">⚡ ИНТЕРАКТИВНАЯ КАРТА БИОРИТМОВ (НАЖМИТЕ НА ЧАС):</span>
+              <span class="mono" style="font-size:11px; color:var(--amber); font-weight:700;" id="bio-inspect-label">🔥 10:00–12:00 · Пик потока (96% отдачи)</span>
+            </div>
+            <div class="bio-bars-row" id="bio-bars-container">
+              <div class="bio-bar-col" onclick="inspectBioHour('08:00–09:30', 'Утренний разгон (62% отдачи · План и разминка)', this)">
+                <div class="bio-bar-fill" style="height:48%;"></div>
+                <span class="bio-hr-lbl">08</span>
+              </div>
+              <div class="bio-bar-col peak" onclick="inspectBioHour('09:30–11:00', '🔥 Пик глубокого фокуса (92% отдачи · ~52 мин/ч)', this)">
+                <div class="bio-bar-fill" style="height:88%;"></div>
+                <span class="bio-hr-lbl">09</span>
+              </div>
+              <div class="bio-bar-col peak active" onclick="inspectBioHour('10:00–12:00', '🔥 Пик потока (96% отдачи · Идеально для сложных задач)', this)">
+                <div class="bio-bar-fill" style="height:96%;"></div>
+                <span class="bio-hr-lbl">10</span>
+              </div>
+              <div class="bio-bar-col peak" onclick="inspectBioHour('11:00–12:30', '🔥 Высокая концентрация (89% отдачи · Архитектура и код)', this)">
+                <div class="bio-bar-fill" style="height:85%;"></div>
+                <span class="bio-hr-lbl">11</span>
+              </div>
+              <div class="bio-bar-col" onclick="inspectBioHour('13:00–14:00', '🌿 Перезагрузка и обед (28% отдачи · Восстановление)', this)">
+                <div class="bio-bar-fill" style="height:26%;"></div>
+                <span class="bio-hr-lbl">13</span>
+              </div>
+              <div class="bio-bar-col" onclick="inspectBioHour('14:00–15:30', '💬 Рутина, созвоны и почта (54% отдачи · Плавный темп)', this)">
+                <div class="bio-bar-fill" style="height:52%;"></div>
+                <span class="bio-hr-lbl">14</span>
+              </div>
+              <div class="bio-bar-col" onclick="inspectBioHour('15:30–17:00', '⚡ Рабочий ритм (74% отдачи · Проектные задачи)', this)">
+                <div class="bio-bar-fill" style="height:72%;"></div>
+                <span class="bio-hr-lbl">16</span>
+              </div>
+              <div class="bio-bar-col peak" onclick="inspectBioHour('17:00–18:30', '🔥 Вторая волна фокуса (84% отдачи · Закрытие спринтов)', this)">
+                <div class="bio-bar-fill" style="height:82%;"></div>
+                <span class="bio-hr-lbl">17</span>
+              </div>
+              <div class="bio-bar-col" onclick="inspectBioHour('18:30–19:30', '🚶 Вечерняя разгрузка и спорт (42% отдачи)', this)">
+                <div class="bio-bar-fill" style="height:40%;"></div>
+                <span class="bio-hr-lbl">18</span>
+              </div>
+              <div class="bio-bar-col" onclick="inspectBioHour('19:30–21:00', '📚 Чтение и личные квоты (64% отдачи)', this)">
+                <div class="bio-bar-fill" style="height:60%;"></div>
+                <span class="bio-hr-lbl">20</span>
+              </div>
+              <div class="bio-bar-col" onclick="inspectBioHour('21:00–22:00', '🍵 Спокойный вечер без экранов (30% отдачи)', this)">
+                <div class="bio-bar-fill" style="height:28%;"></div>
+                <span class="bio-hr-lbl">21</span>
+              </div>
+              <div class="bio-bar-col" onclick="inspectBioHour('22:00–23:00', '🌙 Подготовка ко сну и вечерний AI-анализ дня', this)">
+                <div class="bio-bar-fill" style="height:18%;"></div>
+                <span class="bio-hr-lbl">22</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Симулятор NDA-карточки сводки -->
+        <!-- Симулятор 5 режимов NDA-карточки сводки (ExecutiveSummaryCardShareDialog) -->
         <div class="bento-panel" style="display:flex; flex-direction:column; justify-content:space-between;">
-          <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
-            <div>
-              <span style="font-size:11px; font-weight:800; color:var(--emerald-bright); text-transform:uppercase;">🖼 Генератор PNG &amp; Markdown</span>
-              <h3 style="font-size:18.5px; font-weight:800; color:#fff;">Режим «Приватно (NDA Safe)»</h3>
-            </div>
-            <button class="sound-pill" id="nda-toggle-btn" onclick="toggleNdaPreview()">
-              👁️ Все названия: ВКЛ
-            </button>
-          </div>
-
-          <div class="nda-poster-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
               <div>
-                <div style="font-size:9.5px; font-weight:800; color:var(--primary-bright); letter-spacing:0.08em;">EXECUTIVE SUMMARY · ИТОГИ ДНЯ</div>
-                <div style="font-size:16px; font-weight:800; color:#fff;">Воскресенье, 8 ноября</div>
+                <span style="font-size:11px; font-weight:800; color:var(--emerald-bright); text-transform:uppercase;">🖼 Генератор PNG &amp; Markdown (5 режимов)</span>
+                <h3 style="font-size:18.5px; font-weight:800; color:#fff;">Режим «Приватно (NDA Safe)»</h3>
               </div>
-              <div style="text-align:right;">
-                <span class="mono" style="font-size:20px; font-weight:800; color:var(--emerald-bright);">92</span>
-                <span style="font-size:10px; color:var(--text-muted); display:block;">ИНДЕКС</span>
-              </div>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
-              <div style="background:rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px;">
-                <div style="font-size:9.5px; color:var(--emerald-bright); font-weight:800;">ЧИСТЫЙ ФОКУС</div>
-                <div class="mono" style="font-size:14.5px; font-weight:800; color:#fff;">5ч 20м (74%)</div>
-              </div>
-              <div style="background:rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px;">
-                <div style="font-size:9.5px; color:var(--amber); font-weight:800;" id="nda-cap-label">КАПИТАЛ ФОКУСА</div>
-                <div class="mono" style="font-size:14.5px; font-weight:800; color:#fff;" id="nda-cap-val">+16 000 ₽</div>
+              <div style="display:flex; gap:6px;">
+                <button class="sound-pill" id="nda-toggle-btn" onclick="toggleNdaPreview()">
+                  👁️ Все названия: ВКЛ
+                </button>
+                <button class="sound-pill" id="copy-md-summary-btn" onclick="copySimulatedMarkdownSummary()" title="Скопировать текстовую Markdown-сводку">
+                  📋 MD
+                </button>
               </div>
             </div>
 
-            <div style="font-size:11.5px; color:var(--text-secondary); display:flex; flex-direction:column; gap:5px;">
-              <div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); padding:6px 9px; border-radius:8px;">
-                <span id="nda-item-1">1. Архитектура Android · #клиент_альфа</span>
-                <span class="mono" style="font-weight:700; color:var(--primary-bright);">3ч 30м</span>
+            <!-- Переключатель 5 режимов постера -->
+            <div style="display:flex; gap:5px; flex-wrap:wrap; margin-bottom:12px;">
+              <button class="preset-mini-btn active" onclick="setSummaryPosterMode('day', this)">📊 Итоги дня</button>
+              <button class="preset-mini-btn" onclick="setSummaryPosterMode('passport', this)">⚡ Паспорт</button>
+              <button class="preset-mini-btn" onclick="setSummaryPosterMode('economics', this)">💰 Экономика</button>
+              <button class="preset-mini-btn" onclick="setSummaryPosterMode('projects', this)">🛡️ Проекты</button>
+            </div>
+
+            <div class="nda-poster-card">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <div>
+                  <div style="font-size:9.5px; font-weight:800; color:var(--primary-bright); letter-spacing:0.08em;" id="poster-eyebrow">EXECUTIVE SUMMARY · ИТОГИ ДНЯ</div>
+                  <div style="font-size:16px; font-weight:800; color:#fff;" id="poster-headline">Воскресенье, 8 ноября</div>
+                </div>
+                <div style="text-align:right;">
+                  <span class="mono" style="font-size:20px; font-weight:800; color:var(--emerald-bright);" id="poster-score">92</span>
+                  <span style="font-size:10px; color:var(--text-muted); display:block;" id="poster-score-lbl">ИНДЕКС</span>
+                </div>
               </div>
-              <div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); padding:6px 9px; border-radius:8px;">
-                <span id="nda-item-2">2. Аудит безопасности · #nda_банк</span>
-                <span class="mono" style="font-weight:700; color:var(--emerald-bright);">1ч 50м</span>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+                <div style="background:rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px;">
+                  <div style="font-size:9.5px; color:var(--emerald-bright); font-weight:800;" id="poster-metric1-lbl">ЧИСТЫЙ ФОКУС</div>
+                  <div class="mono" style="font-size:14.5px; font-weight:800; color:#fff;" id="poster-metric1-val">5ч 20м (74%)</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.04); padding:8px 10px; border-radius:10px;">
+                  <div style="font-size:9.5px; color:var(--amber); font-weight:800;" id="nda-cap-label">КАПИТАЛ ФОКУСА</div>
+                  <div class="mono" style="font-size:14.5px; font-weight:800; color:#fff;" id="nda-cap-val">+16 000 ₽</div>
+                </div>
+              </div>
+
+              <div style="font-size:11.5px; color:var(--text-secondary); display:flex; flex-direction:column; gap:5px;">
+                <div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); padding:6px 9px; border-radius:8px;">
+                  <span id="nda-item-1">1. Архитектура Android · #клиент_альфа</span>
+                  <span class="mono" style="font-weight:700; color:var(--primary-bright);" id="nda-val-1">3ч 30м</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); padding:6px 9px; border-radius:8px;">
+                  <span id="nda-item-2">2. Аудит безопасности · #nda_банк</span>
+                  <span class="mono" style="font-weight:700; color:var(--emerald-bright);" id="nda-val-2">1ч 50м</span>
+                </div>
               </div>
             </div>
           </div>
 
           <div style="font-size:11.5px; color:var(--text-muted); margin-top:10px;">
-            Нажмите кнопку <strong>«Все названия / Приватно (NDA)»</strong> выше, чтобы увидеть, как приложение автоматически скрывает имена клиентов, задачи и суммы перед публикацией.
+            Переключайте режимы постера и нажмите <strong>«Приватно (NDA)»</strong>, чтобы увидеть, как приложение маскирует имена клиентов, задачи и суммы перед отправкой.
           </div>
         </div>
       </div>
@@ -2247,27 +2536,37 @@
           </div>
         </div>
 
-        <!-- Карточка 2: 6 Виджетов и Супер-Плитка -->
+        <!-- Карточка 2: 6 Виджетов и Микро-виджет 1x1 -->
         <div class="feature-card">
           <div>
             <div class="f-top">
               <div class="f-icon">🎛️</div>
               <span class="f-tag">6 Glance Widgets</span>
             </div>
-            <div class="f-title">6 Виджетов и Супер-Плитка Android</div>
+            <div class="f-title">6 Виджетов и Микро-кнопка 1×1</div>
             <div class="f-desc">
-              Нажмите на интерактивный макет виджета <strong>Аналитика Pro 3×2</strong> ниже, чтобы переключить его линзу прямо здесь:
+              Кликайте на макеты виджетов <strong>Аналитика 3×2</strong> и <strong>Микро-кнопка 1×1</strong> ниже, чтобы переключить их режимы прямо здесь:
             </div>
 
-            <div class="widget-mockup-box" onclick="cycleGlanceWidgetLens()" title="Нажмите для смены линзы виджета 3×2">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <span style="font-size:10.5px; font-weight:800; color:#fff; background:rgba(255,255,255,0.08); padding:3px 9px; border-radius:999px;" id="gw-lens-title">● ФОКУС ДНЯ ›</span>
-                <span class="mono" style="font-size:10.5px; color:var(--emerald-bright); font-weight:800;" id="gw-lens-dots">● ○ ○</span>
+            <div style="display:flex; gap:10px; align-items:stretch; margin:12px 0;">
+              <!-- Макет Микро-виджета 1x1 (7 режимов) -->
+              <div class="micro-widget-1x1" onclick="cycleMicroWidgetMode()" title="Нажмите для переключения 7 режимов микро-виджета 1×1">
+                <div style="font-size:8.5px; font-weight:800; color:#fff; background:rgba(255,255,255,0.1); padding:2px 7px; border-radius:999px; width:100%; text-align:center;" id="mw-badge">АВТО +9М ›</div>
+                <div style="width:42px; height:42px; border-radius:50%; background:rgba(16,185,129,0.22); border:2px solid var(--emerald-bright); display:flex; align-items:center; justify-content:center; font-size:18px;" id="mw-icon">☕</div>
+                <div style="font-size:9.5px; font-weight:800; color:#fff; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="mw-title">Отдых 9м</div>
               </div>
-              <div id="gw-lens-body" style="font-size:12px; color:var(--text-secondary);">
-                🎯 <strong>Цель фокуса:</strong> 3ч 40м / 4ч (92%)<br>
-                🌿 <strong>Цель отдыха:</strong> 1ч 20м / 1ч 30м (88%)<br>
-                <span style="color:var(--secondary); font-weight:700;">Поток ≥45м: 74% · КПД дня: 68%</span>
+
+              <!-- Макет Аналитики Pro 3x2 (3 линзы) -->
+              <div class="widget-mockup-box" style="margin:0; flex:1;" onclick="cycleGlanceWidgetLens()" title="Нажмите для смены линзы виджета 3×2">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <span style="font-size:10px; font-weight:800; color:#fff; background:rgba(255,255,255,0.08); padding:2px 8px; border-radius:999px;" id="gw-lens-title">● ФОКУС ДНЯ ›</span>
+                  <span class="mono" style="font-size:10px; color:var(--emerald-bright); font-weight:800;" id="gw-lens-dots">● ○ ○</span>
+                </div>
+                <div id="gw-lens-body" style="font-size:11.5px; color:var(--text-secondary); line-height:1.45;">
+                  🎯 <strong>Фокус:</strong> 3ч 40м / 4ч (92%)<br>
+                  🌿 <strong>Отдых:</strong> 1ч 20м (88%)<br>
+                  <span style="color:var(--secondary); font-weight:700;">Поток ≥45м: 74% · КПД: 68%</span>
+                </div>
               </div>
             </div>
           </div>
@@ -2342,7 +2641,7 @@
             </tr>
             <tr>
               <td><strong>Экономика времени и B2B-счета</strong></td>
-              <td class="tf-col-highlight">Ставка часа, $R_{\text{real}}$, ретейнеры, XLSX/CSV</td>
+              <td class="tf-col-highlight">Ставка часа, <span class="math-var">R<sub>real</sub></span>, ретейнеры, XLSX/CSV</td>
               <td>Только базовый биллинг (платно)</td>
               <td>Отсутствует</td>
             </tr>
@@ -2530,7 +2829,7 @@
           <p><strong>5.2. Ответственность за системные ограничения ОС и сбои:</strong><br>
           Разработчик не несет ответственности за задержки уведомлений, несрабатывание будильников расписаний, погрешности GPS-координат в плотной застройке или остановку фоновых служб, вызванные ограничениями конкретных версий ОС Android, сторонними прошивками производителей устройств (MIUI/HyperOS, One UI, EMUI, MagicOS, ColorOS и др.), работой агрессивных системных контроллеров питания (Task Killers, Doze Mode) или аппаратными сбоями смартфона.</p>
           <p><strong>5.3. Ответственность за сохранность данных и резервное копирование:</strong><br>
-          Поскольку все данные хранятся исключительно на устройстве пользователя без облачной синхронизации, разработчик не имеет доступа к вашим записям и не может восстановить их удаленно. Разработчик не несет ответственности за утрату, повреждение или удаление пользовательских данных, возникшие в результате:<br>
+          Поскольку все данные хратся исключительно на устройстве пользователя без облачной синхронизации, разработчик не имеет доступа к вашим записям и не может восстановить их удаленно. Разработчик не несет ответственности за утрату, повреждение или удаление пользовательских данных, возникшие в результате:<br>
           — сброса настроек, сбоя ОС или аппаратной поломки мобильного устройства;<br>
           — очистки хранилища Приложения пользователем или сторонними программами-оптимизаторами («клинерами»);<br>
           — удаления Приложения с устройства без предварительного сохранения резервной копии;<br>
@@ -2935,7 +3234,7 @@ Under the following terms:
   </div>
 
   <script>
-    // 1. Переключение и сохранение 7 фирменных палитр приложения
+    // 1. Переключение и сохранение 7 фирменных палитр приложения + Мобильное меню
     function setPalette(paletteName, btnElem) {
       document.documentElement.setAttribute('data-palette', paletteName);
       document.querySelectorAll('.palette-dot').forEach(dot => {
@@ -2943,6 +3242,11 @@ Under the following terms:
       });
       if (btnElem) btnElem.classList.add('active');
       try { localStorage.setItem('tf_palette', paletteName); } catch (e) {}
+    }
+
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      if (drawer) drawer.classList.toggle('open');
     }
 
     // 2. Переключение вкладок Правового Центра (Политика / Лицензии)
@@ -2972,7 +3276,6 @@ Under the following terms:
       }
     }
 
-    // Поиск по тексту Политики и Лицензий
     function filterLegalText(query) {
       const q = (query || '').trim().toLowerCase();
       const activeContainer = currentLegalTab === 'licenses'
@@ -2987,7 +3290,6 @@ Under the following terms:
       });
     }
 
-    // Копирование полного текста активного правового документа
     function copyActiveLegalDocument() {
       const activeContainer = currentLegalTab === 'licenses'
         ? document.getElementById('licenses-body')
@@ -3003,7 +3305,6 @@ Under the following terms:
       }
     }
 
-    // Инициализация при загрузке страницы (поддержка #licenses / #privacy и сохранённой палитры)
     window.addEventListener('DOMContentLoaded', () => {
       try {
         const savedPal = localStorage.getItem('tf_palette');
@@ -3017,11 +3318,12 @@ Under the following terms:
       }
       updateRoiCalculator();
       updateChecklistSummary();
+      drawAcousticWaveFrame();
     });
 
     // 3. Живой интерактивный таймер (Секундомер / Спринт + Flowmodoro 5:1 / 4:1 / 3:1)
     let isRunning = true;
-    let timerMode = 'stopwatch'; // 'stopwatch' | 'sprint'
+    let timerMode = 'stopwatch';
     let elapsedSeconds = 42 * 60 + 18;
     let sprintTargetMinutes = 45;
     let sprintTargetSeconds = sprintTargetMinutes * 60;
@@ -3200,17 +3502,65 @@ Under the following terms:
       if (!isRunning) toggleTimer();
     }
 
-    // 6. Процедурный синтезатор звука (4 пресета Web Audio API)
+    function runCustomVoiceParser() {
+      const inp = document.getElementById('custom-voice-input');
+      const raw = (inp.value || '').trim();
+      if (!raw) return;
+
+      const tags = [];
+      const hashMatches = raw.match(/#[\p{L}\p{N}_-]+/gu);
+      if (hashMatches) hashMatches.forEach(t => tags.push(t.toLowerCase()));
+      const tagWordMatch = raw.match(/(?:тег|проект)\s+([\p{L}\p{N}_-]+)/iu);
+      if (tagWordMatch) tags.push('#' + tagWordMatch[1].toLowerCase());
+      if (tags.length === 0) tags.push('#голос_ии');
+
+      let sprintMins = 0;
+      const sprintMatch = raw.match(/на\s+(\d+)\s*мин/iu);
+      if (sprintMatch) sprintMins = Math.min(180, Math.max(5, parseInt(sprintMatch[1], 10)));
+
+      let clean = raw
+        .replace(/#[\p{L}\p{N}_-]+/gu, '')
+        .replace(/(?:тег|проект)\s+[\p{L}\p{N}_-]+/giu, '')
+        .replace(/на\s+\d+\s*мин[а-я]*/giu, '')
+        .trim();
+      if (!clean) clean = raw;
+
+      const lower = clean.toLowerCase();
+      let catDesc = 'Работа · Авто-классификация ИИ';
+      if (lower.includes('спорт') || lower.includes('зал') || lower.includes('бег') || lower.includes('трениров')) {
+        catDesc = 'Спорт · Капитал восстановления';
+      } else if (lower.includes('обед') || lower.includes('завтрак') || lower.includes('ужин') || lower.includes('кофе')) {
+        catDesc = 'Еда · Перезагрузка';
+      } else if (lower.includes('учеб') || lower.includes('лекц') || lower.includes('чтен')) {
+        catDesc = 'Учёба · Продуктивный фокус';
+      } else if (sprintMins > 0) {
+        catDesc = `Работа · Таймбокс-спринт ${sprintMins}м`;
+      }
+
+      simulateVoiceCommand(clean, catDesc, [...new Set(tags)], sprintMins > 0, sprintMins);
+      inp.value = '';
+    }
+
+    // 6. Процедурный синтезатор звука (8 сцен FocusSoundPreset + Web Audio API + Canvas-визуализатор)
     let audioCtx = null;
     let activeAudioNodes = [];
     let isSoundPlaying = false;
     let currentSoundPresetIdx = 0;
     const soundPresets = [
-      { id: 'brown', badge: '🌊 Коричневый шум ↻', label: 'Коричневый шум · ВКЛ' },
-      { id: 'pink', badge: '🌧️ Розовый дождь ↻', label: 'Розовый дождь · ВКЛ' },
-      { id: 'ocean', badge: '🏝️ Океанский прибой ↻', label: 'Прибой · ВКЛ' },
-      { id: 'alpha', badge: '🧠 Альфа-волны 10 Гц ↻', label: 'Альфа 10 Гц · ВКЛ' }
+      { id: 'brown', badge: '🌊 Коричневый шум ▾', label: 'Коричневый шум · ВКЛ', desc: 'Глубокий низкочастотный каскад для блокировки отвлечений' },
+      { id: 'pink', badge: '🌧️ Розовый дождь ▾', label: 'Розовый дождь · ВКЛ', desc: 'Сбалансированный спектр тёплого дождя для чтения и кода' },
+      { id: 'ocean', badge: '🏝️ Океанский прибой ▾', label: 'Прибой · ВКЛ', desc: 'Медленные дыхательные волны прибоя (ритм 0.12 Гц)' },
+      { id: 'leaves', badge: '🍃 Шелест листвы ▾', label: 'Листва · ВКЛ', desc: 'Генеративный ветер в кронах деревьев с мягкой фильтрацией' },
+      { id: 'brook', badge: '🐦 Лесной ручей ▾', label: 'Ручей · ВКЛ', desc: 'Журчание воды и процедурные переливы лесных птиц' },
+      { id: 'alpha', badge: '🧘 Альфа-волны 10 Гц ▾', label: 'Альфа 10 Гц · ВКЛ', desc: 'Бинауральный ритм 10 Гц для спокойного потокового фокуса' },
+      { id: 'beta', badge: '⚡ Бета-фокус 14 Гц ▾', label: 'Бета 14 Гц · ВКЛ', desc: 'Нейро-ритм 14 Гц для аналитики, кода и точных расчётов' },
+      { id: 'gamma', badge: '🔥 Гамма-пик 40 Гц ▾', label: 'Гамма 40 Гц · ВКЛ', desc: 'Высокочастотный когнитивный резонанс 40 Гц для спринтов' }
     ];
+
+    function toggleAcousticStudioDrawer() {
+      const drawer = document.getElementById('acoustic-studio-drawer');
+      if (drawer) drawer.classList.toggle('visible');
+    }
 
     function stopAllWebAudioNodes() {
       activeAudioNodes.forEach(n => {
@@ -3227,17 +3577,18 @@ Under the following terms:
 
       const masterGain = audioCtx.createGain();
       masterGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
-      masterGain.gain.exponentialRampToValueAtTime(0.24, audioCtx.currentTime + 0.35);
+      masterGain.gain.exponentialRampToValueAtTime(0.22, audioCtx.currentTime + 0.35);
       masterGain.connect(audioCtx.destination);
       activeAudioNodes.push(masterGain);
 
-      if (presetId === 'alpha') {
+      if (presetId === 'alpha' || presetId === 'beta' || presetId === 'gamma') {
+        const beatHz = presetId === 'gamma' ? 40 : (presetId === 'beta' ? 14 : 10);
         const oscL = audioCtx.createOscillator();
         const oscR = audioCtx.createOscillator();
         oscL.type = 'sine';
         oscR.type = 'sine';
         oscL.frequency.value = 200;
-        oscR.frequency.value = 210; // 10 Hz Alpha binaural beat
+        oscR.frequency.value = 200 + beatHz;
         oscL.connect(masterGain);
         oscR.connect(masterGain);
         oscL.start();
@@ -3251,11 +3602,12 @@ Under the following terms:
         for (let i = 0; i < bufferSize; i++) {
           const white = Math.random() * 2 - 1;
           lastOut = (lastOut + (0.02 * white)) / 1.02;
-          if (presetId === 'pink') {
+          if (presetId === 'pink' || presetId === 'brook') {
             data[i] = (lastOut * 0.65 + white * 0.06) * 0.18;
-          } else if (presetId === 'ocean') {
-            const waveMod = 0.4 + 0.6 * Math.sin((2 * Math.PI * i) / (audioCtx.sampleRate * 3));
-            data[i] = lastOut * waveMod * 0.25;
+          } else if (presetId === 'ocean' || presetId === 'leaves') {
+            const period = presetId === 'leaves' ? 2.2 : 3.0;
+            const waveMod = 0.38 + 0.62 * Math.sin((2 * Math.PI * i) / (audioCtx.sampleRate * period));
+            data[i] = lastOut * waveMod * 0.24;
           } else {
             data[i] = lastOut * 0.20;
           }
@@ -3290,14 +3642,44 @@ Under the following terms:
       }
     }
 
-    function cycleFocusSoundPreset() {
-      currentSoundPresetIdx = (currentSoundPresetIdx + 1) % soundPresets.length;
+    function selectFocusSoundPreset(idx) {
+      currentSoundPresetIdx = idx % soundPresets.length;
       const preset = soundPresets[currentSoundPresetIdx];
       document.getElementById('sound-preset-badge').innerText = preset.badge;
-      if (isSoundPlaying) {
+      document.getElementById('studio-scene-subtitle').innerText = preset.desc;
+      document.querySelectorAll('#acoustic-scenes-grid .scene-chip').forEach((chip, i) => {
+        chip.classList.toggle('active', i === currentSoundPresetIdx);
+      });
+      if (!isSoundPlaying) {
+        toggleWebFocusSound();
+      } else {
         startProceduralPreset(preset.id);
         document.getElementById('sound-label').innerText = preset.label;
       }
+    }
+
+    let waveAnimTick = 0;
+    function drawAcousticWaveFrame() {
+      const canvas = document.getElementById('acoustic-wave-canvas');
+      if (canvas && canvas.getContext) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = isSoundPlaying ? '#34d399' : '#38bdf8';
+        const bars = 14;
+        const barW = 4;
+        const gap = 2.4;
+        for (let i = 0; i < bars; i++) {
+          const amp = isSoundPlaying
+            ? (0.3 + 0.7 * Math.abs(Math.sin(waveAnimTick * 0.12 + i * 0.55)))
+            : 0.22;
+          const h = Math.max(4, amp * (canvas.height - 4));
+          const x = 3 + i * (barW + gap);
+          const y = (canvas.height - h) / 2;
+          ctx.fillRect(x, y, barW, h);
+        }
+        waveAnimTick++;
+      }
+      requestAnimationFrame(drawAcousticWaveFrame);
     }
 
     // 7. Фильтрация карточек возможностей по 6 столпам
@@ -3415,7 +3797,7 @@ Under the following terms:
       document.getElementById('core-stage-desc').innerText = st.desc;
     }
 
-    // 10. Конструктор 17 окон аналитики и NDA-превью
+    // 10. Конструктор 17 окон аналитики, Инспектор Биоритмов и 5-режимный NDA-постер
     const analyticsPresetsMap = {
       all: ['overview', 'ai', 'plan', 'bio', 'journal', 'finance', 'projects', 'passport', 'habits', 'donut', 'split', 'top', 'attention', 'sleep', 'trends', 'bestworst', 'patterns'],
       focus: ['overview', 'ai', 'plan', 'bio', 'journal', 'attention', 'sleep', 'habits'],
@@ -3432,19 +3814,134 @@ Under the following terms:
       });
     }
 
+    function inspectBioHour(timeRange, details, colElem) {
+      document.querySelectorAll('#bio-bars-container .bio-bar-col').forEach(c => c.classList.remove('active'));
+      if (colElem) colElem.classList.add('active');
+      document.getElementById('bio-inspect-label').innerText = `${timeRange} · ${details}`;
+    }
+
     let isNdaMode = false;
+    let currentPosterMode = 'day';
+
+    const posterModesData = {
+      day: {
+        eyebrow: 'EXECUTIVE SUMMARY · ИТОГИ ДНЯ',
+        headline: 'Воскресенье, 8 ноября',
+        score: '92',
+        scoreLbl: 'ИНДЕКС',
+        m1Lbl: 'ЧИСТЫЙ ФОКУС',
+        m1Val: '5ч 20м (74%)',
+        m2LblFull: 'КАПИТАЛ ФОКУСА',
+        m2ValFull: '+16 000 ₽',
+        m2LblNda: 'ДОЛЯ В БОДРСТВОВАНИИ',
+        m2ValNda: '🔒 NDA SAFE',
+        item1Full: '1. Архитектура Android · #клиент_альфа',
+        item1Nda: '1. Продуктивный фокус (Работа)',
+        val1: '3ч 30м',
+        item2Full: '2. Аудит безопасности · #nda_банк',
+        item2Nda: '2. Исследования и анализ (Учёба)',
+        val2: '1ч 50м'
+      },
+      passport: {
+        eyebrow: 'TIME CAPITAL PASSPORT · КАПИТАЛ ВРЕМЕНИ',
+        headline: 'V · Архитектор Времени',
+        score: '95',
+        scoreLbl: 'РИТМ',
+        m1Lbl: 'КАПИТАЛ ФОКУСА',
+        m1Val: '1 240ч 00м',
+        m2LblFull: 'СПРИНТЫ КВАРТАЛА',
+        m2ValFull: '11/12 нед. ✓',
+        m2LblNda: 'СТАТУС ПАСПОРТА',
+        m2ValNda: '🔒 NDA SAFE',
+        item1Full: '1. Разработка ядра ИИ · #timeflow',
+        item1Nda: '1. Подтверждённая сфера: Работа (68%)',
+        val1: '840ч',
+        item2Full: '2. Алгоритмы и ML · #onnx_ru',
+        item2Nda: '2. Подтверждённая сфера: Учёба (32%)',
+        val2: '400ч'
+      },
+      economics: {
+        eyebrow: 'TIME ECONOMICS · ЭКОНОМИКА ВРЕМЕНИ',
+        headline: 'Баланс и окупаемость часа',
+        score: '89',
+        scoreLbl: 'ROI %',
+        m1Lbl: 'АКТИВ ФОКУСА',
+        m1Val: '+18 500 ₽',
+        m2LblFull: 'РЕАЛЬНАЯ СТАВКА ЧАСА',
+        m2ValFull: '2 680 ₽/ч',
+        m2LblNda: 'ЭНЕРГО-КАПИТАЛ',
+        m2ValNda: '🔒 NDA SAFE',
+        item1Full: '1. Финтех-контракт · #клиент_альфа',
+        item1Nda: '1. Коммерческий проект #1 (NDA)',
+        val1: '+12 500 ₽',
+        item2Full: '2. Дивиденд восстановления (Отдых)',
+        item2Nda: '2. Защита ресурса (Без выгорания)',
+        val2: '+1 575 ₽'
+      },
+      projects: {
+        eyebrow: 'PROJECT BUDGETS & QUOTAS · ПРОЕКТЫ',
+        headline: 'Портфель ретейнеров (4)',
+        score: '84',
+        scoreLbl: 'ПЛАН %',
+        m1Lbl: 'ВЫРАБОТКА ПОРТФЕЛЯ',
+        m1Val: '33ч 30м / 40ч',
+        m2LblFull: 'БЮДЖЕТ ПОРТФЕЛЯ',
+        m2ValFull: '160 000 ₽',
+        m2LblNda: 'СТАТУС КВОТ',
+        m2ValNda: '🔒 NDA SAFE',
+        item1Full: '1. Альфа Ретейнер (#клиент_альфа) · Лимит',
+        item1Nda: '1. Клиентский ретейнер #1 (Лимит)',
+        val1: '34ч / 40ч',
+        item2Full: '2. Фикс-прайс MVP (#стартап) · R_real',
+        item2Nda: '2. Fixed-Price проект #2 (В графике)',
+        val2: '4 200 ₽/ч'
+      }
+    };
+
+    function renderSummaryPoster() {
+      const d = posterModesData[currentPosterMode] || posterModesData.day;
+      document.getElementById('poster-eyebrow').innerText = d.eyebrow;
+      document.getElementById('poster-headline').innerText = d.headline;
+      document.getElementById('poster-score').innerText = d.score;
+      document.getElementById('poster-score-lbl').innerText = d.scoreLbl;
+      document.getElementById('poster-metric1-lbl').innerText = d.m1Lbl;
+      document.getElementById('poster-metric1-val').innerText = isNdaMode && currentPosterMode === 'economics' ? '5ч 20м (74%)' : d.m1Val;
+      document.getElementById('nda-cap-label').innerText = isNdaMode ? d.m2LblNda : d.m2LblFull;
+      document.getElementById('nda-cap-val').innerText = isNdaMode ? d.m2ValNda : d.m2ValFull;
+      document.getElementById('nda-item-1').innerText = isNdaMode ? d.item1Nda : d.item1Full;
+      document.getElementById('nda-val-1').innerText = isNdaMode && currentPosterMode === 'economics' ? '68%' : d.val1;
+      document.getElementById('nda-item-2').innerText = isNdaMode ? d.item2Nda : d.item2Full;
+      document.getElementById('nda-val-2').innerText = isNdaMode && (currentPosterMode === 'economics' || currentPosterMode === 'projects') ? '✓ Норма' : d.val2;
+    }
+
+    function setSummaryPosterMode(modeKey, btnElem) {
+      currentPosterMode = modeKey;
+      btnElem.parentElement.querySelectorAll('.preset-mini-btn').forEach(b => b.classList.remove('active'));
+      btnElem.classList.add('active');
+      renderSummaryPoster();
+    }
+
     function toggleNdaPreview() {
       isNdaMode = !isNdaMode;
       const btn = document.getElementById('nda-toggle-btn');
       btn.classList.toggle('playing', isNdaMode);
       btn.innerText = isNdaMode ? '🔒 Приватно (NDA): ВКЛ' : '👁️ Все названия: ВКЛ';
-      document.getElementById('nda-cap-label').innerText = isNdaMode ? 'ДОЛЯ В БОДРСТВОВАНИИ' : 'КАПИТАЛ ФОКУСА';
-      document.getElementById('nda-cap-val').innerText = isNdaMode ? '🔒 NDA SAFE' : '+16 000 ₽';
-      document.getElementById('nda-item-1').innerText = isNdaMode ? '1. Продуктивный фокус (Работа)' : '1. Архитектура Android · #клиент_альфа';
-      document.getElementById('nda-item-2').innerText = isNdaMode ? '2. Исследования и анализ (Учеба)' : '2. Аудит безопасности · #nda_банк';
+      renderSummaryPoster();
     }
 
-    // 11. Переключение экранов круглых умных часов и виджета 3x2
+    function copySimulatedMarkdownSummary() {
+      const d = posterModesData[currentPosterMode] || posterModesData.day;
+      const md = `📊 **TimeFlow AI · ${d.headline}**\n• **${d.scoreLbl}:** ${d.score}/100 | **${d.m1Lbl}:** ${d.m1Val}\n• **1:** ${isNdaMode ? d.item1Nda : d.item1Full} — ${d.val1}\n• **2:** ${isNdaMode ? d.item2Nda : d.item2Full} — ${d.val2}\n🔒 *100% Offline · TimeFlow AI v2.0*`;
+      const btn = document.getElementById('copy-md-summary-btn');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(md).then(() => {
+          btn.innerText = '✓ Скопировано';
+          setTimeout(() => { btn.innerText = '📋 MD'; }, 2000);
+        });
+      }
+    }
+
+    // 11. Переключение экранов круглых умных часов, Микро-виджета 1x1 и виджета 3x2
     let watchScreenIdx = 0;
     const watchScreens = [
       { badge: 'РАБОТА · СПРИНТ', title: 'Архитектура ИИ', time: '42:18', action: '☕ Отдых +9м (5:1)' },
@@ -3462,12 +3959,34 @@ Under the following terms:
       document.getElementById('watch-action').innerText = s.action;
     }
 
+    let microModeIdx = 0;
+    const microModes = [
+      { badge: 'АВТО +9М ›', icon: '☕', title: 'Отдых 9м', color: '#10b981' },
+      { badge: '5:1 ПОТОК ›', icon: '🚀', title: 'В работу', color: '#3b82f6' },
+      { badge: 'ПЛАН 14:00 ›', icon: '⏭', title: 'Созвон', color: '#8b5cf6' },
+      { badge: 'СПРИНТ 45М ›', icon: '🎯', title: 'Старт 45м', color: '#f59e0b' },
+      { badge: 'ИЗБРАННОЕ ›', icon: '⭐', title: 'Кодинг', color: '#ec4899' },
+      { badge: 'ГОЛОС ИИ ›', icon: '🎙️', title: 'Сказать ИИ', color: '#38bdf8' },
+      { badge: 'ТАЙМЕР ›', icon: '⏸', title: 'На паузу', color: '#6366f1' }
+    ];
+
+    function cycleMicroWidgetMode() {
+      microModeIdx = (microModeIdx + 1) % microModes.length;
+      const m = microModes[microModeIdx];
+      document.getElementById('mw-badge').innerText = m.badge;
+      const iconBox = document.getElementById('mw-icon');
+      iconBox.innerText = m.icon;
+      iconBox.style.borderColor = m.color;
+      iconBox.style.background = `${m.color}33`;
+      document.getElementById('mw-title').innerText = m.title;
+    }
+
     let gwLensIdx = 0;
     const gwLenses = [
       {
         title: '● ФОКУС ДНЯ ›',
         dots: '● ○ ○',
-        body: '🎯 <strong>Цель фокуса:</strong> 3ч 40м / 4ч (92%)<br>🌿 <strong>Цель отдыха:</strong> 1ч 20м / 1ч 30м (88%)<br><span style="color:var(--secondary); font-weight:700;">Поток ≥45м: 74% · КПД дня: 68%</span>'
+        body: '🎯 <strong>Фокус:</strong> 3ч 40м / 4ч (92%)<br>🌿 <strong>Отдых:</strong> 1ч 20м (88%)<br><span style="color:var(--secondary); font-weight:700;">Поток ≥45м: 74% · КПД: 68%</span>'
       },
       {
         title: '● КАТЕГОРИИ ›',
@@ -3477,7 +3996,7 @@ Under the following terms:
       {
         title: '● РИТМ 7 ДНЕЙ ›',
         dots: '○ ○ ●',
-        body: '📊 <strong>Средний фокус:</strong> 4ч 15м/день (Σ 29ч 45м)<br>🔥 <strong>Динамика 7Д:</strong> +18% · Норма взята: 6/7 ✓<br><span style="color:var(--amber); font-weight:700;">Пик недели: Чт (5ч 50м)</span>'
+        body: '📊 <strong>Ср. фокус:</strong> 4ч 15м/д (Σ 29ч 45м)<br>🔥 <strong>Динамика 7Д:</strong> +18% · Норма: 6/7 ✓<br><span style="color:var(--amber); font-weight:700;">Пик недели: Чт (5ч 50м)</span>'
       }
     ];
 
